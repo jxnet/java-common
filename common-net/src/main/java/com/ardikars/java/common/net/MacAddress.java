@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.net;
 
+import com.ardikars.java.common.annotation.Immutable;
+import com.ardikars.java.common.annotation.Mutable;
 import com.ardikars.java.common.util.NamedNumber;
 import com.ardikars.java.common.util.Validate;
 
@@ -29,6 +31,7 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
+@Immutable
 public final class MacAddress {
 
 	/**
@@ -117,15 +120,6 @@ public final class MacAddress {
 	public static boolean isValidAddress(final String stringAddress) {
 		Validate.nullPointer(stringAddress);
 		return Pattern.matches("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", stringAddress);
-	}
-
-	/**
-	 * Change address of this {@code MacAddress} object.
-	 * @param macAddress mac address.
-	 */
-	public void update(final MacAddress macAddress) {
-		Validate.nullPointer(macAddress);
-		this.address = macAddress.toBytes();
 	}
 
 	/**
@@ -239,6 +233,7 @@ public final class MacAddress {
 		return sb.toString();
 	}
 
+	@Mutable
 	public static final class Oui extends NamedNumber<Integer, Oui> {
 
 		/**

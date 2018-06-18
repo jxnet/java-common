@@ -4,5 +4,6 @@
  */
 
 dependencies {
+    compile project(':common-annotation')
     compile project(':common-util')
 }

@@ -7,3 +7,5 @@ rootProject.name = 'java-common'
 
 include 'common-util'
 include 'common-net'
+include 'common-annotation'
+

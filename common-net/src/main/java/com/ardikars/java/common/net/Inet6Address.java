@@ -16,6 +16,7 @@
 
 package com.ardikars.java.common.net;
 
+import com.ardikars.java.common.annotation.Immutable;
 import com.ardikars.java.common.util.Validate;
 
 import java.nio.ByteBuffer;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
+@Immutable
 public final class Inet6Address extends InetAddress {
 
 	/**
@@ -251,15 +253,6 @@ public final class Inet6Address extends InetAddress {
 			throw new NumberFormatException();
 		}
 		return (short) hextet;
-	}
-
-	/**
-	 * Change address of this {@code Inet6Address} object.
-	 * @param inet6address Inet6Address.
-	 */
-	public void update(final Inet6Address inet6address) {
-		Validate.nullPointer(inet6address);
-		this.address = inet6address.toBytes();
 	}
 
 	@Override

@@ -16,6 +16,7 @@
 
 package com.ardikars.java.common.net;
 
+import com.ardikars.java.common.annotation.Immutable;
 import com.ardikars.java.common.util.Validate;
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import java.util.Arrays;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
+@Immutable
 public final class Inet4Address extends InetAddress {
 
 	/**
@@ -196,15 +198,6 @@ public final class Inet4Address extends InetAddress {
 	 */
 	public byte[] toBytes() {
 		return Arrays.copyOf(this.address, this.address.length);
-	}
-
-	/**
-	 * Change address of this {@code Inet4Address} object.
-	 * @param inet4address Inet4Address.
-	 */
-	public void update(final Inet4Address inet4address) {
-		Validate.nullPointer(inet4address);
-		this.address = inet4address.toBytes();
 	}
 
 	@Override
