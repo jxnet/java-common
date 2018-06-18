@@ -1,0 +1,9 @@
+
+/**
+ * Copyright (C) 2017-2018  Ardika Rommy Sanjaya
+ */
+
+rootProject.name = 'java-common'
+
+include 'common-util'
+include 'common-net'

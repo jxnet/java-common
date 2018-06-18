@@ -1,0 +1,11 @@
+/.gradle
+/.idea
+/build
+/out
+/obj
+/common-net/build
+/common-net/out
+/common-net/obj
+/common-util/build
+/common-util/out
+/common-util/obj
