@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.util;
 
+import com.ardikars.java.common.annotation.Helper;
+
 import java.util.regex.Pattern;
 
 /**
@@ -23,7 +25,8 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class Hexs {
+@Helper
+public final class Hexs {
 
     private static final Pattern NO_SEPARATOR_HEX_STRING_PATTERN
             = Pattern.compile("\\A([0-9a-fA-F][0-9a-fA-F])+\\z");

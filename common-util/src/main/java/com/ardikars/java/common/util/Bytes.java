@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.util;
 
+import com.ardikars.java.common.annotation.Helper;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -24,7 +26,8 @@ import java.nio.ByteOrder;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class Bytes {
+@Helper
+public final class Bytes {
 
     /**
      * Byte to byte array.

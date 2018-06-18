@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.util;
 
+import com.ardikars.java.common.annotation.Immutable;
+
 /**
  * An object that maps two key to values. A {@code TwoKeyMap} cannot contain duplicate keys;
  * each key can map to at most one value.
@@ -23,7 +25,8 @@ package com.ardikars.java.common.util;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class TwoKeyMap<T, U> {
+@Immutable
+public final class TwoKeyMap<T, U> {
 
     private final T firstKey;
     private final U secondKey;

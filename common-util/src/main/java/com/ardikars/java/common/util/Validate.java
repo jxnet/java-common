@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.util;
 
+import com.ardikars.java.common.annotation.Helper;
+
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked
  * correctly.
@@ -26,7 +28,8 @@ package com.ardikars.java.common.util;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class Validate {
+@Helper
+public final class Validate {
 
     /**
      * Ensures that given object ${@code reference} is not null.

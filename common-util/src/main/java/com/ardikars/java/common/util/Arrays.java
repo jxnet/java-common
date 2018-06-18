@@ -16,6 +16,8 @@
 
 package com.ardikars.java.common.util;
 
+import com.ardikars.java.common.annotation.Helper;
+
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +27,8 @@ import java.util.List;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class Arrays {
+@Helper
+public final class Arrays {
 
     /**
      * Reverse order.
