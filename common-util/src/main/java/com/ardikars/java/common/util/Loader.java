@@ -17,17 +17,13 @@
 package com.ardikars.java.common.util;
 
 /**
- * Decoder interface.
+ * Loader interface
+ * @param <T> argument type.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public interface Decoder<T, V> {
+public interface Loader<T> {
 
-    /**
-     * Decode data.
-     * @param data data.
-     * @param callback callback.
-     */
-    void decode(V data, Callback<T> callback);
+    void load(Callback<T> callback);
 
 }

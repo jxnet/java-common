@@ -1,3 +1,9 @@
+*.html
+*.exec
+*.iml
+*.log
+*~
+*.swp
 /.gradle
 /.idea
 /build
@@ -9,3 +15,6 @@
 /common-util/build
 /common-util/out
 /common-util/obj
+/common-annotation/build
+/common-annotation/out
+/common-annotation/obj

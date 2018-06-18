@@ -26,8 +26,8 @@ public interface Encoder<T, V> {
     /**
      * Encode data.
      * @param data data.
-     * @return encoded data.
+     * @param callback callback.
      */
-    T encode(V data);
+    void encode(V data, Callback<T> callback);
 
 }
