@@ -24,7 +24,7 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'signing'
+    //apply plugin: 'signing'
     apply plugin: 'jacoco'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'checkstyle'
@@ -136,10 +136,10 @@ allprojects {
         archives jar, sourcesJar, javadocJar
     }
 
-    signing {
-        required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives') }
+    /*signing {
+        required { gradle.taskGraph.hasTask('bintrayUpload') || gradle.taskGraph.hasTask('uploadArchives') }
         sign configurations.archives
-    }
+    }*/
 
     install {
         System.setProperty('maven.repo.local', "${MAVEN_LOCAL_REPOSITORY}")
@@ -150,7 +150,7 @@ allprojects {
 
     uploadArchives {
         repositories.mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
             repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                 authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
             }
@@ -177,16 +177,16 @@ allprojects {
             version {
                 name = project.version
                 vcsTag = project.version
-                gpg {
-                    sign = true
-                    passphrase = defaultBlank({ signing.password })
-                }
-                mavenCentralSync {
-                    sync = true
-                    user = defaultBlank({ sonatypeUser })
-                    password = defaultBlank({ sonatypePass })
-                    close = '1'
-                }
+//                gpg {
+//                    sign = true
+//                    passphrase = defaultBlank({ signing.password })
+//                }
+//                mavenCentralSync {
+//                    sync = true
+//                    user = defaultBlank({ sonatypeUser })
+//                    password = defaultBlank({ sonatypePass })
+//                    close = '1'
+//                }
             }
         }
     }
