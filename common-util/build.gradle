@@ -5,4 +5,5 @@
 
 dependencies {
     compile project(':common-annotation')
+    testCompile group: 'junit', name: 'junit', version: "${JUNIT_VERSION}"
 }
