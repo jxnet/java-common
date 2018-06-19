@@ -1,0 +1,36 @@
+
+version: 2
+
+jobs:
+
+  build:
+
+    working_directory: ~/java-common
+
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+
+    parallelism: 3
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    brances:
+      only:
+        - master
+        - development
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          key: java-common-{{ checksum "gradle.build" }}
+
+      - run: ./gradlew clean build
+
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: java-common-{{ checksum "gradle.build" }}
