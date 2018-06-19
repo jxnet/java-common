@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - checkout
-      - run: ./gradlew bintrayUpload
+      - run: ./gradlew clean build bintrayUpload
 
 
 workflows:
