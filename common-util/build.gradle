@@ -1,0 +1,9 @@
+
+/**
+ * Copyright (C) 2017-2018  Ardika Rommy Sanjaya
+ */
+
+dependencies {
+    compile project(':common-annotation')
+    testCompile group: 'junit', name: 'junit', version: "${JUNIT_VERSION}"
+}

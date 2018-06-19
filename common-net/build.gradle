@@ -1,0 +1,9 @@
+
+/**
+ * Copyright (C) 2017-2018  Ardika Rommy Sanjaya
+ */
+
+dependencies {
+    compile project(':common-annotation')
+    compile project(':common-util')
+}
