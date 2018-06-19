@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 
+/**
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
+ */
 public class ArrayTest extends BaseTest {
 
     private final int maximumDelta = 2;
