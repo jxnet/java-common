@@ -3,7 +3,7 @@ version: 2
 
 dependencies:
   pre:
-    - source gradle/resources/scipts/gradle-properties.sh && copyEnvVarsToGradleProperties
+    - source gradle/resources/scripts/gradle-properties.sh && copyEnvVarsToGradleProperties
 
 jobs:
 
@@ -11,8 +11,6 @@ jobs:
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-
-    parallelism: 3
 
     environment:
       # Customize the JVM maximum heap limit
@@ -27,8 +25,6 @@ jobs:
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-
-    parallelism: 3
 
     environment:
       # Customize the JVM maximum heap limit
