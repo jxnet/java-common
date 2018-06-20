@@ -5,8 +5,8 @@
 
 ext {
 
-	NAME = 'java-common'
-	GROUP = 'com.ardikars.java.common'
+	NAME = 'common'
+	GROUP = 'com.ardikars.common'
 	VERSION = '1.0.0.RC2'
 	DESCRIPTION = 'Java Common is an project focused on all aspects of reusable Java components.';
 
