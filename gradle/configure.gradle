@@ -66,11 +66,7 @@ ext {
 
 	defaultBlank = { closure ->
 		try {
-			def res = closure()
-			if (res.length() <= 0) {
-			} else {
-			}
-			return res
+            closure()
 		} catch (MissingPropertyException e) {
 			''
 		}

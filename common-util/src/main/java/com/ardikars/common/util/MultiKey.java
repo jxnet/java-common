@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Multiple keys for {@code java.util.Map}
  * @see java.util.Map
- * @See com.ardikars.common.util.NamedMultiKeyMap
+ * @see com.ardikars.common.util.NamedMultiKey
  * @param <K> key type.
  */
 @Immutable
