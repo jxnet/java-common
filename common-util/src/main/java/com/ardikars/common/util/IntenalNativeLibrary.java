@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-@Mutable
+@Mutable(blocking = true)
 public final class IntenalNativeLibrary implements Loader<Void> {
 
     private static final int BUFFER_SIZE = 1024;

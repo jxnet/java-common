@@ -233,7 +233,7 @@ public final class MacAddress {
 		return sb.toString();
 	}
 
-	@Mutable
+	@Mutable(blocking = true)
 	public static final class Oui extends NamedNumber<Integer, Oui> {
 
 		/**
@@ -302,7 +302,9 @@ public final class MacAddress {
 		 * @return a Oui object.
 		 */
 		public static Oui register(Oui version) {
-			return registry.put(version.getValue(), version);
+			synchronized (Oui.class) {
+				return registry.put(version.getValue(), version);
+			}
 		}
 
 		static {
