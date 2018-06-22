@@ -106,73 +106,83 @@ public final class Inet4Address extends InetAddress {
 		return toInt() == 0;
 	}
 
+	/**
+	 * Returns true if address is 127.x.x.x, false otherwise.
+	 * @return returns true if loopback address, false otherwise.
+	 */
 	@Override
 	public boolean isLoopbackAddress() {
-		return address[0] == 127; /* 127.x.x.x */
+		return ((address[0] & 0xff) == 127);
 	}
 
 	@Override
 	public boolean isLinkLocalAddress() {
-		// defined in "Documenting Special Use IPv4 Address Blocks
-		// that have been Registered with IANA" by Bill Manning
-		// draft-manning-dsua-06.txt
-		int address = toInt();
-		return (((address >>> 24) & 0xFF) == 169)
-				&& (((address >>> 16) & 0xFF) == 254);
+		return (((address[0] & 0xff) == 169)
+				&& ((address[1] & 0xff) == 254));
 	}
 
+	/**
+	 * refer to RFC 1918
+	 * 10/8 prefix
+	 * 172.16/12 prefix
+	 * 192.168/16 prefix
+	 */
 	@Override
 	public boolean isSiteLocalAddress() {
-		// refer to RFC 1918
-		// 10/8 prefix
-		// 172.16/12 prefix
-		// 192.168/16 prefix
-		int address = toInt();
-		return (((address >>> 24) & 0xFF) == 10)
-				|| ((((address >>> 24) & 0xFF) == 172)
-				&& (((address >>> 16) & 0xF0) == 16))
-				|| ((((address >>> 24) & 0xFF) == 192)
-				&& (((address >>> 16) & 0xFF) == 168));
+		return ((address[0] & 0xff) == 10)
+				|| ((address[0] & 0xff) == 172)
+				&& ((address[1] & 0xff) == 16)
+				|| ((address[0] & 0xff) == 192)
+				&& ((address[1] & 0xff) == 168);
 	}
 
+	/**
+	 * 224.0.1.0 to 238.255.255.255
+	 */
 	@Override
 	public boolean isMcGlobal() {
-		// 224.0.1.0 to 238.255.255.255
-		return ((address[0] & 0xff) >= 224 && (address[0] & 0xff) <= 238 ) &&
-				!((address[0] & 0xff) == 224 && address[1] == 0 &&
-						address[2] == 0);
+		return ((address[0] & 0xff) >= 224
+				&& (address[0] & 0xff) <= 238 )
+				&& !((address[0] & 0xff) == 224
+					&& address[1] == 0
+					&& address[2] == 0);
 	}
 
+	/**
+	 * Unless ttl == 0
+	 */
 	@Override
 	public boolean isMcNodeLocal() {
-		// unless ttl == 0
 		return false;
 	}
 
+	/**
+	 * 224.0.0/24 prefix and ttl == 1
+	 */
 	@Override
 	public boolean isMcLinkLocal() {
-		// 224.0.0/24 prefix and ttl == 1
-		int address = toInt();
-		return (((address >>> 24) & 0xFF) == 224)
-				&& (((address >>> 16) & 0xFF) == 0)
-				&& (((address >>> 8) & 0xFF) == 0);
+		return (((address[0] & 0xff) == 224)
+				&& ((address[1] & 0xff) == 0)
+				&& ((address[2] & 0xff) == 0));
 	}
 
+	/**
+	 * 239.255/16 prefix or ttl < 32
+	 */
 	@Override
 	public boolean isMcSiteLocal() {
-		// 239.255/16 prefix or ttl < 32
-		int address = toInt();
-		return (((address >>> 24) & 0xFF) == 239)
-				&& (((address >>> 16) & 0xFF) == 255);
+		return (((address[0] & 0xff) == 239)
+				&& ((address[1] & 0xff) == 255));
 	}
 
+	/**
+	 * 239.192 - 239.195
+	 */
 	@Override
 	public boolean isMcOrgLocal() {
-		// 239.192 - 239.195
-		int address = toInt();
-		return (((address >>> 24) & 0xFF) == 239)
-				&& (((address >>> 16) & 0xFF) >= 192)
-				&& (((address >>> 16) & 0xFF) <= 195);
+		return (((address[0] & 0xff) == 239)
+				&& ((address[1] & 0xff) >= 192)
+				&& ((address[1] & 0xff) <= 195));
 	}
 
 	/**
@@ -208,9 +218,7 @@ public final class Inet4Address extends InetAddress {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-
 		Inet4Address that = (Inet4Address) o;
-
 		return Arrays.equals(address, that.address);
 	}
 
