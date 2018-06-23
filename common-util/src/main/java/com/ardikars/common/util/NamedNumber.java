@@ -98,6 +98,9 @@ public abstract class NamedNumber<T extends Number, U extends NamedNumber<T, ?>>
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
         if (obj == this) {
             return true;
         }

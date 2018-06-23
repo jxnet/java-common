@@ -18,6 +18,7 @@ package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Mutable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +34,7 @@ import java.util.regex.Pattern;
  * @since 1.0.0
  */
 @Mutable(blocking = true)
-public final class IntenalNativeLibrary implements Loader<Void> {
+public final class InternalNativeLibrary implements Loader<Void> {
 
     private static final int BUFFER_SIZE = 1024;
 
@@ -50,15 +51,18 @@ public final class IntenalNativeLibrary implements Loader<Void> {
             String path = iterator.next();
             if (path == null || path.isEmpty()) {
                 callback.onFailure(new NullPointerException("Path should be not null or empty string."));
+                return;
             }
             if (!(path.charAt(0) == '/')) {
                 callback.onFailure(new IllegalArgumentException("The path has to be absolute (start with '/')."));
+                return;
             }
             String[] parts = Pattern.compile("/").split(path);
             if (parts != null && parts.length > 1) {
                 parts = Pattern.compile("\\.").split(parts[parts.length - 1]);
             } else {
                 callback.onFailure(new IllegalArgumentException("Failed to compile path: " + path));
+                return;
             }
             File temp = null;
             try {
@@ -66,12 +70,14 @@ public final class IntenalNativeLibrary implements Loader<Void> {
                 temp.deleteOnExit();
             } catch (IOException e) {
                 callback.onFailure(e);
+                return;
             }
             final byte[] buffer = new byte[BUFFER_SIZE];
             int readBytes;
-            final InputStream is = IntenalNativeLibrary.class.getResourceAsStream(path);
+            final InputStream is = InternalNativeLibrary.class.getResourceAsStream(path);
             if (is == null) {
-                callback.onFailure(new IOException("Error: " + path + " not found in classpath."));
+                callback.onFailure(new FileNotFoundException("Error: " + path + " is not found."));
+                return;
             }
             OutputStream os = null;
             try {
@@ -80,22 +86,17 @@ public final class IntenalNativeLibrary implements Loader<Void> {
                     try {
                         os.write(buffer, 0, readBytes);
                     } catch (IOException e) {
-                        callback.onFailure(e);
+                        closeOutputStream(os);
+                        closeInputStream(is);
+                        callback.onFailure(new IOException("Error: failed to read/write buffer."));
+                        return;
                     }
                 }
             } catch (IOException e) {
-                callback.onFailure(e);
+                callback.onFailure(new IOException("Error: destination " + path + " is not found."));
             } finally {
-                try {
-                    if (os != null) {
-                        os.close();
-                    }
-                    if (is != null) {
-                        is.close();
-                    }
-                } catch (IOException e) {
-                    callback.onFailure(e);
-                }
+                closeInputStream(is);
+                closeOutputStream(os);
             }
             System.load(temp.getAbsolutePath());
         }
@@ -108,6 +109,26 @@ public final class IntenalNativeLibrary implements Loader<Void> {
     public void register(String libararyPath) {
         synchronized (this) {
             this.libraryPaths.add(libararyPath);
+        }
+    }
+
+    private void closeInputStream(InputStream inputStream) {
+        if (inputStream != null) {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                //
+            }
+        }
+    }
+
+    private void closeOutputStream(OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                //
+            }
         }
     }
 
