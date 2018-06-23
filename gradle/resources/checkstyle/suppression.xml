@@ -1,13 +1,13 @@
 <!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
 
-    <!--<suppress checks="MemberName"-->
-              <!--files="SockAddr.java|PcapPktHdr.java|PcapStat.java" />-->
+    <!-- Suppress checks for hidden files and folders. -->
+    <suppress files="[/\\]\..+" checks=".*"/>
 
-    <!--<suppress checks="MethodName"-->
-              <!--files="Jxnet.java|Core.java" />-->
+    <!-- Suppress checks for Gradle-generated code -->
+    <suppress files="[/\\]build[/\\]" checks=".*"/>
 
-    <suppress checks="MethodName"
-              files="Test*.java" />
+    <!-- Suppress checks for unit test code. -->
+    <suppress files="[/\\]test[/\\]" checks=".*"/>
 
 </suppressions>

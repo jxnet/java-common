@@ -51,11 +51,15 @@ public abstract class NamedMultiKeyNumber<T extends MultiKeyNumber, U extends Na
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NamedMultiKeyNumber)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NamedMultiKeyNumber)) {
+            return false;
+        }
         NamedMultiKeyNumber<?, ?> that = (NamedMultiKeyNumber<?, ?>) o;
-        return Objects.equals(getValue(), that.getValue()) &&
-                Objects.equals(getName(), that.getName());
+        return Objects.equals(getValue(), that.getValue())
+                && Objects.equals(getName(), that.getName());
     }
 
     @Override

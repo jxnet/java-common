@@ -66,12 +66,12 @@ allprojects {
             footer "${PROJECT_REPOSITORY}"
             bottom "Copyright &copy; 2017 - ${currentYear} ardikars.com. All rights reserved."
             showFromProtected()
-//			addStringOption 'Xdoclint:all,-reference', '-quiet'
+			addStringOption 'Xdoclint:all,-reference', '-quiet'
         }
     }
 
     checkstyle {
-        ignoreFailures = true
+        ignoreFailures = false
 
         configFile = rootProject.file('gradle/resources/checkstyle/checkstyle.xml')
         configProperties = [
@@ -129,17 +129,12 @@ allprojects {
     }
 
     tasks.withType(JavaCompile) {
-//		options.compilerArgs << "-Xlint:unchecked" << "-Werror"
+		options.compilerArgs << "-Xlint:unchecked" << "-Werror"
     }
 
     artifacts {
         archives jar, sourcesJar, javadocJar
     }
-
-    /*signing {
-        required { gradle.taskGraph.hasTask('bintrayUpload') || gradle.taskGraph.hasTask('uploadArchives') }
-        sign configurations.archives
-    }*/
 
     install {
         System.setProperty('maven.repo.local', "${MAVEN_LOCAL_REPOSITORY}")
@@ -150,7 +145,6 @@ allprojects {
 
     uploadArchives {
         repositories.mavenDeployer {
-//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
             repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                 authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
             }
@@ -177,16 +171,6 @@ allprojects {
             version {
                 name = project.version
                 vcsTag = project.version
-//                gpg {
-//                    sign = true
-//                    passphrase = defaultBlank({ signing.password })
-//                }
-//                mavenCentralSync {
-//                    sync = true
-//                    user = defaultBlank({ sonatypeUser })
-//                    password = defaultBlank({ sonatypePass })
-//                    close = '1'
-//                }
             }
         }
     }

@@ -114,8 +114,7 @@ public final class MacAddress {
 	/**
 	 * Validate given mac string address.
 	 * @param stringAddress mac string address.
-	 * @return a {@code boolean} indicating if the stringAddress is a valid mac address;
-	 * or false otherwise.
+	 * @return a {@code boolean} indicating if the stringAddress is a valid mac address; or false otherwise.
 	 */
 	public static boolean isValidAddress(final String stringAddress) {
 		Validate.nullPointer(stringAddress);
@@ -270,10 +269,10 @@ public final class MacAddress {
 		 */
 		public Oui(final Integer value, final String name) {
 			super(value, name);
-			Validate.notIllegalArgument((value & 0xFF000000) == 0
-					, new IllegalArgumentException(value +
-							" is invalid value. " +
-							" Value must be between 0 and 16777215."
+			Validate.notIllegalArgument((value & 0xFF000000) == 0,
+					new IllegalArgumentException(value
+							+ " is invalid value. "
+							+ " Value must be between 0 and 16777215."
 					));
 		}
 

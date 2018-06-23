@@ -19,9 +19,7 @@ package com.ardikars.common.util;
 import com.ardikars.common.annotation.Helper;
 
 /**
- * Static convenience methods that help a method or constructor check whether it was invoked
- * correctly.
- *
+ * Static convenience methods that help a method or constructor check whether it was invoked correctly.
  * If validation is fail, the {@code Validate} method throws an unchecked exception
  * of a specified type, which helps the method in which the exception was thrown communicate that
  * its caller has made a mistake.
@@ -39,7 +37,8 @@ public final class Validate {
      * @throws NullPointerException if {@code reference} is null.
      * @since 1.0.0
      */
-    public static <T> void nullPointer(T reference, NullPointerException exception) throws NullPointerException {
+    public static <T> void nullPointer(T reference, NullPointerException exception)
+            throws NullPointerException {
         if (reference == null) {
             if (exception == null) {
                 throw new NullPointerException();
@@ -56,7 +55,8 @@ public final class Validate {
      * @throws NullPointerException if {@code reference} is null.
      * @since 1.0.0
      */
-    public static <T> void nullPointer(T reference) throws NullPointerException {
+    public static <T> void nullPointer(T reference)
+            throws NullPointerException {
         nullPointer(reference, null);
     }
 
@@ -101,7 +101,8 @@ public final class Validate {
      * @throws IllegalArgumentException if {@code expression} is false
      * @since 1.0.0
      */
-    public static void notIllegalArgument(boolean expression, IllegalArgumentException exception) throws IllegalArgumentException {
+    public static void notIllegalArgument(boolean expression, IllegalArgumentException exception)
+            throws IllegalArgumentException {
         if (!expression) {
             if (exception == null) {
                 throw new IllegalArgumentException();
@@ -117,7 +118,8 @@ public final class Validate {
      * @throws IllegalArgumentException if {@code expression} is false
      * @since 1.0.0
      */
-    public static void notIllegalArgument(boolean expression) throws IllegalArgumentException {
+    public static void notIllegalArgument(boolean expression)
+            throws IllegalArgumentException {
         notIllegalArgument(expression, null);
     }
 
@@ -131,7 +133,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(byte[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(byte[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -150,7 +153,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(char[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(char[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -169,7 +173,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(short[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(short[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -188,7 +193,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(int[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(int[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -207,7 +213,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(float[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(float[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -226,7 +233,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(long[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(long[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -245,7 +253,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static void notInBounds(double[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static void notInBounds(double[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
@@ -265,7 +274,8 @@ public final class Validate {
      * @throws ArrayIndexOutOfBoundsException invalid parameters.
      * @since 1.0.0
      */
-    public static <T> void notInBounds(T[] array, int offset, int length) throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public static <T> void notInBounds(T[] array, int offset, int length)
+            throws NullPointerException, IllegalArgumentException, ArrayIndexOutOfBoundsException {
         nullPointer(array, new NullPointerException("array is null."));
         notIllegalArgument(array.length > 0, new IllegalArgumentException("array is empty."));
         notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));

@@ -30,6 +30,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Mutable {
 
+    /**
+     * Blocking on non thread-safe method.
+     * @return returns true if blocking, false otherwise.
+     */
     boolean blocking() default false;
 
 }

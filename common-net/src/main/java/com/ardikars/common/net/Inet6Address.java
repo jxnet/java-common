@@ -103,7 +103,7 @@ public final class Inet6Address extends InetAddress {
 			}
 			parts = partsAsList.toArray(new String[partsAsList.size()]);
 		}
-		Validate.notIllegalArgument(!(parts.length > ipv6MaxHexGroups && parts.length < 3));
+		Validate.notIllegalArgument(!(parts.length > ipv6MaxHexGroups));
 		int validOctets = 0;
 		int emptyOctets = 0;
 		for (int index = 0; index < parts.length; index++) {

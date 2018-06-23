@@ -142,7 +142,7 @@ public final class Inet4Address extends InetAddress {
 	@Override
 	public boolean isMcGlobal() {
 		return ((address[0] & 0xff) >= 224
-				&& (address[0] & 0xff) <= 238 )
+				&& (address[0] & 0xff) <= 238)
 				&& !((address[0] & 0xff) == 224
 					&& address[1] == 0
 					&& address[2] == 0);
@@ -167,7 +167,7 @@ public final class Inet4Address extends InetAddress {
 	}
 
 	/**
-	 * 239.255/16 prefix or ttl < 32
+	 * 239.255/16 prefix or ttl &lt; 32
 	 */
 	@Override
 	public boolean isMcSiteLocal() {

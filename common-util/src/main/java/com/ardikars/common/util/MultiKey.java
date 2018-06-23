@@ -40,6 +40,13 @@ public class MultiKey<K> implements Serializable {
         this.keys = keys;
     }
 
+    /**
+     * Create {@code MultiKey} object.
+     * @param keys keys.
+     * @param <K> key type.
+     * @return returns {@code MultiKey} object.
+     */
+    @SuppressWarnings("unchecked")
     public static <K> MultiKey<K> of(K... keys) {
         Set<K> keySet = Arrays.asList(keys)
                 .stream()
@@ -50,8 +57,12 @@ public class MultiKey<K> implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MultiKey)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MultiKey)) {
+            return false;
+        }
         MultiKey<?> multiKey = (MultiKey<?>) o;
         return Objects.equals(keys, multiKey.keys);
     }

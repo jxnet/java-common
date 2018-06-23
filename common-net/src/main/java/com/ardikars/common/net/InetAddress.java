@@ -16,6 +16,8 @@
 
 package com.ardikars.common.net;
 
+import java.io.Serializable;
+
 /**
  * This class is a abstraction for IP Address.
  * @see Inet4Address
@@ -23,7 +25,7 @@ package com.ardikars.common.net;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public abstract class InetAddress {
+public abstract class InetAddress implements Serializable {
 
 	/**
 	 * Determines the IPv4 or IPv6 address.
@@ -41,8 +43,7 @@ public abstract class InetAddress {
 	/**
 	 * Validate given ip string address.
 	 * @param stringAddress ipv4 or ipv6 string address.
-	 * @return a {@code boolean} indicating if the stringAddress is a valid ip address;
-	 * or false otherwise.
+	 * @return a {@code boolean} indicating if the stringAddress is a valid ip address; or false otherwise.
 	 */
 	public static boolean isValidAddress(String stringAddress) {
 		try {

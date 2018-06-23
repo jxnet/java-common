@@ -51,11 +51,15 @@ public abstract class NamedMultiKey<T extends MultiKey, U extends NamedMultiKey<
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NamedMultiKey)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NamedMultiKey)) {
+            return false;
+        }
         NamedMultiKey<?, ?> that = (NamedMultiKey<?, ?>) o;
-        return Objects.equals(getValue(), that.getValue()) &&
-                Objects.equals(getName(), that.getName());
+        return Objects.equals(getValue(), that.getValue())
+                && Objects.equals(getName(), that.getName());
     }
 
     @Override
