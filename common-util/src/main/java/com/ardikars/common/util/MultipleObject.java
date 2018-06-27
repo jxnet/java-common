@@ -26,17 +26,17 @@ import java.util.stream.Collectors;
 /**
  * Multiple keys for {@code java.util.Map}
  * @see java.util.Map
- * @see com.ardikars.common.util.NamedMultiKey
+ * @see NamedMultipleObject
  * @param <K> key type.
  */
 @Immutable
-public class MultiKey<K> implements Serializable {
+public class MultipleObject<K> implements Serializable {
 
     private static final long serialVersionUID = -7486266343955776290L;
 
     private final Set<K> keys;
 
-    protected MultiKey(Set<K> keys) {
+    protected MultipleObject(Set<K> keys) {
         this.keys = keys;
     }
 
@@ -47,12 +47,12 @@ public class MultiKey<K> implements Serializable {
      * @return returns {@code MultiKey} object.
      */
     @SuppressWarnings("unchecked")
-    public static <K> MultiKey<K> of(K... keys) {
+    public static <K> MultipleObject<K> of(K... keys) {
         Set<K> keySet = Arrays.asList(keys)
                 .stream()
                 .parallel()
                 .collect(Collectors.toSet());
-        return new MultiKey<>(keySet);
+        return new MultipleObject<>(keySet);
     }
 
     @Override
@@ -60,10 +60,10 @@ public class MultiKey<K> implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MultiKey)) {
+        if (!(o instanceof MultipleObject)) {
             return false;
         }
-        MultiKey<?> multiKey = (MultiKey<?>) o;
+        MultipleObject<?> multiKey = (MultipleObject<?>) o;
         return Objects.equals(keys, multiKey.keys);
     }
 

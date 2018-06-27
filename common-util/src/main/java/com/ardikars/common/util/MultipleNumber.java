@@ -18,23 +18,20 @@ package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Immutable;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Multiple Number keys for {@code java.util.Map}
  * @see java.util.Map
- * @see NamedMultiKey
+ * @see NamedMultipleObject
  * @param <K> key type.
  */
 @Immutable
-public class MultiKeyNumber<K extends Number> extends MultiKey<K> implements Serializable {
+public class MultipleNumber<K extends Number> extends MultipleObject<K> implements Serializable {
 
     private static final long serialVersionUID = -7486266343955776290L;
 
-    private MultiKeyNumber(Set<K> keys) {
+    private MultipleNumber(Set<K> keys) {
         super(keys);
     }
 

@@ -17,7 +17,6 @@
 package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
-
 import java.util.regex.Pattern;
 
 /**
@@ -34,139 +33,10 @@ public final class Hexs {
     private static final String HEXDUMP_PRETTY_HEADER = ""
             + "         +-------------------------------------------------+\n"
             + "         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |\n"
-            + "+--------+-------------------------------------------------+----------------+\n";
+            + "+--------+-------------------------------------------------+--------+\n";
 
-    private static final String HEXDUMP_PRETTY_FOOTER =
-            "+--------+-------------------------------------------------+----------------+";
-
-    /**
-     * Byte to hex value.
-     * @param value value.
-     * @return hex format.
-     * @since 1.0.0
-     */
-    public static String toHexString(final byte value) {
-        String srt = Integer.toHexString((value) & 0xff);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
-        }
-        return (srt);
-    }
-
-    /**
-     * Byte array to hex stream.
-     * @param data byte array.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final byte[] data) {
-        return toHexString(data, 0, data.length);
-    }
-
-    /**
-     * Byte array to hex stream.
-     * @param data byte array.
-     * @param offset offset.
-     * @param length length.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final byte[] data, final int offset, final int length) {
-        Validate.notInBounds(data, offset, length);
-        StringBuilder sb = new StringBuilder();
-        int l;
-        if (data.length != length) {
-            l = (data.length - length);
-        } else {
-            l = length;
-        }
-        for (int i = offset; i < l; i++) {
-            sb.append(toHexString(data[i]));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Short to hex stream.
-     * @param value short array.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final short value) {
-        String srt = Integer.toHexString((value) & 0xFFFF);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
-        }
-        return (srt);
-    }
-
-    /**
-     * Short array to hex stream.
-     * @param values short array.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final short[] values) {
-        return toHexString(values, 0, values.length);
-    }
-
-    /**
-     * Short array to hex stream.
-     * @param values short array.
-     * @param offset offset.
-     * @param length length.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final short[] values, final int offset, final int length) {
-        Validate.notInBounds(values, offset, length);
-        StringBuilder sb = new StringBuilder();
-        for (short value : values) {
-            sb.append(toHexString(value));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Int to hex stream.
-     * @param value integer value.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final int value) {
-        String srt = Integer.toHexString(value);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
-        }
-        return (srt);
-    }
-
-    /**
-     * Int array to hex stream.
-     * @param values int array.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final int[] values) {
-        return toHexString(values, 0, values.length);
-    }
-
-    /**
-     * Int array to hex stream.
-     * @param values int array.
-     * @param offset offset.
-     * @param length length.
-     * @return hex stream.
-     * @since 1.0.0
-     */
-    public static String toHexString(final int[] values, final int offset, final int length) {
-        Validate.notInBounds(values, offset, length);
-        StringBuilder sb = new StringBuilder();
-        for (int value : values) {
-            sb.append(toHexString(value));
-        }
-        return sb.toString();
-    }
+    private static final String HEXDUMP_PRETTY_FOOTER = ""
+            + "+--------+-------------------------------------------------+--------+";
 
     /**
      * Byte array to hex dump format.
@@ -198,7 +68,7 @@ public final class Hexs {
             builder.append(String.format("%08d", lineNumber++) + " | ");
             int lineMax = Math.min(max - pos, 16);
             for (int i = 0; i < lineMax; i++) {
-                builder.append(toHexString(data[pos + i]));
+                builder.append(Strings.toHexString(data[pos + i]));
                 builder.append(" ");
             }
             while (builder.length() < 48) {

@@ -19,32 +19,34 @@ package com.ardikars.common.util;
 import java.util.Objects;
 
 /**
- * Common base class for dynamic named multi key (enum like).
- * @param <T> multiple key.
- * @param <U> named multiple key.
+ * Common base class for dynamic named multi number key (enum like).
+ * @param <T> multiple number key.
+ * @param <U> named multiple number key.
  */
-public abstract class NamedMultiKey<T extends MultiKey, U extends NamedMultiKey<T, ?>> {
+public abstract class NamedMultipleNumber<T extends MultipleNumber, U extends NamedMultipleNumber<T, ?>> implements ObjectName<T, U> {
 
     private final T value;
     private final String name;
 
-    protected NamedMultiKey(T multiKey, String name) {
+    protected NamedMultipleNumber(T multiKey, String name) {
         this.value = multiKey;
         this.name = name;
     }
 
     /**
-     * Returns the number of this {@code NamedMultiKey} object.
-     * @return returns the number of this {@code NamedMultiKey} object.
+     * Returns the number of this {@code NamedMultiKeyNumber} object.
+     * @return returns the multi key number of this {@code NamedMultiKeyNumber} object.
      */
+    @Override
     public T getValue() {
         return value;
     }
 
     /**
-     * Returns the name of this {@code NamedMultiKey} object.
-     * @return returns the name of this {@code NamedMultiKey} object.
+     * Returns the name of this {@code NamedMultiKeyNumber} object.
+     * @return returns the name of this {@code NamedMultiKeyNumber} object.
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -54,10 +56,10 @@ public abstract class NamedMultiKey<T extends MultiKey, U extends NamedMultiKey<
         if (this == o) {
             return true;
         }
-        if (!(o instanceof NamedMultiKey)) {
+        if (!(o instanceof NamedMultipleNumber)) {
             return false;
         }
-        NamedMultiKey<?, ?> that = (NamedMultiKey<?, ?>) o;
+        NamedMultipleNumber<?, ?> that = (NamedMultipleNumber<?, ?>) o;
         return Objects.equals(getValue(), that.getValue())
                 && Objects.equals(getName(), that.getName());
     }
@@ -65,14 +67,6 @@ public abstract class NamedMultiKey<T extends MultiKey, U extends NamedMultiKey<
     @Override
     public int hashCode() {
         return Objects.hash(getValue(), getName());
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("NamedMultiKey{")
-                .append("value=").append(value)
-                .append(", name='").append(name).append('\'')
-                .append('}').toString();
     }
 
 }
