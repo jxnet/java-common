@@ -30,6 +30,8 @@ import java.util.List;
 @Helper
 public final class Arrays {
 
+    private Arrays() { }
+
     /**
      * Reverse order.
      * @param value value.

@@ -4,12 +4,13 @@ import org.junit.Test;
 
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class ArrayTest extends BaseTest {
+public class ArraysTest extends BaseTest {
 
     private final int maximumDelta = 2;
 
@@ -68,6 +69,46 @@ public class ArrayTest extends BaseTest {
     @Test
     public void reserveObjectArray() {
         assertArrayEquals(new Object[] { doubleArray, charArray }, Arrays.reverse(objectArray));
+    }
+
+    @Test
+    public void concatenateByte() {
+        assertArrayEquals(new byte[] { 0, 1, 2, 3, 4, 5, 6 }, Arrays.concatenate(new byte[][] { byteArray, { 5, 6 }}));
+    }
+
+    @Test
+    public void concatenateChar() {
+        assertArrayEquals(new char[] { 0, 'B', 'A', 3, 4, 5, 6 }, Arrays.concatenate(new char[][] { charArray, { 5, 6 }}));
+    }
+
+    @Test
+    public void concatenateShort() {
+        assertArrayEquals(new short[] { 0, 1, 2, 3, 4, 5, 6 }, Arrays.concatenate(new short[][] {shortArray, { 5, 6 }}));
+    }
+
+    @Test
+    public void concatenateInt() {
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4, 5, 6 }, Arrays.concatenate(new int[][] { intArray, { 5, 6 }}));
+    }
+
+    @Test
+    public void concatenateFloat() {
+        assertArrayEquals(new float[] { (float) 0.0, (float) 0.1, (float) 0.2, (float) 0.3, (float) 0.4, (float) 0.5, (float) 0.6 }, Arrays.concatenate(new float[][] { floatArray, { (float) 0.5, (float) 0.6 }}), maximumDelta);
+    }
+
+    @Test
+    public void concatenateLong() {
+        assertArrayEquals(new long[] { 0, 1, 2, 3, 4, 5, 6 }, Arrays.concatenate(new long[][] { longArray, new long[] { 5, 6 }}));
+    }
+
+    @Test
+    public void concatenateDouble() {
+        assertArrayEquals(new double[] { 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 }, Arrays.concatenate(new double[][] { doubleArray, new double[] { 0.5, 0.6 }}), maximumDelta);
+    }
+
+    @Test
+    public void concatenateObject() {
+        assertArrayEquals(new Object[] { charArray, doubleArray, intArray, floatArray }, Arrays.concatenate(new Object[][] { objectArray, new Object[] { intArray, floatArray }}));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.ardikars.common.util.model;
 
-import com.ardikars.common.util.MultiKey;
-import com.ardikars.common.util.NamedMultiKey;
+import com.ardikars.common.util.MultipleObject;
+import com.ardikars.common.util.NamedMultipleObject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,19 +9,19 @@ import java.util.Map;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public class IcmpTypeAndCode extends NamedMultiKey<MultiKey<Byte>, IcmpTypeAndCode> {
+public class IcmpTypeAndCode extends NamedMultipleObject<MultipleObject<Byte>, IcmpTypeAndCode> {
 
     public static final IcmpTypeAndCode NO_ROUTE_TO_DESTINATION
-            = new IcmpTypeAndCode(MultiKey.of((byte) 1, (byte) 0), "No route to destination");
+            = new IcmpTypeAndCode(MultipleObject.of((byte) 1, (byte) 0), "No route to destination");
 
     public static final IcmpTypeAndCode UNKNOWN
-            = new IcmpTypeAndCode(MultiKey.of((byte) -1, (byte) -1), "UNKNOWN");
+            = new IcmpTypeAndCode(MultipleObject.of((byte) -1, (byte) -1), "UNKNOWN");
 
 
-    private static final Map<MultiKey<Byte>, IcmpTypeAndCode> registry
+    private static final Map<MultipleObject<Byte>, IcmpTypeAndCode> registry
             = new HashMap<>();
 
-    public IcmpTypeAndCode(MultiKey<Byte> multiKey, String name) {
+    public IcmpTypeAndCode(MultipleObject<Byte> multiKey, String name) {
         super(multiKey, name);
     }
 
@@ -30,7 +30,7 @@ public class IcmpTypeAndCode extends NamedMultiKey<MultiKey<Byte>, IcmpTypeAndCo
         return icmpTypeAndCode;
     }
 
-    public static final IcmpTypeAndCode valueOf(final MultiKey<Byte> rawValue) {
+    public static final IcmpTypeAndCode valueOf(final MultipleObject<Byte> rawValue) {
         IcmpTypeAndCode icmpTypeAndCode = registry.get(rawValue);
         if (icmpTypeAndCode == null) {
             return UNKNOWN;

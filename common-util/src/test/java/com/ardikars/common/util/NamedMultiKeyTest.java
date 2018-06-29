@@ -8,9 +8,9 @@ import static org.junit.Assert.assertEquals;
 
 public class NamedMultiKeyTest {
 
-    public static final MultiKey<Byte> NO_ROUTE_TO_DESTINATION = MultiKey.of((byte) 1, (byte) 0);
-    public static final MultiKey<Byte> COMMUNICATION_WITH_DESTINATION_ADMINIS_TRATIVELY_PROHIBITED = MultiKey.of((byte) 1, (byte) 1);
-    public static final MultiKey<Byte> UNKNOWN_CODE = MultiKey.of((byte) -1, (byte) -1);
+    public static final MultipleObject<Byte> NO_ROUTE_TO_DESTINATION = MultipleObject.of((byte) 1, (byte) 0);
+    public static final MultipleObject<Byte> COMMUNICATION_WITH_DESTINATION_ADMINIS_TRATIVELY_PROHIBITED = MultipleObject.of((byte) 1, (byte) 1);
+    public static final MultipleObject<Byte> UNKNOWN_CODE = MultipleObject.of((byte) -1, (byte) -1);
 
     @Test
     public void found() {

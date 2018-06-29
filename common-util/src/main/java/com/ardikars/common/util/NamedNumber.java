@@ -16,8 +16,6 @@
 
 package com.ardikars.common.util;
 
-import java.io.Serializable;
-
 /**
  * Common base class for dynamic named number (enum like).
  * @see Enum
@@ -68,7 +66,7 @@ import java.io.Serializable;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public abstract class NamedNumber<T extends Number, U extends NamedNumber<T, ?>> implements Serializable {
+public abstract class NamedNumber<T extends Number, U extends NamedNumber<T, ?>> implements ObjectName<T, U> {
 
     private static final long serialVersionUID = -7754849362562086047L;
 
@@ -84,6 +82,7 @@ public abstract class NamedNumber<T extends Number, U extends NamedNumber<T, ?>>
      * Returns the number of this {@code NamedNumber} object.
      * @return returns the number of this {@code NamedNumber} object.
      */
+    @Override
     public T getValue() {
         return this.value;
     }
@@ -92,6 +91,7 @@ public abstract class NamedNumber<T extends Number, U extends NamedNumber<T, ?>>
      * Returns the name of this {@code NamedNumber} object.
      * @return returns the name of this {@code NamedNumber} object.
      */
+    @Override
     public String getName() {
         return this.name;
     }
