@@ -29,7 +29,14 @@ jobs:
 
     steps:
       - checkout
-      - run: ./gradlew clean build bintrayUpload
+      - run: 'export TERM=xterm-color'
+      - run: 'echo "bintrayUser=$BINTRAY_USER" >> gradle.properties'
+      - run: 'echo "bintrayPass=$BINTRAY_PASS" >> gradle.properties'
+      - run: 'echo "sonatypeUser=$SONATYPE_USER" >> gradle.properties'
+      - run: 'echo "sonatypePass=$SONATYPE_PASS" >> gradle.properties'
+      - run: 'echo "signing.password=$SIGNING_PASS" >> gradle.properties'
+      - run: './gradlew clean uploadArchives -x test --info --no-daemon'
+      - run: './gradlew clean bintrayUpload -x test --info --no-daemon'
 
 
 workflows:
