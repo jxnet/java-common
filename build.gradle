@@ -24,9 +24,10 @@ buildscript {
 allprojects {
 
     apply plugin: 'java'
+    apply plugin: 'signing'
     apply plugin: 'maven'
-    apply plugin: 'jacoco'
     apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'jacoco'
     apply plugin: 'checkstyle'
     apply plugin: 'pmd'
     apply plugin: 'com.github.spotbugs'
@@ -136,6 +137,11 @@ allprojects {
         archives jar, sourcesJar, javadocJar
     }
 
+    signing {
+        required { gradle.taskGraph.hasTask('uploadArchives') || gradle.taskGraph.hasTask('bintrayUpload') }
+        sign configurations.archives
+    }
+
     install {
         System.setProperty('maven.repo.local', "${MAVEN_LOCAL_REPOSITORY}")
         repositories.mavenInstaller {
@@ -145,18 +151,7 @@ allprojects {
 
     uploadArchives {
         repositories.mavenDeployer {
-            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-                authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
-            }
-            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-                authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
-            }
-            pom.project pom_project
-        }
-    }
-
-    uploadArchives {
-        repositories.mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
             repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                 authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
             }
@@ -183,6 +178,16 @@ allprojects {
             version {
                 name = project.version
                 vcsTag = project.version
+                gpg {
+                    sign = true
+                    passphrase = defaultBlank({ signing.password })
+                }
+                mavenCentralSync {
+                    sync = true
+                    user = defaultBlank({ sonatypeUser })
+                    password = defaultBlank({ sonatypePass })
+                    close = '1'
+                }
             }
         }
     }
