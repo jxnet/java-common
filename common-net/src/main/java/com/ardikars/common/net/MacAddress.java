@@ -72,18 +72,22 @@ public final class MacAddress {
 		this.address = Arrays.copyOf(address, MacAddress.MAC_ADDRESS_LENGTH);
 	}
 
-	public static Optional<MacAddress> fromNicName(String name) throws SocketException {
-		return NetworkInterface.getNetworkInterfaces().stream()
-				.filter(networkInterface -> networkInterface.getName().equals(name))
-				.map(networkInterface -> networkInterface.getHardwareAddress())
-				.findFirst();
+	public static MacAddress fromNicName(String name) throws SocketException {
+		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
+			if (networkInterface.getName().equals(name)) {
+				return networkInterface.getHardwareAddress();
+			}
+		}
+		return null;
 	}
 
-	public static Optional<MacAddress> fromNicIndex(int index) throws SocketException {
-		return NetworkInterface.getNetworkInterfaces().stream()
-				.filter(networkInterface -> networkInterface.getIndex() == index)
-				.map(networkInterface -> networkInterface.getHardwareAddress())
-				.findFirst();
+	public static MacAddress fromNicIndex(int index) throws SocketException {
+		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
+			if (networkInterface.getIndex() == index) {
+				return networkInterface.getHardwareAddress();
+			}
+		}
+		return null;
 	}
 
 	/**

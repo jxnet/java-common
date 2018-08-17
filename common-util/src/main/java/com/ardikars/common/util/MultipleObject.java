@@ -19,9 +19,9 @@ package com.ardikars.common.util;
 import com.ardikars.common.annotation.Immutable;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Multiple keys for {@code java.util.Map}
@@ -48,11 +48,7 @@ public class MultipleObject<K> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public static <K> MultipleObject<K> of(K... keys) {
-        Set<K> keySet = Arrays.asList(keys)
-                .stream()
-                .parallel()
-                .collect(Collectors.toSet());
-        return new MultipleObject<>(keySet);
+        return new MultipleObject<>(new HashSet<K>(Arrays.asList(keys)));
     }
 
     @Override

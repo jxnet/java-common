@@ -58,7 +58,9 @@ public class MacAddressTest extends BaseTest {
     public void thirdTest() throws SocketException {
         Collection<com.ardikars.common.net.NetworkInterface> networkInterfaceSet
                 = com.ardikars.common.net.NetworkInterface.getNetworkInterfaces();
-        networkInterfaceSet.forEach(System.out::println);
+        for (com.ardikars.common.net.NetworkInterface networkInterface : networkInterfaceSet) {
+            System.out.println(networkInterface);
+        }
     }
 
 }

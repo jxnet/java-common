@@ -1,8 +1,8 @@
 package com.ardikars.common.net;
 
+import java.net.InterfaceAddress;
 import java.net.SocketException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class NetworkInterface {
 
@@ -198,20 +198,20 @@ public class NetworkInterface {
         while (networkInterfaces.hasMoreElements()) {
             java.net.NetworkInterface networkInterface = networkInterfaces.nextElement();
             byte[] hardwareAddress = networkInterface.getHardwareAddress();
-            Set<InetAddress> addresses = networkInterface.getInterfaceAddresses().stream().map(interfaceAddress -> {
+            Set<InetAddress> parentAddreses = new HashSet<>();
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
                 if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
-                    return Inet4Address.valueOf(interfaceAddress.getAddress().getAddress());
-                } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address) {
-                    return Inet6Address.valueOf(interfaceAddress.getAddress().getAddress());
+                    parentAddreses.add(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()));
+                } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address){
+                    parentAddreses.add(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()));
                 }
-                return null;
-            }).filter(inetAddress -> inetAddress != null).collect(Collectors.toSet());
+            }
             NetworkInterface parent = new Builder()
                     .index(networkInterface.getIndex())
                     .name(networkInterface.getName())
                     .displayName(networkInterface.getDisplayName())
                     .hardwareAddress(hardwareAddress == null ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
-                    .addresses(addresses)
+                    .addresses(parentAddreses)
                     .mtu(networkInterface.getMTU())
                     .pointToPoint(networkInterface.isPointToPoint())
                     .virtual(networkInterface.isVirtual())
@@ -224,20 +224,20 @@ public class NetworkInterface {
             while (childs.hasMoreElements()) {
                 java.net.NetworkInterface childNetworkInterface = childs.nextElement();
                 hardwareAddress = childNetworkInterface.getHardwareAddress();
-                addresses = childNetworkInterface.getInterfaceAddresses().stream().map(interfaceAddress -> {
+                Set<InetAddress> childAddresses = new HashSet<>();
+                for (InterfaceAddress interfaceAddress : childNetworkInterface.getInterfaceAddresses()) {
                     if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
-                        return Inet4Address.valueOf(interfaceAddress.getAddress().getAddress());
-                    } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address) {
-                        return Inet6Address.valueOf(interfaceAddress.getAddress().getAddress());
+                        childAddresses.add(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()));
+                    } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address){
+                        childAddresses.add(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()));
                     }
-                    return null;
-                }).filter(inetAddress -> inetAddress != null).collect(Collectors.toSet());
+                }
                 NetworkInterface child = new Builder()
                         .index(childNetworkInterface.getIndex())
                         .name(childNetworkInterface.getName())
                         .displayName(childNetworkInterface.getDisplayName())
                         .hardwareAddress(hardwareAddress == null ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
-                        .addresses(addresses)
+                        .addresses(childAddresses)
                         .mtu(childNetworkInterface.getMTU())
                         .pointToPoint(childNetworkInterface.isPointToPoint())
                         .virtual(childNetworkInterface.isVirtual())
