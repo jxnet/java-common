@@ -21,9 +21,12 @@ import com.ardikars.common.annotation.Mutable;
 import com.ardikars.common.util.NamedNumber;
 import com.ardikars.common.util.Validate;
 
+import javax.crypto.Mac;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -67,6 +70,20 @@ public final class MacAddress {
 		Validate.nullPointer(address);
 		Validate.notIllegalArgument(address.length == MAC_ADDRESS_LENGTH);
 		this.address = Arrays.copyOf(address, MacAddress.MAC_ADDRESS_LENGTH);
+	}
+
+	public static Optional<MacAddress> fromNicName(String name) throws SocketException {
+		return NetworkInterface.getNetworkInterfaces().stream()
+				.filter(networkInterface -> networkInterface.getName().equals(name))
+				.map(networkInterface -> networkInterface.getHardwareAddress())
+				.findFirst();
+	}
+
+	public static Optional<MacAddress> fromNicIndex(int index) throws SocketException {
+		return NetworkInterface.getNetworkInterfaces().stream()
+				.filter(networkInterface -> networkInterface.getIndex() == index)
+				.map(networkInterface -> networkInterface.getHardwareAddress())
+				.findFirst();
 	}
 
 	/**
