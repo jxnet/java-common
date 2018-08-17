@@ -97,7 +97,7 @@ allprojects {
     }
 
     spotbugs {
-        ignoreFailures = false
+        ignoreFailures = true
         sourceSets = [sourceSets.main]
         reportsDir = file("$project.buildDir/reports/findbugs")
         effort = "max"
