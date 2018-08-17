@@ -218,7 +218,7 @@ public class NetworkInterface {
                     .loopback(networkInterface.isLoopback())
                     .up(networkInterface.isUp())
                     .parent(null)
-                    .childs(new HashSet())
+                    .childs(null)
                     .build();
             Enumeration<java.net.NetworkInterface> childs = networkInterface.getSubInterfaces();
             while (childs.hasMoreElements()) {
@@ -244,7 +244,7 @@ public class NetworkInterface {
                         .loopback(childNetworkInterface.isLoopback())
                         .up(childNetworkInterface.isUp())
                         .parent(parent)
-                        .childs(new HashSet())
+                        .childs(null)
                         .build();
                 parent.addChild(child);
             }
