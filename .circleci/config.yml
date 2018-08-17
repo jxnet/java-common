@@ -4,30 +4,30 @@ version: 2
 jobs:
 
   build:
-
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
+      - restore_cache:
+          keys:
+            - gradle
       - checkout
       - run: ./gradlew clean build codeCoverageReport
 
   deploy:
-
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
+      - restore_cache:
+          keys:
+            - gradle
       - checkout
       - run: 'export TERM=xterm-color'
       - run: 'sudo apt-get update && sudo apt-get install gnupg -y'
@@ -39,11 +39,17 @@ jobs:
       - run: 'echo "signing.password=$SIGNING_PASS" >> gradle.properties'
       - run: 'echo "signing.secretKeyRingFile=/tmp/secring.gpg" >> gradle.properties'
       - run: 'gpg --batch --yes --passphrase=$SIGN_KEY --output /tmp/secring.gpg --decrypt --cipher-algo AES256 ./gradle/resources/gpg/secring.gpg.enc'
-      #- run: './gradlew clean uploadArchives -x test --info --no-daemon'
-      - run: 'wget -O /tmp/jdk7.tar.gz http://cdn-files.evildayz.com/mirror/java/jdk_7u79/jdk-7u79-linux-x64.tar.gz'
-      - run: 'tar -xzf /tmp/jdk7.tar.gz -C /tmp/'
-      - run: 'export JAVA_HOME=/tmp/jdk7'
-      - run: './gradlew clean bintrayUpload -x test --info --no-daemon'
+      - run: '(ls /tmp/jdk1.7.0_79 >> /dev/null 2>&1 && echo jdk7_alredy_installed) || wget -O /tmp/jdk7.tar.gz http://cdn-files.evildayz.com/mirror/java/jdk_7u79/jdk-7u79-linux-x64.tar.gz'
+      - run: '(ls /tmp/jdk1.7.0_79 >> /dev/null 2>&1 && echo jdk7_alredy_installed) || tar -xzf /tmp/jdk7.tar.gz -C /tmp/'
+      - run: 'export JAVA_HOME=/tmp/jdk1.7.0_79 && ./gradlew clean bintrayUpload -x test --info --no-daemon'
+      - save_cache:
+          key: gradle
+          paths:
+            - ~/.gradle
+      - save_cache:
+          key: jdk7
+          paths:
+            - /tmp/jdk1.7.0_79
 
 workflows:
   version: 2
