@@ -29,7 +29,7 @@ public class NetworkInterface {
     private String name;
     private String displayName;
     private MacAddress hardwareAddress;
-    private Collection<InetAddress> addresses;
+    private Collection<Address> addresses;
     private int mtu;
     private boolean pointToPoint;
     private boolean virtual;
@@ -67,7 +67,7 @@ public class NetworkInterface {
         return hardwareAddress;
     }
 
-    public Collection<InetAddress> getAddresses() {
+    public Collection<Address> getAddresses() {
         return addresses;
     }
 
@@ -106,13 +106,68 @@ public class NetworkInterface {
         this.childs.add(networkInterface);
     }
 
+    public static class Address {
+
+        private InetAddress inetAddress;
+        private short maskLength;
+
+        private Address(final NetworkInterface.Address.Builder builder) {
+            this.inetAddress = builder.inetAddress;
+            this.maskLength = builder.maskLength;
+        }
+
+        public InetAddress getInetAddress() {
+            return inetAddress;
+        }
+
+        public short getNetworkPrefixLength() {
+            return maskLength;
+        }
+
+        @Override
+        public String toString() {
+            return "Address{" +
+                    "inetAddress=" + inetAddress +
+                    ", maskLength=" + maskLength +
+                    '}';
+        }
+
+        public static class Builder implements com.ardikars.common.util.Builder<Address, Void> {
+
+            private InetAddress inetAddress;
+            private short maskLength;
+
+            public Builder inetAddress(InetAddress inetAddress) {
+                this.inetAddress = inetAddress;
+                return this;
+            }
+
+            public Builder maskLength(short maskLength) {
+                this.maskLength = maskLength;
+                return this;
+            }
+
+            @Override
+            public Address build() {
+                return new Address(this);
+            }
+
+            @Override
+            public Address build(Void value) {
+                throw new UnsupportedOperationException();
+            }
+
+        }
+
+    }
+
     public static class Builder implements com.ardikars.common.util.Builder<NetworkInterface, Void> {
 
         private int index;
         private String name;
         private String displayName;
         private MacAddress hardwareAddress;
-        private Collection<InetAddress> addresses;
+        private Collection<Address> addresses;
         private int mtu;
         private boolean pointToPoint;
         private boolean virtual;
@@ -141,7 +196,7 @@ public class NetworkInterface {
             return this;
         }
 
-        public Builder addresses(Collection<InetAddress> addresses) {
+        public Builder addresses(Collection<Address> addresses) {
             this.addresses = addresses;
             return this;
         }
@@ -217,12 +272,20 @@ public class NetworkInterface {
         while (networkInterfaces.hasMoreElements()) {
             java.net.NetworkInterface networkInterface = networkInterfaces.nextElement();
             byte[] hardwareAddress = networkInterface.getHardwareAddress();
-            Set<InetAddress> parentAddreses = new HashSet<>();
+            Set<Address> parentAddreses = new HashSet<>();
             for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
                 if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
-                    parentAddreses.add(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()));
-                } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address){
-                    parentAddreses.add(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()));
+                    Address address = new Address.Builder()
+                            .inetAddress(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()))
+                            .maskLength(interfaceAddress.getNetworkPrefixLength())
+                            .build();
+                    parentAddreses.add(address);
+                } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address) {
+                    Address address = new Address.Builder()
+                            .inetAddress(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()))
+                            .maskLength(interfaceAddress.getNetworkPrefixLength())
+                            .build();
+                    parentAddreses.add(address);
                 }
             }
             NetworkInterface parent = new Builder()
@@ -243,12 +306,20 @@ public class NetworkInterface {
             while (childs.hasMoreElements()) {
                 java.net.NetworkInterface childNetworkInterface = childs.nextElement();
                 hardwareAddress = childNetworkInterface.getHardwareAddress();
-                Set<InetAddress> childAddresses = new HashSet<>();
+                Set<Address> childAddresses = new HashSet<>();
                 for (InterfaceAddress interfaceAddress : childNetworkInterface.getInterfaceAddresses()) {
                     if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
-                        childAddresses.add(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()));
+                        Address address = new Address.Builder()
+                                .inetAddress(Inet4Address.valueOf(interfaceAddress.getAddress().getAddress()))
+                                .maskLength(interfaceAddress.getNetworkPrefixLength())
+                                .build();
+                        childAddresses.add(address);
                     } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address){
-                        childAddresses.add(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()));
+                        Address address = new Address.Builder()
+                                .inetAddress(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()))
+                                .maskLength(interfaceAddress.getNetworkPrefixLength())
+                                .build();
+                        childAddresses.add(address);
                     }
                 }
                 NetworkInterface child = new Builder()
