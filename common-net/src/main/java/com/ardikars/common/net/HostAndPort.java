@@ -19,7 +19,6 @@ package com.ardikars.common.net;
 import com.ardikars.common.annotation.Helper;
 import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.util.Validate;
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
@@ -29,7 +28,7 @@ import java.util.regex.Pattern;
  */
 @Helper
 @Immutable
-public final class HostAndPort implements Serializable {
+public final class HostAndPort {
 
     /**
      * @see <a href="https://www.regextester.com/93928"></a>
@@ -137,12 +136,11 @@ public final class HostAndPort implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Host{");
-        sb.append("hostName='").append(hostName).append('\'');
-        sb.append(", hostAddress=").append(hostAddress);
-        sb.append(", port=").append(port);
-        sb.append('}');
-        return sb.toString();
+        return new StringBuilder("Host{")
+                .append("hostName='").append(hostName).append('\'')
+                .append(", hostAddress=").append(hostAddress)
+                .append(", port=").append(port)
+                .append('}').toString();
     }
 
     /**

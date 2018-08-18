@@ -21,12 +21,10 @@ import com.ardikars.common.annotation.Mutable;
 import com.ardikars.common.util.NamedNumber;
 import com.ardikars.common.util.Validate;
 
-import javax.crypto.Mac;
 import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -64,7 +62,7 @@ public final class MacAddress {
 
 	public static final MacAddress IPV4_MULTICAST_MASK = valueOf("ff:ff:ff:80:00:00");
 	
-	private byte[] address = new byte[MAC_ADDRESS_LENGTH];
+	private final byte[] address;
 	
 	private MacAddress(byte[] address) {
 		Validate.nullPointer(address);
@@ -245,10 +243,10 @@ public final class MacAddress {
 		final StringBuilder sb = new StringBuilder();
 		for (final byte b : this.address) {
 			if (sb.length() > 0) {
-				sb.append(":");
+				sb.append(':');
 			}
 			String hex = Integer.toHexString(b & 0xff);
-			sb.append(hex.length() == 1 ? "0" + hex : hex);
+			sb.append(hex.length() == 1 ? '0' + hex : hex);
 		}
 		return sb.toString();
 	}

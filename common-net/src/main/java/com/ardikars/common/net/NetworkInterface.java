@@ -16,27 +16,30 @@
 
 package com.ardikars.common.net;
 
+import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.annotation.Incubating;
+import com.ardikars.common.annotation.Mutable;
 
 import java.net.InterfaceAddress;
 import java.net.SocketException;
 import java.util.*;
 
 @Incubating
+@Mutable(blocking = true)
 public class NetworkInterface {
 
-    private int index;
-    private String name;
-    private String displayName;
-    private MacAddress hardwareAddress;
-    private Collection<Address> addresses;
-    private int mtu;
-    private boolean pointToPoint;
-    private boolean virtual;
-    private boolean loopback;
-    private boolean up;
-    private NetworkInterface parent;
-    private Collection<NetworkInterface> childs;
+    private final int index;
+    private final String name;
+    private final String displayName;
+    private final MacAddress hardwareAddress;
+    private final Collection<Address> addresses;
+    private final int mtu;
+    private final boolean pointToPoint;
+    private final boolean virtual;
+    private final boolean loopback;
+    private final boolean up;
+    private final NetworkInterface parent;
+    private final Collection<NetworkInterface> childs;
 
     public NetworkInterface(final Builder builder) {
         this.index = builder.index;
@@ -49,6 +52,8 @@ public class NetworkInterface {
         this.virtual = builder.virtual;
         this.loopback = builder.loopback;
         this.up = builder.up;
+        this.parent = builder.parent;
+        this.childs = builder.childs;
     }
 
     public int getIndex() {
@@ -100,16 +105,16 @@ public class NetworkInterface {
     }
 
     public void addChild(NetworkInterface networkInterface) {
-        if (this.childs == null) {
-            this.childs = new HashSet<>();
+        synchronized (this) {
+            this.childs.add(networkInterface);
         }
-        this.childs.add(networkInterface);
     }
 
+    @Immutable
     public static class Address {
 
-        private InetAddress inetAddress;
-        private short maskLength;
+        private final InetAddress inetAddress;
+        private final int maskLength;
 
         private Address(final NetworkInterface.Address.Builder builder) {
             this.inetAddress = builder.inetAddress;
@@ -120,7 +125,7 @@ public class NetworkInterface {
             return inetAddress;
         }
 
-        public short getNetworkPrefixLength() {
+        public int getNetworkPrefixLength() {
             return maskLength;
         }
 
@@ -135,14 +140,14 @@ public class NetworkInterface {
         public static class Builder implements com.ardikars.common.util.Builder<Address, Void> {
 
             private InetAddress inetAddress;
-            private short maskLength;
+            private int maskLength;
 
             public Builder inetAddress(InetAddress inetAddress) {
                 this.inetAddress = inetAddress;
                 return this;
             }
 
-            public Builder maskLength(short maskLength) {
+            public Builder maskLength(int maskLength) {
                 this.maskLength = maskLength;
                 return this;
             }

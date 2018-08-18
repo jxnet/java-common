@@ -306,7 +306,7 @@ public final class Inet6Address extends InetAddress {
 		return sb.toString();
 	}
 	
-	private static final void ipv6toStr(StringBuilder sb, byte[] src,
+	private static void ipv6toStr(StringBuilder sb, byte[] src,
 	                                    int fromHextet, int toHextet) {
 		for (int i = fromHextet; i < toHextet; i++) {
 			sb.append(Integer.toHexString(((src[i << 1] << 8) & 0xff00)
