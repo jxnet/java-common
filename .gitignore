@@ -4,6 +4,7 @@
 *.log
 *~
 *.swp
+/gradle.properties
 /.gradle
 /.idea
 /build
