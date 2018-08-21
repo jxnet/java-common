@@ -131,7 +131,7 @@ allprojects {
         user = defaultBlank({ bintrayUser })
         key = defaultBlank({ bintrayPass })
         configurations = ['archives']
-        dryRun = false
+        dryRun = true
         publish = true
         override = true
         pkg {
