@@ -19,11 +19,13 @@ package com.ardikars.common.net;
 import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.annotation.Incubating;
 import com.ardikars.common.annotation.Mutable;
-import com.ardikars.common.util.Address;
 
 import java.net.InterfaceAddress;
 import java.net.SocketException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 @Incubating
 @Mutable(blocking = true)
@@ -42,7 +44,7 @@ public class NetworkInterface {
     private final NetworkInterface parent;
     private final Collection<NetworkInterface> childs;
 
-    public NetworkInterface(final Builder builder) {
+    private NetworkInterface(final Builder builder) {
         this.index = builder.index;
         this.name = builder.name;
         this.displayName = builder.displayName;
@@ -105,6 +107,10 @@ public class NetworkInterface {
         return childs;
     }
 
+    /**
+     * Add child {@code NetworkInterface}. Example: virtual interface.
+     * @param networkInterface {@code NetworkInterface}.
+     */
     public void addChild(NetworkInterface networkInterface) {
         synchronized (this) {
             this.childs.add(networkInterface);
@@ -132,10 +138,11 @@ public class NetworkInterface {
 
         @Override
         public String toString() {
-            return "Address{" +
-                    "inetAddress=" + inetAddress +
-                    ", maskLength=" + maskLength +
-                    '}';
+            return new StringBuilder("Address{")
+                    .append("inetAddress=").append(inetAddress)
+                    .append(", maskLength=").append(maskLength)
+                    .append('}')
+                    .toString();
         }
 
         public static class Builder implements com.ardikars.common.util.Builder<Address, Void> {
@@ -242,11 +249,20 @@ public class NetworkInterface {
             return this;
         }
 
+        /**
+         * Build {@code NetworkInterface}.
+         * @return {@code NetworkInterface}.
+         */
         @Override
         public NetworkInterface build() {
             return new NetworkInterface(this);
         }
 
+        /**
+         * Build {@code NetworkInterface}.
+         * @param  value value.
+         * @return {@code NetworkInterface}.
+         */
         @Override
         public NetworkInterface build(Void value) {
             throw new UnsupportedOperationException();
@@ -256,22 +272,28 @@ public class NetworkInterface {
 
     @Override
     public String toString() {
-        return "NetworkInterface{" +
-                "index=" + index +
-                ", name='" + name + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", hardwareAddress=" + hardwareAddress +
-                ", addresses=" + addresses +
-                ", mtu=" + mtu +
-                ", pointToPoint=" + pointToPoint +
-                ", virtual=" + virtual +
-                ", loopback=" + loopback +
-                ", up=" + up +
-                ", parent=" + parent +
-                ", childs=" + childs +
-                '}';
+        return new StringBuilder("NetworkInterface{")
+                .append("index=").append(index)
+                .append(", name='").append(name).append('\'')
+                .append(", displayName='").append(displayName).append('\'')
+                .append(", hardwareAddress=").append(hardwareAddress)
+                .append(", addresses=").append(addresses)
+                .append(", mtu=").append(mtu)
+                .append(", pointToPoint=").append(pointToPoint)
+                .append(", virtual=").append(virtual)
+                .append(", loopback=").append(loopback)
+                .append(", up=").append(up)
+                .append(", parent=").append(parent)
+                .append(", childs=").append(childs)
+                .append('}')
+                .toString();
     }
 
+    /**
+     * Get network interfaces.
+     * @return returns network interfaces.
+     * @throws SocketException socket exception.
+     */
     public static Collection<NetworkInterface> getNetworkInterfaces() throws SocketException {
         Enumeration<java.net.NetworkInterface> networkInterfaces = java.net.NetworkInterface.getNetworkInterfaces();
         Set<NetworkInterface> networkInterfaceSet = new HashSet<>();
@@ -320,7 +342,7 @@ public class NetworkInterface {
                                 .maskLength(interfaceAddress.getNetworkPrefixLength())
                                 .build();
                         childAddresses.add(address);
-                    } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address){
+                    } else if (interfaceAddress.getAddress() instanceof java.net.Inet6Address) {
                         Address address = new Address.Builder()
                                 .inetAddress(Inet6Address.valueOf(interfaceAddress.getAddress().getAddress()))
                                 .maskLength(interfaceAddress.getNetworkPrefixLength())

@@ -28,8 +28,6 @@ allprojects {
     apply plugin: 'maven'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'jacoco'
-    apply plugin: 'checkstyle'
-    apply plugin: 'pmd'
     apply plugin: 'com.github.spotbugs'
 
     group = "${GROUP}"
@@ -71,31 +69,6 @@ allprojects {
         }
     }
 
-    checkstyle {
-        ignoreFailures = false
-
-        configFile = rootProject.file('gradle/resources/checkstyle/checkstyle.xml')
-        configProperties = [
-                "suppressionFile" : rootProject.file('gradle/resources/checkstyle/suppression.xml'),
-                "headerFile" : rootProject.file('gradle/resources/checkstyle/license.header')
-        ]
-
-        checkstyleMain {
-            source = sourceSets.main.allSource
-        }
-        configurations {
-            checkstyle
-        }
-        checkstyleMain {
-            reports {
-                html {
-                    //destination "${project.buildDir}/reports/checkstyle.html"
-                }
-            }
-        }
-        toolVersion = "${CHECKSTYLE_VERSION}"
-    }
-
     spotbugs {
         ignoreFailures = false
         sourceSets = [sourceSets.main]
@@ -109,14 +82,6 @@ allprojects {
             }
         }
         toolVersion "${SPOTBUGS_VERSION}"
-    }
-
-    pmd {
-        ignoreFailures = false
-        sourceSets = [sourceSets.main]
-        reportsDir = file("$project.buildDir/reports/pmd")
-        ruleSetFiles = rootProject.files("./gradle/resources/pmd/pmd.xml")
-        toolVersion "${PMD_VERION}"
     }
 
     task javadocJar(type: Jar) {

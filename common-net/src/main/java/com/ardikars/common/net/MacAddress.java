@@ -71,6 +71,12 @@ public final class MacAddress implements Address  {
 		this.address = Arrays.copyOf(address, MacAddress.MAC_ADDRESS_LENGTH);
 	}
 
+	/**
+	 * {@code MacAddress} from network interface name.
+	 * @param name network interface name.
+	 * @return returns {@code MacAddress}.
+	 * @throws SocketException socket exception.
+	 */
 	public static MacAddress fromNicName(String name) throws SocketException {
 		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
 			if (networkInterface.getName().equals(name)) {
@@ -84,6 +90,12 @@ public final class MacAddress implements Address  {
 		return null;
 	}
 
+	/**
+	 * {@code MacAddress} from network interface index.
+	 * @param index network interface index.
+	 * @return returns {@code MacAddress}.
+	 * @throws SocketException socket exception.
+	 */
 	public static MacAddress fromNicIndex(int index) throws SocketException {
 		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
 			if (networkInterface.getIndex() == index) {

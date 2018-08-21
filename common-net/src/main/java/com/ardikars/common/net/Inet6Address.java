@@ -241,6 +241,10 @@ public final class Inet6Address extends InetAddress {
 		return Arrays.copyOf(this.address, this.address.length);
 	}
 
+	/**
+	 * Returns {@code long} address.
+	 * @return returns {@code long} address.
+	 */
 	public long toLong() {
 		ByteBuffer bb = ByteBuffer.allocate(this.address.length);
 		bb.put(this.address);

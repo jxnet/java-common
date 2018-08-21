@@ -70,7 +70,7 @@ public final class Inet4Address extends InetAddress {
 		for (int i = 0; i < result.length; i++) {
 			Validate.notIllegalArgument(parts[i] != null || parts[i].length() != 0);
 			Validate.notIllegalArgument(!(parts[i].length() > 1 && parts[i].startsWith("0")));
-			result[i] = Integer.valueOf(parts[i]).byteValue();
+			result[i] = Byte.parseByte(parts[i]);
 			Validate.notIllegalArgument((result[i] & 0xff) <= 0xff);
 		}
 		return Inet4Address.valueOf(result);
@@ -98,7 +98,7 @@ public final class Inet4Address extends InetAddress {
 
 	@Override
 	public boolean isMulticastAddress() {
-		return ((toInt() & 0xf0000000) == 0xe0000000);
+		return (toInt() & 0xf0000000) == 0xe0000000;
 	}
 
 	@Override
@@ -112,13 +112,13 @@ public final class Inet4Address extends InetAddress {
 	 */
 	@Override
 	public boolean isLoopbackAddress() {
-		return ((address[0] & 0xff) == 127);
+		return (address[0] & 0xff) == 127;
 	}
 
 	@Override
 	public boolean isLinkLocalAddress() {
-		return (((address[0] & 0xff) == 169)
-				&& ((address[1] & 0xff) == 254));
+		return (address[0] & 0xff) == 169
+				&& (address[1] & 0xff) == 254;
 	}
 
 	/**
@@ -129,11 +129,11 @@ public final class Inet4Address extends InetAddress {
 	 */
 	@Override
 	public boolean isSiteLocalAddress() {
-		return ((address[0] & 0xff) == 10)
-				|| ((address[0] & 0xff) == 172)
-				&& ((address[1] & 0xff) == 16)
-				|| ((address[0] & 0xff) == 192)
-				&& ((address[1] & 0xff) == 168);
+		return (address[0] & 0xff) == 10
+				|| (address[0] & 0xff) == 172
+				&& (address[1] & 0xff) == 16
+				|| (address[0] & 0xff) == 192
+				&& (address[1] & 0xff) == 168;
 	}
 
 	/**
@@ -161,9 +161,9 @@ public final class Inet4Address extends InetAddress {
 	 */
 	@Override
 	public boolean isMcLinkLocal() {
-		return (((address[0] & 0xff) == 224)
-				&& ((address[1] & 0xff) == 0)
-				&& ((address[2] & 0xff) == 0));
+		return (address[0] & 0xff) == 224
+				&& (address[1] & 0xff) == 0
+				&& (address[2] & 0xff) == 0;
 	}
 
 	/**
@@ -171,8 +171,8 @@ public final class Inet4Address extends InetAddress {
 	 */
 	@Override
 	public boolean isMcSiteLocal() {
-		return (((address[0] & 0xff) == 239)
-				&& ((address[1] & 0xff) == 255));
+		return (address[0] & 0xff) == 239
+				&& (address[1] & 0xff) == 255;
 	}
 
 	/**
@@ -180,9 +180,9 @@ public final class Inet4Address extends InetAddress {
 	 */
 	@Override
 	public boolean isMcOrgLocal() {
-		return (((address[0] & 0xff) == 239)
-				&& ((address[1] & 0xff) >= 192)
-				&& ((address[1] & 0xff) <= 195));
+		return (address[0] & 0xff) == 239
+				&& (address[1] & 0xff) >= 192
+				&& (address[1] & 0xff) <= 195;
 	}
 
 	/**
