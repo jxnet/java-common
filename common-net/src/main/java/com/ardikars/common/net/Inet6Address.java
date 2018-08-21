@@ -238,10 +238,10 @@ public final class Inet6Address extends InetAddress {
 	 * @return  the raw IPv6 address of this object.
 	 */
 	public byte[] toBytes() {
-		return this.address.clone();
+		return Arrays.copyOf(this.address, this.address.length);
 	}
 
-	private long toLong() {
+	public long toLong() {
 		ByteBuffer bb = ByteBuffer.allocate(this.address.length);
 		bb.put(this.address);
 		return bb.getLong();
@@ -317,4 +317,13 @@ public final class Inet6Address extends InetAddress {
 		}
 	}
 
+	/**
+	 * Returns the raw IPv6 address of this {@code Inet6Address}
+	 * object.
+	 * @return  the raw IPv6 address of this object.
+	 */
+	@Override
+	public byte[] getAddress() {
+		return Arrays.copyOf(this.address, this.address.length);
+	}
 }

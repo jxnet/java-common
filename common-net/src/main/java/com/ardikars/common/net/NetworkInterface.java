@@ -19,6 +19,7 @@ package com.ardikars.common.net;
 import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.annotation.Incubating;
 import com.ardikars.common.annotation.Mutable;
+import com.ardikars.common.util.Address;
 
 import java.net.InterfaceAddress;
 import java.net.SocketException;
@@ -31,7 +32,7 @@ public class NetworkInterface {
     private final int index;
     private final String name;
     private final String displayName;
-    private final MacAddress hardwareAddress;
+    private final com.ardikars.common.util.Address hardwareAddress;
     private final Collection<Address> addresses;
     private final int mtu;
     private final boolean pointToPoint;
@@ -68,7 +69,7 @@ public class NetworkInterface {
         return displayName;
     }
 
-    public MacAddress getHardwareAddress() {
+    public com.ardikars.common.util.Address getHardwareAddress() {
         return hardwareAddress;
     }
 
@@ -171,7 +172,7 @@ public class NetworkInterface {
         private int index;
         private String name;
         private String displayName;
-        private MacAddress hardwareAddress;
+        private com.ardikars.common.util.Address hardwareAddress;
         private Collection<Address> addresses;
         private int mtu;
         private boolean pointToPoint;

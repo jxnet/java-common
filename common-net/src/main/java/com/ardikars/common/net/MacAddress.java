@@ -18,6 +18,7 @@ package com.ardikars.common.net;
 
 import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.annotation.Mutable;
+import com.ardikars.common.util.Address;
 import com.ardikars.common.util.NamedNumber;
 import com.ardikars.common.util.Validate;
 
@@ -33,7 +34,7 @@ import java.util.regex.Pattern;
  * @since 1.0.0
  */
 @Immutable
-public final class MacAddress {
+public final class MacAddress implements Address  {
 
 	/**
 	 * MAC Address Length.
@@ -73,7 +74,11 @@ public final class MacAddress {
 	public static MacAddress fromNicName(String name) throws SocketException {
 		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
 			if (networkInterface.getName().equals(name)) {
-				return networkInterface.getHardwareAddress();
+				if (networkInterface.getHardwareAddress() instanceof MacAddress) {
+					return (MacAddress) networkInterface.getHardwareAddress();
+				} else {
+					return null;
+				}
 			}
 		}
 		return null;
@@ -82,7 +87,11 @@ public final class MacAddress {
 	public static MacAddress fromNicIndex(int index) throws SocketException {
 		for (NetworkInterface networkInterface : NetworkInterface.getNetworkInterfaces()) {
 			if (networkInterface.getIndex() == index) {
-				return networkInterface.getHardwareAddress();
+				if (networkInterface.getHardwareAddress() instanceof MacAddress) {
+					return (MacAddress) networkInterface.getHardwareAddress();
+				} else {
+					return null;
+				}
 			}
 		}
 		return null;
@@ -249,6 +258,15 @@ public final class MacAddress {
 			sb.append(hex.length() == 1 ? '0' + hex : hex);
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Returns bytes Mac Address.
+	 * @return returns bytes Mas Address.
+	 */
+	@Override
+	public byte[] getAddress() {
+		return Arrays.copyOf(this.address, this.address.length);
 	}
 
 	@Mutable(blocking = true)

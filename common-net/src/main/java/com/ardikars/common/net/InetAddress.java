@@ -16,7 +16,7 @@
 
 package com.ardikars.common.net;
 
-import java.io.Serializable;
+import com.ardikars.common.util.Address;
 
 /**
  * This class is a abstraction for IP Address.
@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
-public abstract class InetAddress implements Serializable {
+public abstract class InetAddress implements Address {
 
 	/**
 	 * Determines the IPv4 or IPv6 address.

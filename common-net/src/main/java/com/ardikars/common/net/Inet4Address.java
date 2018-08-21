@@ -237,4 +237,16 @@ public final class Inet4Address extends InetAddress {
 		return sb.toString();
 	}
 
+	/**
+	 * Returns the raw IPv4 address of this {@code Inet4Address}
+	 * object. The result is in network byte order: the highest order
+	 * byte of the address is in {@code toBytes()[0]}.
+	 *
+	 * @return  the raw IPv4 address of this object.
+	 */
+	@Override
+	public byte[] getAddress() {
+		return Arrays.copyOf(this.address, this.address.length);
+	}
+
 }
