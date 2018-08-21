@@ -131,9 +131,9 @@ allprojects {
         user = defaultBlank({ bintrayUser })
         key = defaultBlank({ bintrayPass })
         configurations = ['archives']
-        dryRun = true
+        dryRun = false
         publish = true
-        override = true
+        override = false
         pkg {
             repo = 'maven'
             name = "${GROUP}"
