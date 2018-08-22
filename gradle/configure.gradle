@@ -7,7 +7,7 @@ ext {
 
 	NAME = 'common'
 	GROUP = 'com.ardikars.common'
-	VERSION = '1.1.0.Final'
+	VERSION = '1.2.0.RC1'
 	DESCRIPTION = 'Java Common is an project focused on all aspects of reusable Java components.';
 
 	//MAVEN_LOCAL_REPOSITORY = "${rootDir}/build/repository"

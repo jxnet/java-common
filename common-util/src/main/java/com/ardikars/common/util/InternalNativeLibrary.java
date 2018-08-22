@@ -99,6 +99,7 @@ public final class InternalNativeLibrary implements Loader<Void> {
                 closeOutputStream(os);
             }
             System.load(temp.getAbsolutePath());
+			callback.onSuccess(null);
         }
     }
 
