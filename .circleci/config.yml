@@ -15,7 +15,7 @@ jobs:
           keys:
             - gradle
       - checkout
-      - run: ./gradlew clean build codeCoverageReport
+      - run: ./gradlew clean build codeCoverageReport --info --no-daemon
 
   deploy:
     docker:
