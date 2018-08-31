@@ -284,4 +284,20 @@ public final class Validate {
         }
     }
 
+    /**
+     * Ensures that given parameter is valid bound.
+     * @param size size.
+     * @param offset offset.
+     * @param length length.
+     * @throws IllegalArgumentException illegal argement exception.
+     * @since 1.1.0
+     */
+    public static void notInBounds(int size, int offset, int length) throws IllegalArgumentException {
+        notIllegalArgument(size > 0, new IllegalArgumentException("size should be greater then zero."));
+        notIllegalArgument(length > 0, new IllegalArgumentException("length is zero."));
+        if (offset < 0 || length < 0 || length > size || offset > size - 1 || offset + length > size) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
 }

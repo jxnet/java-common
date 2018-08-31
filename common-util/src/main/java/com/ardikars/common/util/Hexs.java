@@ -17,6 +17,8 @@
 package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
+
+import java.nio.ByteBuffer;
 import java.util.regex.Pattern;
 
 /**
@@ -77,6 +79,49 @@ public final class Hexs {
             builder.append("| ");
             for (int i = 0; i < lineMax; i++) {
                 char c = (char) data[pos + i];
+                if ((c < 32) || (c > 127)) {
+                    c = '.';
+                }
+                builder.append(c);
+            }
+            builder.append("\n");
+            result.append(builder);
+            builder.setLength(0);
+            pos += 16;
+        }
+        result.append(HEXDUMP_PRETTY_FOOTER);
+        return result.toString();
+    }
+
+    /**
+     * Byte buffer to hex dump format.
+     * @param buffer byte buffer.
+     * @param offset offset.
+     * @param length length.
+     * @return hex dump format.
+     * @since 1.1.0
+     */
+    public static String toPrettyHexDump(ByteBuffer buffer, int offset, int length) {
+        Validate.notInBounds(buffer.capacity(), offset, length);
+        StringBuilder result = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
+        int pos = offset;
+        int max = length;
+        int lineNumber = 0;
+        builder.append(HEXDUMP_PRETTY_HEADER);
+        while (pos < max) {
+            builder.append(String.format("%08d", lineNumber++) + " | ");
+            int lineMax = Math.min(max - pos, 16);
+            for (int i = 0; i < lineMax; i++) {
+                builder.append(Strings.toHexString(buffer.get(pos + i)));
+                builder.append(" ");
+            }
+            while (builder.length() < 48) {
+                builder.append(" ");
+            }
+            builder.append("| ");
+            for (int i = 0; i < lineMax; i++) {
+                char c = (char) buffer.getChar(pos + i);
                 if ((c < 32) || (c > 127)) {
                     c = '.';
                 }
