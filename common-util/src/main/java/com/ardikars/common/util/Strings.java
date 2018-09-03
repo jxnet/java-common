@@ -18,6 +18,8 @@ package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
 
+import java.nio.charset.Charset;
+
 /**
  * Stirngs utility.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
@@ -25,6 +27,11 @@ import com.ardikars.common.annotation.Helper;
  */
 @Helper
 public final class Strings {
+
+    /**
+     * Default charset (UTF-8).
+     */
+    public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
     private Strings() { }
 
@@ -204,6 +211,31 @@ public final class Strings {
             sb.append(toHexString(data[i]));
         }
         return sb.toString();
+    }
+
+    /**
+     * String to hex string.
+     * @param value string.
+     * @return hex string.
+     */
+    public static String toHexString(final String value) {
+        Validate.notIllegalArgument(value != null && !value.isEmpty(),
+                new IllegalArgumentException("Value should be not null and empty."));
+        return toHexString(value.getBytes(DEFAULT_CHARSET));
+    }
+
+    /**
+     * String hex string.
+     * @param value string.
+     * @param charset charset.
+     * @return hex string.
+     */
+    public static String toHexString(final String value, Charset charset) {
+        Validate.notIllegalArgument(value != null && !value.isEmpty(),
+                new IllegalArgumentException("Value should be not null and empty."));
+        Validate.notIllegalArgument(charset != null,
+                new IllegalArgumentException("Charset should be not null."));
+        return toHexString(value.getBytes(charset));
     }
 
 }

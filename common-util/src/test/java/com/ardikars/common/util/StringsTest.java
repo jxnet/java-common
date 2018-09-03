@@ -11,6 +11,7 @@ public class StringsTest extends BaseTest {
     private static final short[] shortData = new short[] { (short) 476, (short) 45832, (short) 455632, (short) 45522, (short) 45432 };
     private static final int[] intData = new int[] { 204743647, 2047483147, 2047883646, 2046483647, 2047483645 };
     private static final long[] longData = new long[] { 204543647L, 2047478347L, 2043424146L, 223543647L, 263453645L };
+    private static final String stringData = "Rock The Party!";
 
     @Test
     public void byteToHexString() {
@@ -70,6 +71,11 @@ public class StringsTest extends BaseTest {
     @Test
     public void longArrayToHexStringWithRange() {
         assertEquals("000000007a0a0a4b0000000079cc2d92000000000d53015f000000000fb3fbcd", Strings.toHexString(longData, 1, longData.length - 1));
+    }
+
+    @Test
+    public void stringToHexString() {
+        assertEquals("526f636b2054686520506172747921", Strings.toHexString(stringData));
     }
 
 }
