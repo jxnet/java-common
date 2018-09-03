@@ -171,4 +171,39 @@ public final class Strings {
         return sb.toString();
     }
 
+    /**
+     * Long to hex stream.
+     * @param value long.
+     * @return hex stream.
+     */
+    public static String toHexString(final long value) {
+        return String.format("%016x", value);
+    }
+
+    /**
+     * Long array to hex stream.
+     * @param data long array.
+     * @return hex stream.
+     */
+    public static String toHexString(final long[] data) {
+        return toHexString(data, 0, data.length);
+    }
+
+    /**
+     * Long array to hex stream.
+     * @param data long array.
+     * @param offset offset.
+     * @param length length.
+     * @return hex stream.
+     */
+    public static String toHexString(final long[] data, final  int offset, final int length) {
+        Validate.notInBounds(data, offset, length);
+        StringBuilder sb = new StringBuilder(length);
+        int l = length(data.length, offset, length);
+        for (int i = offset; i < l; i++) {
+            sb.append(toHexString(data[i]));
+        }
+        return sb.toString();
+    }
+
 }
