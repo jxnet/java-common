@@ -19,4 +19,6 @@
 /common-annotation/build
 /common-annotation/out
 /common-annotation/obj
-/common-math
+/common-tuple/build
+/common-tuple/out
+/common-tuple/obj

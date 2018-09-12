@@ -13,6 +13,9 @@ import java.util.Set;
 public class MacAddressTest extends BaseTest {
 
     private void print(NetworkInterface network) throws SocketException {
+        if (network == null) {
+            return;
+        }
         System.out.print(network.getIndex() + " : " + network.getName() + " : ");
         byte[] mac = network.getHardwareAddress();
         if (mac == null) {
