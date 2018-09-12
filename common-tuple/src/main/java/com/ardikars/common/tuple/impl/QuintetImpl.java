@@ -1,8 +1,10 @@
 package com.ardikars.common.tuple.impl;
 
+import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Quintet;
 import com.ardikars.common.tuple.Tuple;
 
+@Immutable
 public class QuintetImpl<L, BLM, M, BRM, R> extends Tuple implements Quintet<L, BLM, M, BRM, R> {
 
     private final L left;

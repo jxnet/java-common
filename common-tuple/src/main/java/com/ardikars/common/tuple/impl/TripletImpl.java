@@ -1,8 +1,10 @@
 package com.ardikars.common.tuple.impl;
 
+import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Triplet;
 import com.ardikars.common.tuple.Tuple;
 
+@Immutable
 public class TripletImpl<L, M, R> extends Tuple implements Triplet<L, M, R> {
 
     private final L left;

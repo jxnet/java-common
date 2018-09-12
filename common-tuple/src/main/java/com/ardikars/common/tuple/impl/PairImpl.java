@@ -1,8 +1,10 @@
 package com.ardikars.common.tuple.impl;
 
+import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Pair;
 import com.ardikars.common.tuple.Tuple;
 
+@Immutable
 public class PairImpl<L, R> extends Tuple implements Pair<L, R> {
 
     private final L left;

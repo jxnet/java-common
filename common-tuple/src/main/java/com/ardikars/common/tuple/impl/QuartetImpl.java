@@ -1,8 +1,10 @@
 package com.ardikars.common.tuple.impl;
 
+import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Quartet;
 import com.ardikars.common.tuple.Tuple;
 
+@Immutable
 public class QuartetImpl<L, ML, MR, R> extends Tuple implements Quartet<L, ML, MR, R> {
 
     private final L left;
