@@ -1,11 +1,15 @@
 package com.ardikars.common.tuple;
 
+import com.ardikars.common.annotation.Helper;
 import com.ardikars.common.tuple.impl.PairImpl;
 import com.ardikars.common.tuple.impl.QuartetImpl;
 import com.ardikars.common.tuple.impl.QuintetImpl;
 import com.ardikars.common.tuple.impl.TripletImpl;
 
-public abstract class Tuple {
+import java.io.Serializable;
+
+@Helper
+public abstract class Tuple implements Serializable {
 
     public abstract int size();
 

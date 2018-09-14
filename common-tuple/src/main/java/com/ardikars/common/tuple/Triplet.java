@@ -1,8 +1,6 @@
 package com.ardikars.common.tuple;
 
-import java.io.Serializable;
-
-public interface Triplet<L, M, R> extends Serializable {
+public interface Triplet<L, M, R> {
 
     L getLeft();
 

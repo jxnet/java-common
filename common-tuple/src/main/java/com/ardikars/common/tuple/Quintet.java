@@ -1,8 +1,6 @@
 package com.ardikars.common.tuple;
 
-import java.io.Serializable;
-
-public interface Quintet<L, BLM, M, BRM, R> extends Serializable {
+public interface Quintet<L, BLM, M, BRM, R> {
 
     L getLeft();
 

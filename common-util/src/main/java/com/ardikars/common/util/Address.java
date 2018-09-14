@@ -16,10 +16,12 @@
 
 package com.ardikars.common.util;
 
+import java.io.Serializable;
+
 /**
  * Address
  */
-public interface Address {
+public interface Address extends Serializable {
 
     /**
      * Returns bytes address.
