@@ -38,4 +38,10 @@ public @interface Mutable {
      */
     boolean blocking() default false;
 
+    /**
+     * List of volatile fields.
+     * @return returns volatile fields.
+     */
+    String[] volatiles() default "";
+
 }
