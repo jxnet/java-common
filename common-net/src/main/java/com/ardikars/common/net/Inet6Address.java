@@ -279,7 +279,7 @@ public final class Inet6Address extends InetAddress {
 	}
 
 	/**
-	 * Returning ipv6 string.
+	 * returns ipv6 string.
 	 * @return ipv6 string.
 	 */
 	public String toString() {
