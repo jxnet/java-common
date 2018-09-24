@@ -25,6 +25,7 @@ import java.util.Set;
 
 /**
  * Multiple keys for {@code java.util.Map}
+ *
  * @see java.util.Map
  * @see NamedMultipleObject
  * @param <K> key type.

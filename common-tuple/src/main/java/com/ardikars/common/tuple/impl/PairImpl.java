@@ -20,6 +20,14 @@ import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Pair;
 import com.ardikars.common.tuple.Tuple;
 
+/**
+ * Implementation of pair tuple.
+ *
+ * @param <L> left.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 @Immutable
 public class PairImpl<L, R> extends Tuple implements Pair<L, R> {
 

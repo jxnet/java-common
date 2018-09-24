@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 /**
  * Object name interface.
+ *
  * @param <T> object.
  * @param <U> object name.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>

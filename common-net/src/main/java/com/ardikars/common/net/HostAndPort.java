@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * An immutable representation of a host name, ip address, and port.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

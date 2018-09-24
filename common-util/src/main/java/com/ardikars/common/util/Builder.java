@@ -18,6 +18,7 @@ package com.ardikars.common.util;
 
 /**
  * Builder interface.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.1.0
  */

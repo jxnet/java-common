@@ -21,10 +21,13 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * Multiple Number keys for {@code java.util.Map}
+ * Multiple Number keys for {@code java.util.Map}.
+ *
  * @see java.util.Map
  * @see NamedMultipleObject
  * @param <K> key type.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
  */
 @Immutable
 public class MultipleNumber<K extends Number> extends MultipleObject<K> implements Serializable {

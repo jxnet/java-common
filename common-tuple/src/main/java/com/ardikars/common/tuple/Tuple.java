@@ -24,6 +24,12 @@ import com.ardikars.common.tuple.impl.TripletImpl;
 
 import java.io.Serializable;
 
+/**
+ * Helper class for create tuple.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 @Helper
 public abstract class Tuple implements Serializable {
 

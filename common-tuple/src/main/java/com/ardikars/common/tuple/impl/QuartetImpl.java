@@ -20,6 +20,16 @@ import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Quartet;
 import com.ardikars.common.tuple.Tuple;
 
+/**
+ * Implementations of quertet tuple.
+ *
+ * @param <L> left.
+ * @param <ML> middle left.
+ * @param <MR> middle right.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 @Immutable
 public class QuartetImpl<L, ML, MR, R> extends Tuple implements Quartet<L, ML, MR, R> {
 

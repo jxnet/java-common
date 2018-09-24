@@ -20,6 +20,7 @@ import com.ardikars.common.util.Address;
 
 /**
  * This class is a abstraction for IP Address.
+ *
  * @see Inet4Address
  * @see java.net.InetAddress
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>

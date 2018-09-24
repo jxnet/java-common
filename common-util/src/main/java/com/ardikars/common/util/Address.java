@@ -19,7 +19,10 @@ package com.ardikars.common.util;
 import java.io.Serializable;
 
 /**
- * Address
+ * Address.
+ *
+ * author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
  */
 public interface Address extends Serializable {
 

@@ -18,6 +18,7 @@ package com.ardikars.common.util;
 
 /**
  * Asyncronous callback.
+ *
  * @param <T> argument type.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0

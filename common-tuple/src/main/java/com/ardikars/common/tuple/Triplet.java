@@ -16,6 +16,15 @@
 
 package com.ardikars.common.tuple;
 
+/**
+ * Triplet tuple
+ *
+ * @param <L> left.
+ * @param <M> middle.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 public interface Triplet<L, M, R> {
 
     L getLeft();

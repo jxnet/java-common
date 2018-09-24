@@ -27,6 +27,7 @@ import java.util.List;
 /**
  * This class represents an Internet Protocol version 6 (IPv6) address.
  * Defined by <a href="https://tools.ietf.org/html/rfc2373">IPv6 Address</a>
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

@@ -24,6 +24,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotate un-tested class.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

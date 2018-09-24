@@ -18,6 +18,7 @@ package com.ardikars.common.util;
 
 /**
  * Factory interface.
+ *
  * @param <T> target type.
  * @param <V> source type.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>

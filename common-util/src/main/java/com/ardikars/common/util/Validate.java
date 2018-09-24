@@ -23,6 +23,7 @@ import com.ardikars.common.annotation.Helper;
  * If validation is fail, the {@code Validate} method throws an unchecked exception
  * of a specified type, which helps the method in which the exception was thrown communicate that
  * its caller has made a mistake.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

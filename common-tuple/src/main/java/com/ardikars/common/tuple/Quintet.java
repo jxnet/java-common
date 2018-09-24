@@ -16,6 +16,17 @@
 
 package com.ardikars.common.tuple;
 
+/**
+ * Quintet tuple.
+ *
+ * @param <L> left.
+ * @param <BLM> between left and middle.
+ * @param <M> middle,
+ * @param <BRM> between right and middle.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 public interface Quintet<L, BLM, M, BRM, R> {
 
     L getLeft();

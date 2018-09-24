@@ -18,6 +18,7 @@ package com.ardikars.common.util;
 
 /**
  * Common base class for dynamic named number (enum like).
+ *
  * @see Enum
  * @see Number
  * Example:

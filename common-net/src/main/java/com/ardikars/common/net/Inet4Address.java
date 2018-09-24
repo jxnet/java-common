@@ -24,6 +24,7 @@ import java.util.Arrays;
 /**
  * This class represents an Internet Protocol version 4 (IPv4) address.
  * Defined by <a href="https://tools.ietf.org/html/rfc790">IPv4 Address</a>
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

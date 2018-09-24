@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 /**
  * This class represents an Media Access Controll (MAC) address.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

@@ -20,7 +20,10 @@ import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.util.Address;
 
 /**
+ * This class represents an raw address.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
  */
 @Immutable
 public class RawAddress implements Address {

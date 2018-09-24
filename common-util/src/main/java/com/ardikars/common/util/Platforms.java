@@ -20,6 +20,7 @@ import com.ardikars.common.annotation.Helper;
 
 /**
  * Platform information.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

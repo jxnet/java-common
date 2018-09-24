@@ -20,6 +20,15 @@ import com.ardikars.common.annotation.Immutable;
 import com.ardikars.common.tuple.Triplet;
 import com.ardikars.common.tuple.Tuple;
 
+/**
+ * Implementation of triplet tuple
+ *
+ * @param <L> left.
+ * @param <M> middle.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 @Immutable
 public class TripletImpl<L, M, R> extends Tuple implements Triplet<L, M, R> {
 

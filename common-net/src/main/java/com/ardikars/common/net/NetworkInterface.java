@@ -27,6 +27,12 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class represents an Network Interface Card.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
+ */
 @Incubating
 @Mutable(blocking = true)
 public class NetworkInterface {

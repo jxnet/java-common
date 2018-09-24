@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * Date and time pattern.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

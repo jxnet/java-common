@@ -16,6 +16,14 @@
 
 package com.ardikars.common.tuple;
 
+/**
+ * Pair tuple.
+ *
+ * @param <L> left.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 public interface Pair<L, R> {
 
     L getLeft();

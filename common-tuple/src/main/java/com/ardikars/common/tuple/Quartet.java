@@ -16,6 +16,16 @@
 
 package com.ardikars.common.tuple;
 
+/**
+ * Quertet tuple.
+ *
+ * @param <L> left.
+ * @param <ML> middle left.
+ * @param <MR> middle right.
+ * @param <R> right.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.0
+ */
 public interface Quartet<L, ML, MR, R> {
 
     L getLeft();

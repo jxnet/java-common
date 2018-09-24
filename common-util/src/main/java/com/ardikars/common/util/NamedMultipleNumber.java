@@ -20,8 +20,11 @@ import java.util.Objects;
 
 /**
  * Common base class for dynamic named multi number key (enum like).
+ *
  * @param <T> multiple number key.
  * @param <U> named multiple number key.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
  */
 public abstract class NamedMultipleNumber<T extends MultipleNumber, U extends NamedMultipleNumber<T, ?>> implements ObjectName<T, U> {
 

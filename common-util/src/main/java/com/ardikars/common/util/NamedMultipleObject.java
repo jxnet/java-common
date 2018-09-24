@@ -20,8 +20,11 @@ import java.util.Objects;
 
 /**
  * Common base class for dynamic named multi key (enum like).
+ *
  * @param <T> multiple key.
  * @param <U> named multiple key.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.0.0
  */
 public abstract class NamedMultipleObject<T extends MultipleObject, U extends NamedMultipleObject<T, ?>> implements ObjectName<T, U> {
 

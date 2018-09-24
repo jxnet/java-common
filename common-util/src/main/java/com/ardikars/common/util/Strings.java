@@ -22,6 +22,7 @@ import java.nio.charset.Charset;
 
 /**
  * Stirngs utility.
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */
