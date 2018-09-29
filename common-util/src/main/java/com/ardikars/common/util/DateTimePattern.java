@@ -41,10 +41,21 @@ public final class DateTimePattern {
 
         public static final DatePattern YYYY_MM_DD_WITH_MINUS_AS_DELIMITER = new DatePattern("yyyy-MM-dd", "Year-Month-Day");
         public static final DatePattern DD_MM_YYYY_WITH_MINUS_AS_DELIMITER = new DatePattern("dd-MM-yyyy", "Day-Month-Year");
+
+        public static final DatePattern YYYY_MM_WITH_MINUS_AS_DELIMITER = new DatePattern("yyyy-MM", "Year-Month");
+        public static final DatePattern MM_YYYY_WITH_MINUS_AS_DELIMITER = new DatePattern("MM-yyyy", "Month-Year");
+
         public static final DatePattern YYYY_MM_DD_WITH_SLASH_AS_DELIMITER = new DatePattern("yyyy/MM/dd", "Year/Month/Day");
-        public static final DatePattern DD_MM_YYYY_WITH_SLASH_AS_DELIMITER = new DatePattern("dd/MM/yyyy", "Day-Month-Year");
+        public static final DatePattern DD_MM_YYYY_WITH_SLASH_AS_DELIMITER = new DatePattern("dd/MM/yyyy", "Day/Month/Year");
+
+        public static final DatePattern YYYY_MM_WITH_SLASH_AS_DELIMITER = new DatePattern("yyyy/MM", "Year/Month");
+        public static final DatePattern MM_YYYY_WITH_SLASH_AS_DELIMITER = new DatePattern("MM/yyyy", "Month/Year");
+
         public static final DatePattern YYYY_MM_DD_WITH_SPACE_AS_DELIMITER = new DatePattern("yyyy MM dd", "Year Month Day");
         public static final DatePattern DD_MM_YYYY_WITH_SPACE_AS_DELIMITER = new DatePattern("dd MM yyyy", "Day Month Year");
+
+        public static final DatePattern YYYY_MM_WITH_SPACE_AS_DELIMITER = new DatePattern("yyyy MM", "Year Month");
+        public static final DatePattern MM_YYYY_WITH_SPACE_AS_DELIMITER = new DatePattern("MM yyyy", "Month Year");
 
         private static final Map<String, DatePattern> registry = new HashMap<>();
 
@@ -64,10 +75,16 @@ public final class DateTimePattern {
         static {
             registry.put(YYYY_MM_DD_WITH_MINUS_AS_DELIMITER.getValue(), YYYY_MM_DD_WITH_MINUS_AS_DELIMITER);
             registry.put(DD_MM_YYYY_WITH_MINUS_AS_DELIMITER.getValue(), DD_MM_YYYY_WITH_MINUS_AS_DELIMITER);
+            registry.put(YYYY_MM_WITH_MINUS_AS_DELIMITER.getValue(), YYYY_MM_WITH_MINUS_AS_DELIMITER);
+            registry.put(MM_YYYY_WITH_MINUS_AS_DELIMITER.getValue(), MM_YYYY_WITH_MINUS_AS_DELIMITER);
             registry.put(YYYY_MM_DD_WITH_SLASH_AS_DELIMITER.getValue(), YYYY_MM_DD_WITH_SLASH_AS_DELIMITER);
             registry.put(DD_MM_YYYY_WITH_SLASH_AS_DELIMITER.getValue(), DD_MM_YYYY_WITH_SLASH_AS_DELIMITER);
+            registry.put(YYYY_MM_WITH_SLASH_AS_DELIMITER.getValue(), YYYY_MM_WITH_SLASH_AS_DELIMITER);
+            registry.put(MM_YYYY_WITH_SLASH_AS_DELIMITER.getValue(), MM_YYYY_WITH_SLASH_AS_DELIMITER);
             registry.put(YYYY_MM_DD_WITH_SPACE_AS_DELIMITER.getValue(), YYYY_MM_DD_WITH_SPACE_AS_DELIMITER);
             registry.put(DD_MM_YYYY_WITH_SPACE_AS_DELIMITER.getValue(), DD_MM_YYYY_WITH_SPACE_AS_DELIMITER);
+            registry.put(YYYY_MM_WITH_SPACE_AS_DELIMITER.getValue(), YYYY_MM_WITH_SPACE_AS_DELIMITER);
+            registry.put(MM_YYYY_WITH_SPACE_AS_DELIMITER.getValue(), MM_YYYY_WITH_SPACE_AS_DELIMITER);
         }
 
     }
