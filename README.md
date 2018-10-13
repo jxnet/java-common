@@ -15,8 +15,8 @@ Getting Started
 
 ### How to Use
 
-  - ##### Gradle project
->> Add a dependency to the build.gradle as like below:
+  - ##### Maven project
+>> Add a dependency to the pom.xml as like below:
 >>>
 >>> ```
 >>> <dependencies>
