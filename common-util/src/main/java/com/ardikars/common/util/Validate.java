@@ -306,6 +306,7 @@ public final class Validate {
      * @param text test.
      * @throws IllegalArgumentException illegal argument exception.
      */
+    @Deprecated
     public static void notNumeric(String text) throws IllegalArgumentException {
         notIllegalArgument(text != null, new IllegalArgumentException("Text should be not null."));
         notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
