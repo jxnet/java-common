@@ -43,7 +43,7 @@ Getting Started
 >>>         <dependency>
 >>>             <groupId>com.ardikars.common</groupId>
 >>>             <artifactId>common</artifactId>
->>>             <version>1.2.1.RC1</version>
+>>>             <version>1.2.1.Final</version>
 >>>             <type>pom</type>
 >>>             <scope>import</scope>
 >>>         </dependency>
