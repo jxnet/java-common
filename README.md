@@ -19,14 +19,37 @@ Getting Started
 >> Add a dependency to the build.gradle as like below:
 >>>
 >>> ```
->>> dependencies { 
->>>     compile "com.ardikars.common:common-annotation:${common-version}"
->>>     compile "com.ardikars.common:common-util:${common-version}"
->>>     compile "com.ardikars.common:common-net:${common-version}"
->>>     compile "com.ardikars.common:common-tuple:${common-version}"
->>> }
->>>```
- 
+>>> <dependencies>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-annotation</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-net</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.tuple</groupId>
+>>>         <artifactId>common-annotation</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.tuple</groupId>
+>>>         <artifactId>common-util</artifactId>
+>>>     </dependency>
+>>> </dependencies>
+>>>
+>>> <dependencyManagement>
+>>>     <dependencies>
+>>>         <dependency>
+>>>             <groupId>com.ardikars.common</groupId>
+>>>             <artifactId>common</artifactId>
+>>>             <version>1.2.1.RC1</version>
+>>>             <type>pom</type>
+>>>             <scope>import</scope>
+>>>         </dependency>
+>>>     </dependencies>
+>>> </dependencyManagement>
+>>> ```
 
 Build Java Common from Source
 =============================
