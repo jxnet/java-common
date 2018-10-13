@@ -111,6 +111,23 @@ allprojects {
         System.setProperty('maven.repo.local', "${MAVEN_LOCAL_REPOSITORY}")
         repositories.mavenInstaller {
             pom.project pom_project
+            pom.project {
+
+                name = project.name
+
+                if (project.description == null || project.description.isEmpty()) {
+                    description = "${DESCRIPTION}"
+                } else {
+                    description = project.description
+                }
+
+                if (project.name.equals('common')) {
+                    dependencyManagement {
+                        dependencies bom_dependencies
+                    }
+                }
+
+            }
         }
     }
 
@@ -124,6 +141,23 @@ allprojects {
                 authentication(userName: defaultBlank({ sonatypeUser }), password: defaultBlank({ sonatypePass }))
             }
             pom.project pom_project
+            pom.project {
+
+                name = project.name
+
+                if (project.description == null || project.description.isEmpty()) {
+                    description = "${DESCRIPTION}"
+                } else {
+                    description = project.description
+                }
+
+                if (project.name.equals('common')) {
+                    dependencyManagement {
+                        dependencies bom_dependencies
+                    }
+                }
+
+            }
         }
     }
 
@@ -199,11 +233,6 @@ test {
 
 codeCoverageReport.dependsOn {
     subprojects*.test
-}
-
-dependencies {
-    compile project(':common-util')
-    compile project(':common-net')
 }
 
 task dist(type: Zip, dependsOn: build) {

@@ -8,10 +8,10 @@ ext {
 	NAME = 'common'
 	GROUP = 'com.ardikars.common'
 	VERSION = '1.2.0.Final'
-	DESCRIPTION = 'Java Common is an project focused on all aspects of reusable Java components.';
+	DESCRIPTION = 'Java Common is an project focused on all aspects of reusable Java components.'
 
-	//MAVEN_LOCAL_REPOSITORY = "${rootDir}/build/repository"
-	MAVEN_LOCAL_REPOSITORY = "${System.env.HOME}/.m2/repository"
+	MAVEN_LOCAL_REPOSITORY = "${rootDir}/build/repository"
+//	MAVEN_LOCAL_REPOSITORY = "${System.env.HOME}/.m2/repository"
 	PROJECT_REPOSITORY = 'https://github.com/ardikars/java-common.git'
 
 	JAVA_VERSION = '1.8'
@@ -26,11 +26,9 @@ ext {
 
 	pom_project = {
 
-		name = "${NAME}"
-
-		description = "${DESCRIPTION}"
-
 		url "${PROJECT_REPOSITORY}"
+
+		inceptionYear '2018'
 
 		developers {
 			developer {
@@ -58,6 +56,34 @@ ext {
 		organization {
 			name 'ardikars'
 			url 'http://ardikars.com'
+		}
+
+	}
+
+	bom_dependencies = {
+
+		dependency {
+			groupId "${GROUP}"
+			artifactId "common-annotation"
+			version "${VERSION}"
+		}
+
+		dependency {
+			groupId "${GROUP}"
+			artifactId "common-net"
+			version "${VERSION}"
+		}
+
+		dependency {
+			groupId "${GROUP}"
+			artifactId "common-tuple"
+			version "${VERSION}"
+		}
+
+		dependency {
+			groupId "${GROUP}"
+			artifactId "common-util"
+			version "${VERSION}"
 		}
 
 	}
