@@ -98,10 +98,8 @@ allprojects {
 		//options.compilerArgs << "-Xlint:unchecked" << "-Werror"
     }
 
-    if (!project.name.equals("common")) {
-        artifacts {
-            archives jar, sourcesJar, javadocJar
-        }
+    artifacts {
+        archives jar, sourcesJar, javadocJar
     }
 
     signing {
