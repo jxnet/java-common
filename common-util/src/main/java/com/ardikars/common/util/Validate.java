@@ -301,4 +301,20 @@ public final class Validate {
         }
     }
 
+    /**
+     * Ensures that given parameter is not contains non numeric character.
+     * @param text test.
+     * @throws IllegalArgumentException illegal argument exception.
+     */
+    public static void notNumeric(String text) throws IllegalArgumentException {
+        notIllegalArgument(text != null, new IllegalArgumentException("Text should be not null."));
+        notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            if (!Character.isDigit(text.charAt(i))) {
+                throw new IllegalArgumentException("Text should not contains non numeric character.");
+            }
+        }
+    }
+
 }
