@@ -19,7 +19,7 @@ public class ValidateNumber {
 
     /**
      * Ensures that given parameter is not contains non numeric character.
-     * @param text test.
+     * @param text text.
      * @throws IllegalArgumentException illegal argument exception.
      */
     public static void notNumeric(String text) throws IllegalArgumentException {
@@ -29,6 +29,62 @@ public class ValidateNumber {
         for (int i = 0; i < length; i++) {
             if (!Character.isDigit(text.charAt(i))) {
                 throw new IllegalArgumentException("Text should not contains non numeric character.");
+            }
+        }
+    }
+
+    /**
+     * Ensures that given parameter is not contains non numeric and comma separator.
+     * @param text text.
+     * @throws IllegalArgumentException illegal argument exception.
+     */
+    public static void notNumericWithCommaSeparator(String text) throws IllegalArgumentException {
+        Validate.notIllegalArgument(text != null, new IllegalArgumentException("Text should be not null."));
+        Validate.notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            char character = text.charAt(i);
+            if (!Character.isDigit(character)) {
+                if (character != ',') {
+                    throw new IllegalArgumentException("Text should not contains non numeric and comma separator.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Ensures that given parameter is not contains non numeric, dot and comma separator.
+     * @param text text.
+     * @throws IllegalArgumentException illegal argument exception.
+     */
+    public static void notNumericWithDotAndCommaSeparator(String text) throws IllegalArgumentException {
+        Validate.notIllegalArgument(text != null, new IllegalArgumentException("Text should be not null."));
+        Validate.notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            char character = text.charAt(i);
+            if (!Character.isDigit(character)) {
+                if (character != ',' && character != '.') {
+                    throw new IllegalArgumentException("Text should not contains non numeric, dot and comma separator.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Ensures that given parameter is not contains non numeric character and dot separator.
+     * @param text text.
+     * @throws IllegalArgumentException illegal argument exception.
+     */
+    public static void notNumericWithDotSeparator(String text) throws IllegalArgumentException {
+        Validate.notIllegalArgument(text != null, new IllegalArgumentException("Text should be not null."));
+        Validate.notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            if (!Character.isDigit(text.charAt(i))) {
+                if (text.charAt(i) != '.') {
+                    throw new IllegalArgumentException("Text should not contains non numeric and dot separator.");
+                }
             }
         }
     }
