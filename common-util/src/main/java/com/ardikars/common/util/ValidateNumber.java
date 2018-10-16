@@ -47,4 +47,134 @@ public class ValidateNumber {
         }
     }
 
+    /**
+     * Ensures that given parameter is zero.
+     * @param number number.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notZero(T number) throws IllegalArgumentException {
+        notZero(number, new IllegalArgumentException("Number \'" + number + "\'" + " is not zero."));
+    }
+
+    /**
+     * Ensures that given parameter is zero.
+     * @param number number.
+     * @param exception exception.
+     * @param <T> type.
+     * @throws IllegalArgumentException illegal argument exception.
+     */
+    public static <T extends Number> void notZero(T number, IllegalArgumentException exception) throws IllegalArgumentException {
+        if (compare(number) != 0) {
+            throw exception;
+        }
+    }
+
+    /**
+     * Ensures that given parameter is greateer then zero.
+     * @param number number.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notGreaterThenZero(T number) throws IllegalArgumentException {
+        notGreaterThenZero(number, new IllegalArgumentException(number + " is less then or equal to zero."));
+    }
+
+    /**
+     * Ensures that given parameter is greateer then zero.
+     * @param number number.
+     * @param exception illegal argument exception.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notGreaterThenZero(T number, IllegalArgumentException exception) throws IllegalArgumentException {
+        int result = compare(number);
+        if (result <= 0) {
+            throw exception;
+        }
+    }
+
+    /**
+     * Ensures that given parameter is less then zero.
+     * @param number number.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notLessThenZero(T number) throws IllegalArgumentException {
+        notGreaterThenZero(number, new IllegalArgumentException(number + " is greater then or equal to zero."));
+    }
+
+    /**
+     * Ensures that given parameter is less then zero.
+     * @param number number.
+     * @param exception illegal argument exception.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notLessThenZero(T number, IllegalArgumentException exception) throws IllegalArgumentException {
+        int result = compare(number);
+        if (result >= 0) {
+            throw exception;
+        }
+    }
+    
+    /**
+     * Ensures that given parameter is greateer then zero.
+     * @param number number.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notGreaterThenOrEqualZero(T number) throws IllegalArgumentException {
+        notGreaterThenZero(number, new IllegalArgumentException(number + " is less then or equal to zero."));
+    }
+
+    /**
+     * Ensures that given parameter is greateer then zero.
+     * @param number number.
+     * @param exception illegal argument exception.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notGreaterThenOrEqualZero(T number, IllegalArgumentException exception) throws IllegalArgumentException {
+        int result = compare(number);
+        if (result < 0) {
+            throw exception;
+        }
+    }
+
+    /**
+     * Ensures that given parameter is less then zero.
+     * @param number number.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notLessThenOrEqualZero(T number) throws IllegalArgumentException {
+        notGreaterThenZero(number, new IllegalArgumentException(number + " is greater then or equal to zero."));
+    }
+
+    /**
+     * Ensures that given parameter is less then zero.
+     * @param number number.
+     * @param exception illegal argument exception.
+     * @param <T> type.
+     * @throws IllegalArgumentException exception.
+     */
+    public static <T extends Number> void notLessThenOrEqualZero(T number, IllegalArgumentException exception) throws IllegalArgumentException {
+        int result = compare(number);
+        if (result > 0) {
+            throw exception;
+        }
+    }
+
+    public static <T extends Number> int compare(T number) throws IllegalArgumentException {
+        int result = number.intValue();
+        if (result < 0) {
+            return -1;
+        } else if (result > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }
