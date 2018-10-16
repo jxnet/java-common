@@ -2,6 +2,9 @@ package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked correctly.
  * If validation is fail, the {@code ValidateNumber} method throws an unchecked exception
@@ -167,13 +170,19 @@ public class ValidateNumber {
     }
 
     public static <T extends Number> int compare(T number) throws IllegalArgumentException {
-        int result = number.intValue();
-        if (result < 0) {
-            return -1;
-        } else if (result > 0) {
-            return 1;
+        if (number instanceof BigDecimal) {
+            return ((BigDecimal) number).compareTo(BigDecimal.ZERO);
+        } else if (number instanceof BigInteger) {
+            return ((BigInteger) number).compareTo(BigInteger.ZERO);
         } else {
-            return 0;
+            long result = number.longValue() & 0xffffffffffffffffL;
+            if (result < 0) {
+                return -1;
+            } else if (result > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
