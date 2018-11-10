@@ -28,6 +28,7 @@ import java.io.Serializable;
  */
 public interface ObjectName<T, U> extends Serializable {
 
+    @Deprecated
     T getValue();
 
     String getName();
