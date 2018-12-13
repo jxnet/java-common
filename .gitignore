@@ -22,6 +22,12 @@
 /common-tuple/build
 /common-tuple/out
 /common-tuple/obj
+/common-constant/build
+/common-constant/out
+/common-constant/obj
+/common-logging/build
+/common-logging/out
+/common-logging/obj
 /common-bom/build
 /common-bom/out
 /common-bom/obj

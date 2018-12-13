@@ -15,7 +15,7 @@ import java.math.BigInteger;
  * @since 1.2.2
  */
 @Helper
-public class ValidateNumber {
+public final class ValidateNumber {
 
     /**
      * Ensures that given parameter is not contains non numeric character.
@@ -225,6 +225,15 @@ public class ValidateNumber {
         }
     }
 
+    /**
+     * Compares this {@code T} with the specified
+     * {@code T}
+     * @param  number {@code T} to which this {@code T} is
+     *         to be compared.
+     * @param <T> type.
+     * @return -1, 0, or 1 as this {@code T} is numerically
+     *          less than, equal to, or greater than {@code nuber}.
+     */
     public static <T extends Number> int compare(T number) throws IllegalArgumentException {
         if (number instanceof BigDecimal) {
             return ((BigDecimal) number).compareTo(BigDecimal.ZERO);

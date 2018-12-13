@@ -1,0 +1,14 @@
+
+/**
+ * Copyright (C) 2017-2018 Jxnet
+ */
+
+description = 'Common constans.'
+
+dependencies {
+    compile project (':common-annotation')
+    implementation ('org.slf4j:slf4j-api:1.7.21')
+    implementation ('commons-logging:commons-logging:1.2')
+    implementation ('org.apache.logging.log4j:log4j-api:2.6.2')
+    implementation ('org.apache.logging.log4j:log4j-core:2.6.2')
+}

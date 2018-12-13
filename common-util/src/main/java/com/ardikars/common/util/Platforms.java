@@ -123,7 +123,7 @@ public final class Platforms {
      * @return returns true if Arm architecture, false otherwise.
      */
     public static final boolean isArm() {
-        return System.getProperty(OS_ARCH).toLowerCase().trim().startsWith("arm");
+        return Properties.getProperty(OS_ARCH).toLowerCase().trim().startsWith("arm");
     }
 
     /**
@@ -131,7 +131,7 @@ public final class Platforms {
      * @return returns true if Intel platform, false otherwise.
      */
     public static final boolean isIntel() {
-        final String arch = System.getProperty(OS_ARCH).toLowerCase().trim();
+        final String arch = Properties.getProperty(OS_ARCH).toLowerCase().trim();
         return arch.startsWith("x86") || arch.startsWith("x64");
     }
 
@@ -140,26 +140,59 @@ public final class Platforms {
      * @return returns true if Amd platform, false otherwise.
      */
     public static final boolean isAmd() {
-        return System.getProperty(OS_ARCH).toLowerCase().trim().startsWith("amd");
+        return Properties.getProperty(OS_ARCH).toLowerCase().trim().startsWith("amd");
+    }
+
+    /**
+     * Get Cpu Version.
+     * Please use getCpuVersoin().
+     * @return returns Cpu version.
+     */
+    @Deprecated
+    public static final String getVersion() {
+        return getCpuVersion();
     }
 
     /**
      * Get Cpu Version.
      * @return returns Cpu version.
      */
-    public static final String getVersion() {
-        final String version = System.getProperty("os.version");
+    public static final String getCpuVersion() {
+        final String version = Properties.getProperty("os.version");
         if (Character.isDigit(version.charAt(version.indexOf('v') + 1))) {
             return String.valueOf("v" + version.charAt(version.indexOf('v') + 1));
         }
         return "";
     }
 
+    /**
+     * Get java major version.
+     * @return returns java major version.
+     * @since 1.2.3
+     */
+    public static int getJavaMojorVersion() {
+        if (isAndroid()) {
+            return 6;
+        }
+        final String[] components = Properties.getProperty("java.specification.version", "1.6").split("\\.");
+        final int[] version = new int[components.length];
+        for (int i = 0; i < components.length; i++) {
+            version[i] = Integer.parseInt(components[i]);
+        }
+
+        if (version[0] == 1) {
+            assert version[1] >= 6;
+            return version[1];
+        } else {
+            return version[0];
+        }
+    }
+
     static {
-        final String osName = System.getProperty(OS_NAME).toUpperCase().trim();
-        final String osArch = System.getProperty(OS_ARCH).toLowerCase().trim();
+        final String osName = Properties.getProperty(OS_NAME).toUpperCase().trim();
+        final String osArch = Properties.getProperty(OS_ARCH).toLowerCase().trim();
         if (osName.startsWith("LINUX")) {
-            if ("DALVIK".equals(System.getProperty(JAVA_VM_NAME).toUpperCase().trim())) {
+            if ("DALVIK".equals(Properties.getProperty(JAVA_VM_NAME).toUpperCase().trim())) {
                 name = Name.ANDROID;
             } else {
                 name = Name.LINUX;

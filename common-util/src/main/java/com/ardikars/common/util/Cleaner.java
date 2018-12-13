@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package com.ardikars.common.annotation;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package com.ardikars.common.util;
 
 /**
- * Annotate un-tested class.
+ * Cleaner.
  *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- * @since 1.0.0
+ * @since 1.3.0
+ * @param <T> type.
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Deprecated
-public @interface Untested {
+public interface Cleaner<T> {
+
+    /**
+     * Cleaner.
+     * @param buffer buffer.
+     */
+    void clean(T buffer);
+
+    /**
+     * Cleaner
+     * @param buffer buffer.
+     * @param callback callback.
+     */
+    void clean(T buffer, Callback<Void> callback);
 
 }

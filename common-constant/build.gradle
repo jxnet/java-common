@@ -1,12 +1,11 @@
 
 /**
- * Copyright (C) 2015-2018 Jxnet
+ * Copyright (C) 2017-2018 Jxnet
  */
 
-description = 'Common utilities.'
+description = 'Common constans.'
 
 dependencies {
     compile project(':common-annotation')
-    compile project(':common-logging')
     testCompile group: 'junit', name: 'junit', version: "${JUNIT_VERSION}"
 }
