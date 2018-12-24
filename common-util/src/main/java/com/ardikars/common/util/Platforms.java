@@ -31,6 +31,7 @@ public final class Platforms {
     private static final String OS_NAME = "os.name";
     private static final String JAVA_VM_NAME = "java.vm.name";
 
+
     public enum Name {
         WINDOWS, LINUX, ANDROID, FREEBSD, DARWIN, UNKNOWN;
     }
@@ -45,6 +46,7 @@ public final class Platforms {
 
     private static Name name;
     private static Architecture architecture;
+    private static int javaMajorVersion;
 
     /**
      * Get platform name.
@@ -171,29 +173,17 @@ public final class Platforms {
      * @since 1.2.3
      */
     public static int getJavaMojorVersion() {
-        if (isAndroid()) {
-            return 6;
-        }
-        final String[] components = Properties.getProperty("java.specification.version", "1.6").split("\\.");
-        final int[] version = new int[components.length];
-        for (int i = 0; i < components.length; i++) {
-            version[i] = Integer.parseInt(components[i]);
-        }
-
-        if (version[0] == 1) {
-            assert version[1] >= 6;
-            return version[1];
-        } else {
-            return version[0];
-        }
+        return javaMajorVersion;
     }
 
     static {
+        boolean isAndroid = false;
         final String osName = Properties.getProperty(OS_NAME).toUpperCase().trim();
         final String osArch = Properties.getProperty(OS_ARCH).toLowerCase().trim();
         if (osName.startsWith("LINUX")) {
             if ("DALVIK".equals(Properties.getProperty(JAVA_VM_NAME).toUpperCase().trim())) {
                 name = Name.ANDROID;
+                isAndroid = true;
             } else {
                 name = Name.LINUX;
             }
@@ -213,6 +203,22 @@ public final class Platforms {
             architecture = Architecture._64_BIT;
         }
 
+        if (isAndroid) {
+            javaMajorVersion = 6;
+        } else {
+            final String[] components = Properties.getProperty("java.specification.version", "1.6").split("\\.");
+            final int[] version = new int[components.length];
+            for (int i = 0; i < components.length; i++) {
+                version[i] = Integer.parseInt(components[i]);
+            }
+
+            if (version[0] == 1) {
+                assert version[1] >= 6;
+                javaMajorVersion = version[1];
+            } else {
+                javaMajorVersion = version[0];
+            }
+        }
     }
 
 }

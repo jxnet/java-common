@@ -11,10 +11,10 @@ public class NativeTest extends BaseTest{
 
     @Test
     public void isNativeAvailable() {
-        boolean isNativeAvailable = Natives.isUnsafeAvailable();
+        boolean isNativeAvailable = Unsafes.isUnsafeAvailable();
         Unsafe unsafe = null;
         if (isNativeAvailable) {
-            unsafe = Natives.getUnsafe();
+            unsafe = Unsafes.getUnsafe();
             assert unsafe != null;
         } else {
             assert unsafe == null;

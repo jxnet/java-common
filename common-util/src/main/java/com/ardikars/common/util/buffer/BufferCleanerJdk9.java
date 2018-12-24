@@ -3,7 +3,7 @@ package com.ardikars.common.util.buffer;
 import com.ardikars.common.logging.Logger;
 import com.ardikars.common.logging.LoggerFactory;
 import com.ardikars.common.util.Callback;
-import com.ardikars.common.util.Natives;
+import com.ardikars.common.util.Unsafes;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.InvocationTargetException;
@@ -68,7 +68,7 @@ class BufferCleanerJdk9 implements BufferCleaner {
     }
 
     static {
-        Unsafe unsafe = Natives.getUnsafe();
+        Unsafe unsafe = Unsafes.getUnsafe();
         final Method method;
         final Throwable error;
         if (unsafe != null) {
