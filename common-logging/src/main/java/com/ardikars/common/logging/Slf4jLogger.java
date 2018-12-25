@@ -3,10 +3,10 @@ package com.ardikars.common.logging;
 import org.slf4j.Logger;
 
 /**
- * @author common 2018/12/11
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Slf4j logger implementation.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
-public class Slf4jLogger extends AbstractLogger {
+class Slf4jLogger extends AbstractLogger {
 
     private final transient Logger logger;
 

@@ -1,10 +1,10 @@
 package com.ardikars.common.logging;
 
 /**
- * @author common 2018/12/11
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Slf4j logger factory.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
-public class Slf4jLoggerFactory extends LoggerFactory {
+class Slf4jLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new Slf4jLoggerFactory();
 

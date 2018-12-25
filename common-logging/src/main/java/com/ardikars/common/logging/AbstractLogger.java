@@ -1,10 +1,10 @@
 package com.ardikars.common.logging;
 
 /**
- * @author common 2018/12/09
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Abstract logger.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
-public abstract class AbstractLogger implements Logger {
+abstract class AbstractLogger implements Logger {
 
     static final String UNEXPECTED_EXCEPTION_MESSAGE;
 

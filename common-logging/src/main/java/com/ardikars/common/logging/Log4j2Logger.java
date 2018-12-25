@@ -4,10 +4,10 @@ import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.apache.logging.log4j.spi.ExtendedLoggerWrapper;
 
 /**
- * @author common 2018/12/11
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Log4j2 logger implementation.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
-public class Log4j2Logger extends ExtendedLoggerWrapper implements Logger {
+class Log4j2Logger extends ExtendedLoggerWrapper implements Logger {
 
     /**
      * Constructor that wraps and existing Logger.

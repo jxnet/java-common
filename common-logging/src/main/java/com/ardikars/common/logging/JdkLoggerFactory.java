@@ -1,10 +1,10 @@
 package com.ardikars.common.logging;
 
 /**
- * @author common 2018/12/09
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * JDK Logger Factory.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
-public class JdkLoggerFactory extends LoggerFactory {
+class JdkLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new JdkLoggerFactory();
 

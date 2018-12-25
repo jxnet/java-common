@@ -1,8 +1,8 @@
 package com.ardikars.common.logging;
 
 /**
- * @author common 2018/12/09
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Logger factory.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
 public abstract class LoggerFactory {
 

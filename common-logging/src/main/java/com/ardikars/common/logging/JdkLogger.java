@@ -6,8 +6,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * @author common 2018/12/09
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * JDK logger implementation.
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
 class JdkLogger extends AbstractLogger {
 
