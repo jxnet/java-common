@@ -34,7 +34,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 /**
- * Object utils.
+ * ByteBuffer utils.
  *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.2.3
@@ -50,9 +50,9 @@ public final class ByteBuffers {
     private static final Constructor<?> DIRECT_BUFFER_CONSTRUCTOR;
 
     /**
-     * Returns memory address of direct buffer.
+     * Returns management address of direct buffer.
      * @param buffer direct buffer.
-     * @return returns memory address.
+     * @return returns management address.
      * @since 1.2.3
      */
     public static long directByteBufferAddress(ByteBuffer buffer) {
@@ -69,7 +69,7 @@ public final class ByteBuffers {
 
     /**
      * Free direct buffer.
-     * @param memoryAddress memory address.
+     * @param memoryAddress management address.
      */
     public static void freeDirectBuffer(long memoryAddress) {
         UNSAFE.freeMemory(memoryAddress);
@@ -85,8 +85,8 @@ public final class ByteBuffers {
     }
 
     /**
-     * Wrap direct buffer from memory address with no {@link BufferCleaner}.
-     * @param memoryAddress memory address.
+     * Wrap direct buffer from management address with no {@link BufferCleaner}.
+     * @param memoryAddress management address.
      * @param size buffer size.
      * @return returns {@link ByteBuffer} object.
      */

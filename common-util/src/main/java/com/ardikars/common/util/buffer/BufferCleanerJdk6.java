@@ -15,8 +15,9 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 /**
- * @author common 2018/12/13
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Buffer cleaner for jdk6+
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.3
  */
 class BufferCleanerJdk6 implements BufferCleaner {
 

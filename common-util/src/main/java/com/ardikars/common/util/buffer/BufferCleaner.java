@@ -5,10 +5,10 @@ import com.ardikars.common.util.Cleaner;
 import java.nio.Buffer;
 
 /**
- * @author common 2018/12/13
- * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
+ * Buffer cleaner
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ * @since 1.2.3
  */
 interface BufferCleaner extends Cleaner<Buffer> {
-
 
 }
