@@ -7,7 +7,7 @@ import sun.misc.Unsafe;
  * @author common 2018/12/12
  * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
  */
-public class NativeTest extends BaseTest{
+public class UnsafesTest extends BaseTest{
 
     @Test
     public void isNativeAvailable() {

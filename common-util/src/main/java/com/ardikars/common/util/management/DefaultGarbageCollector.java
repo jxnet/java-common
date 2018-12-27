@@ -1,6 +1,7 @@
 package com.ardikars.common.util.management;
 
 import com.ardikars.common.util.Sets;
+import com.ardikars.common.util.Validate;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
@@ -85,10 +86,10 @@ final class DefaultGarbageCollector implements GarbageCollector {
                 GarbageCollectorMXBean gcMxBean = iterator.next();
                 long count = gcMxBean.getCollectionCount();
                 if (count >= 0) {
-                    if (YOUNG_GC.equals(gcMxBean.getName())) {
+                    if (YOUNG_GC.contains(gcMxBean.getName())) {
                         minorCount += count;
                         minorTime += gcMxBean.getCollectionTime();
-                    } else if (OLD_GC.equals(gcMxBean.getName())) {
+                    } else if (OLD_GC.contains(gcMxBean.getName())) {
                         majorCount += count;
                         majorTime += gcMxBean.getCollectionTime();
                     } else {
@@ -101,8 +102,9 @@ final class DefaultGarbageCollector implements GarbageCollector {
 
         @Override
         public DefaultGarbageCollector build() {
-            Iterator<GarbageCollectorMXBean> iterator = ManagementFactory.getGarbageCollectorMXBeans().iterator();
-            calculate(iterator);
+            Validate.notIllegalArgument(garbageCollectorMXBeans != null,
+                    new IllegalArgumentException("GarbageCollectorMXBeans should be not null."));
+            calculate(garbageCollectorMXBeans.iterator());
             return new DefaultGarbageCollector(this);
         }
 

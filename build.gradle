@@ -75,12 +75,12 @@ allprojects {
         reportsDir = file("$project.buildDir/reports/findbugs")
         effort = "max"
         excludeFilter rootProject.file('gradle/resources/findbugs/findbugs-exclude.xml')
-//        spotbugsMain {
-//            reports {
-//                xml.enabled = false
-//                html.enabled = true
-//            }
-//        }
+        spotbugsMain {
+            reports {
+                xml.enabled = false
+                html.enabled = true
+            }
+        }
         toolVersion "${SPOTBUGS_VERSION}"
     }
 
