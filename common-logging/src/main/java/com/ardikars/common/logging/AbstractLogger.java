@@ -180,12 +180,12 @@ abstract class AbstractLogger implements Logger {
 
     @Override
     public void warn(String message) {
-        info(UNEXPECTED_EXCEPTION_MESSAGE, message);
+        warn(UNEXPECTED_EXCEPTION_MESSAGE, message);
     }
 
     @Override
     public void warn(Throwable throwable) {
-        info(UNEXPECTED_EXCEPTION_MESSAGE, throwable);
+        warn(UNEXPECTED_EXCEPTION_MESSAGE, throwable);
     }
 
     @Override

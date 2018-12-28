@@ -199,6 +199,7 @@ class JdkLogger extends AbstractLogger {
             record.setSourceClassName(ste.getClassName());
             record.setSourceMethodName(ste.getMethodName());
         }
+        logger.log(record);
     }
 
 }
