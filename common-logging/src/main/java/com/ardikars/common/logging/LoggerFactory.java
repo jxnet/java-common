@@ -30,13 +30,15 @@ public abstract class LoggerFactory {
     private static LoggerFactory newDefaultFactory() {
         LoggerFactory loggerFactory;
         try {
-           loggerFactory = Slf4jLoggerFactory.getInstance();
-        } catch (Throwable ignore1) {
-            try {
+            if (Slf4jLoggerFactory.hasSlf4j()) {
+                loggerFactory = Slf4jLoggerFactory.getInstance();
+            } else if (Log4j2LoggerFactory.hasLog4j2()) {
                 loggerFactory = Log4j2LoggerFactory.getInstance();
-            } catch (Throwable ignore2) {
+            } else {
                 loggerFactory = JdkLoggerFactory.getInstance();
             }
+        } catch (Throwable e) {
+            throw e;
         }
         return loggerFactory;
     }
