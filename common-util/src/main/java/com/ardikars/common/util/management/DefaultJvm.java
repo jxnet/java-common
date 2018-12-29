@@ -296,6 +296,11 @@ final class DefaultJvm implements Jvm {
         return VM_MANAGEMENT.getClassVerificationTime();
     }
 
+    @Override
+    public boolean hasJvm() {
+        return VM_MANAGEMENT != null;
+    }
+
     static {
         VMManagement vmManagement = null;
         try {

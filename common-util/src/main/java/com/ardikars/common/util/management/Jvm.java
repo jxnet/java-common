@@ -114,4 +114,6 @@ public interface Jvm {
 
     long getClassVerificationTime();
 
+    boolean hasJvm();
+
 }
