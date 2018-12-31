@@ -28,7 +28,7 @@ public interface Logger {
 
     void log(LogLevel level, Throwable throwable);
 
-    void log(LogLevel level, String format, Throwable throwables);
+    void log(LogLevel level, String message, Throwable throwables);
 
     void debug(String message);
 
@@ -40,7 +40,7 @@ public interface Logger {
 
     void debug(String format, Object... arguments);
 
-    void debug(String format, Throwable throwable);
+    void debug(String message, Throwable throwable);
 
     void info(String message);
 
@@ -52,7 +52,7 @@ public interface Logger {
 
     void info(String format, Object... arguments);
 
-    void info(String format, Throwable throwable);
+    void info(String message, Throwable throwable);
 
     void warn(String message);
 
@@ -64,7 +64,7 @@ public interface Logger {
 
     void warn(String format, Object... arguments);
 
-    void warn(String format, Throwable throwable);
+    void warn(String message, Throwable throwable);
 
     void error(String message);
 
@@ -76,6 +76,6 @@ public interface Logger {
 
     void error(String format, Object... arguments);
 
-    void error(String format, Throwable throwable);
+    void error(String message, Throwable throwable);
 
 }

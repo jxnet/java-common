@@ -6,6 +6,7 @@ package com.ardikars.common.logging;
  */
 abstract class AbstractLogger implements Logger {
 
+    static final String DEFAULT_FORMAT = "{}";
     static final String UNEXPECTED_EXCEPTION_MESSAGE;
 
     private final String name;
@@ -160,7 +161,7 @@ abstract class AbstractLogger implements Logger {
 
     @Override
     public void debug(String message) {
-        debug(UNEXPECTED_EXCEPTION_MESSAGE, message);
+        debug(DEFAULT_FORMAT, message);
     }
 
     @Override
@@ -170,7 +171,7 @@ abstract class AbstractLogger implements Logger {
 
     @Override
     public void info(String message) {
-        info(UNEXPECTED_EXCEPTION_MESSAGE, message);
+        info(DEFAULT_FORMAT, message);
     }
 
     @Override
@@ -180,7 +181,7 @@ abstract class AbstractLogger implements Logger {
 
     @Override
     public void warn(String message) {
-        warn(UNEXPECTED_EXCEPTION_MESSAGE, message);
+        warn(DEFAULT_FORMAT, message);
     }
 
     @Override
@@ -190,7 +191,7 @@ abstract class AbstractLogger implements Logger {
 
     @Override
     public void error(String message) {
-        error(UNEXPECTED_EXCEPTION_MESSAGE, message);
+        error(DEFAULT_FORMAT, message);
     }
 
     @Override
