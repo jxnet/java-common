@@ -175,14 +175,18 @@ final class DefaultOperatingSystem implements OperatingSystem {
             totalPhysicalMemorySize = clazz.getMethod("getTotalPhysicalMemorySize");
             systemCpuLoad = clazz.getMethod("getSystemCpuLoad");
             processCpuLoad = clazz.getMethod("getProcessCpuLoad");
-            trySetAccessible(committedVirtualMemorySizeMethod);
-            trySetAccessible(totalSwapSpaceSizeMethod);
-            trySetAccessible(freeSwapSpaceSizeMethod);
-            trySetAccessible(processCpuTime);
-            trySetAccessible(freePhysicalMemorySize);
-            trySetAccessible(totalPhysicalMemorySize);
-            trySetAccessible(systemCpuLoad);
-            trySetAccessible(processCpuLoad);
+            try {
+                trySetAccessible(committedVirtualMemorySizeMethod);
+                trySetAccessible(totalSwapSpaceSizeMethod);
+                trySetAccessible(freeSwapSpaceSizeMethod);
+                trySetAccessible(processCpuTime);
+                trySetAccessible(freePhysicalMemorySize);
+                trySetAccessible(totalPhysicalMemorySize);
+                trySetAccessible(systemCpuLoad);
+                trySetAccessible(processCpuLoad);
+            } catch (Throwable e) {
+                LOGGER.warn(e);
+            }
             accessible = true;
         } catch (Throwable e) {
             committedVirtualMemorySizeMethod = null;
