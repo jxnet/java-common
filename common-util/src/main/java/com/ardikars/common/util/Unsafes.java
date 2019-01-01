@@ -144,6 +144,8 @@ public final class Unsafes {
                     Class<?> internalUnsafeClass = getClassLoader(Unsafes.class)
                             .loadClass("jdk.internal.misc.Unsafe");
                     Method method = internalUnsafeClass.getDeclaredMethod("getUnsafe");
+                    // in java 9+ Unsafe.getUnsafe is not accessible
+                    Reflections.forceSetAccessible(method, true);
                     return method.invoke(null);
                 } catch (Throwable e) {
                     return e;
@@ -187,8 +189,6 @@ public final class Unsafes {
                     if (version >= 9) {
                         // Java9/10 use all lowercase and later versions all uppercase.
                         String fieldName = version >= 11 ? "UNALIGNED" : "unaligned";
-                        // On Java9 and later we try to directly access the field as we can do this without
-                        // adjust the accessible levels.
                         try {
                             Field unalignedField = bitsClass.getDeclaredField(fieldName);
                             if (unalignedField.getType() == boolean.class) {
@@ -196,10 +196,7 @@ public final class Unsafes {
                                 Object object = unsafe.staticFieldBase(unalignedField);
                                 return unsafe.getBoolean(object, offset);
                             }
-                            // There is something unexpected stored in the field,
-                            // let us fall-back and try to use a reflective method call as last resort.
                         } catch (NoSuchFieldException ignore) {
-                            // We did not find the field we expected, move on.
                         }
                     }
                     Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");
@@ -260,7 +257,6 @@ public final class Unsafes {
                 Object maybeExceptionJdk9 = checkJdk9Unsafe();
                 if (maybeExceptionJdk9 instanceof Throwable) {
                     LOGGER.warn("Unsafe does not supports all necessary methods: {}", ((Throwable) maybeExceptionJdk9).getMessage());
-                    unsafe = null;
                     causes.add((Throwable) maybeExceptionJdk9);
                 }
             }

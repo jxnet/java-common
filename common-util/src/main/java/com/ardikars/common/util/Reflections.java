@@ -19,10 +19,26 @@ public class Reflections {
      * @param checkAccessible accessible.
      * @return returns null on success, throwable otherwise.
      */
-    public static Throwable trySetAccessible(final AccessibleObject object, final boolean checkAccessible) {
+    public static Throwable trySetAccessible(final AccessibleObject object, final boolean checkAccessible) throws RuntimeException {
         if (checkAccessible && !ACCESS_CONTROL) {
             return new UnsupportedOperationException("Reflective setAccessible(true) disabled");
         }
+        return setAccessible(object, checkAccessible);
+    }
+
+    /**
+     * Try to force call {@link AccessibleObject#setAccessible(boolean)} but will catch any {@link SecurityException}
+     * and return it.
+     * The caller must check if it returns {@code null} and if not handle the returned exception.
+     * @param object accessible object.
+     * @param checkAccessible accessible.
+     * @return returns null on success, throwable otherwise.
+     */
+    public static Throwable forceSetAccessible(final AccessibleObject object, final boolean checkAccessible) throws RuntimeException {
+        return setAccessible(object, checkAccessible);
+    }
+
+    private static Throwable setAccessible(final AccessibleObject object, final boolean checkAccessible) throws RuntimeException {
         Object obj = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -44,7 +60,7 @@ public class Reflections {
     }
 
     static {
-        ACCESS_CONTROL = Properties.getBoolean("io.netty.tryReflectionSetAccessible", Platforms.getJavaMojorVersion() < 9);
+        ACCESS_CONTROL = Properties.getBoolean("common.util.tryReflectionSetAccessible", Platforms.getJavaMojorVersion() < 9);
     }
 
 }
