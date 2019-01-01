@@ -9,6 +9,8 @@ import java.security.PrivilegedAction;
 @Helper
 public class Reflections {
 
+    private static final boolean ACCESS_CONTROL;
+
     /**
      * Try to call {@link AccessibleObject#setAccessible(boolean)} but will catch any {@link SecurityException}
      * and return it.
@@ -18,6 +20,9 @@ public class Reflections {
      * @return returns null on success, throwable otherwise.
      */
     public static Throwable trySetAccessible(final AccessibleObject object, final boolean checkAccessible) {
+        if (checkAccessible && !ACCESS_CONTROL) {
+            return new UnsupportedOperationException("Reflective setAccessible(true) disabled");
+        }
         Object obj = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -36,6 +41,10 @@ public class Reflections {
         } else {
             return (Throwable) obj;
         }
+    }
+
+    static {
+        ACCESS_CONTROL = Properties.getBoolean("io.netty.tryReflectionSetAccessible", Platforms.getJavaMojorVersion() < 9);
     }
 
 }
