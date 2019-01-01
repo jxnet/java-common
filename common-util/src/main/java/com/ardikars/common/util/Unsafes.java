@@ -35,7 +35,7 @@ public final class Unsafes {
      * @return returns true is {@link Unsafe} is available. false otherwise.
      */
     public static boolean isUnsafeAvailable() {
-        return NO_UNSAFE_CAUSES.isEmpty() && UNSAFE_AVAILABLE;
+        return UNSAFE_AVAILABLE;
     }
 
     /**
