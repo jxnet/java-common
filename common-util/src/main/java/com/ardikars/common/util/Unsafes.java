@@ -106,7 +106,7 @@ public final class Unsafes {
                 Class<sun.misc.Unsafe> type = sun.misc.Unsafe.class;
                 try {
                     final Field unsafeField = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
-                    Throwable unsafeFieldSetAccessible = Reflections.trySetAccessible(unsafeField, true);
+                    Throwable unsafeFieldSetAccessible = Reflections.forceSetAccessible(unsafeField, true);
                     if (unsafeFieldSetAccessible != null) {
                         return unsafeFieldSetAccessible;
                     }
@@ -114,7 +114,7 @@ public final class Unsafes {
                 } catch (Exception e) {
                     for (Field field : type.getDeclaredFields()) {
                         if (type.isAssignableFrom(field.getType())) {
-                            Throwable fieldSetAccessible = Reflections.trySetAccessible(field, true);
+                            Throwable fieldSetAccessible = Reflections.forceSetAccessible(field, true);
                             if (fieldSetAccessible != null) {
                                 return fieldSetAccessible;
                             }
@@ -200,7 +200,7 @@ public final class Unsafes {
                         }
                     }
                     Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");
-                    Throwable cause = Reflections.trySetAccessible(unalignedMethod, true);
+                    Throwable cause = Reflections.forceSetAccessible(unalignedMethod, true);
                     if (cause != null) {
                         return cause;
                     }

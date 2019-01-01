@@ -152,7 +152,7 @@ public final class ByteBuffers {
                     try {
                         final Constructor<?> constructor =
                                 direct.getClass().getDeclaredConstructor(long.class, int.class);
-                        Throwable cause = Reflections.trySetAccessible(constructor, true);
+                        Throwable cause = Reflections.forceSetAccessible(constructor, true);
                         if (cause != null) {
                             return cause;
                         }
@@ -174,7 +174,7 @@ public final class ByteBuffers {
             ByteBuffer direct = ByteBuffer.allocateDirect(1);
             Object maybeBufferAddressField = findBufferAddressField(direct, unsafe);
             if (maybeBufferAddressField instanceof Field) {
-                LOGGER.info("java.nio.Buffer.address: available");
+                LOGGER.debug("java.nio.Buffer.address: available");
                 BUFFER_ADDRESS_FIELD_OFFSET = unsafe.objectFieldOffset((Field) maybeBufferAddressField);
             } else {
                 LOGGER.warn("java.nio.Buffer.address: unavailable: {}", ((Throwable) maybeBufferAddressField).getMessage());
