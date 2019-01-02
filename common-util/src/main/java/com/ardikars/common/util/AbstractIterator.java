@@ -17,11 +17,12 @@
 package com.ardikars.common.util;
 
 /**
- * Internal iterator.
+ * Helper for jdk 1.2-
+ *
  * @param <E> element type.
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.2.6
  */
-interface CommonIterator<E> extends java.util.Iterator<E> {
+public abstract class AbstractIterator<E> implements CommonIterator<E> {
 
 }

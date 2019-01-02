@@ -152,7 +152,7 @@ public final class ByteBuffers {
                     try {
                         final Constructor<?> constructor =
                                 direct.getClass().getDeclaredConstructor(long.class, int.class);
-                        Throwable cause = Reflections.forceSetAccessible(constructor, true);
+                        Throwable cause = Reflections.trySetAccessible(constructor, true);
                         if (cause != null) {
                             return cause;
                         }

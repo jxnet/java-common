@@ -33,6 +33,7 @@ public class Reflections {
      * @param object accessible object.
      * @param checkAccessible accessible.
      * @return returns null on success, throwable otherwise.
+     * @deprecated please use {@link Reflections}.{@link #trySetAccessible(AccessibleObject, boolean)}
      */
     public static Throwable forceSetAccessible(final AccessibleObject object, final boolean checkAccessible) throws RuntimeException {
         return setAccessible(object, checkAccessible);
