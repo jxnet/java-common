@@ -44,7 +44,7 @@ class BufferCleanerJdk6 implements BufferCleaner {
     }
 
     @Override
-    public void clean(Buffer buffer, Callback<Void> callback) {
+    public void clean(final Buffer buffer, final Callback<Void> callback) {
         if (!buffer.isDirect()) {
             callback.onFailure(new IllegalArgumentException("Given buffer is not a direct buffer."));
             return;
@@ -98,7 +98,7 @@ class BufferCleanerJdk6 implements BufferCleaner {
     }
 
     static {
-        Unsafe unsafe = Unsafes.getUnsafe();
+        final Unsafe unsafe = Unsafes.getUnsafe();
         long fieldOffset;
         Method clean;
         Field cleanerField;

@@ -19,7 +19,7 @@ public class IcmpTypeAndCode extends NamedMultipleObject<MultipleObject<Byte>, I
 
 
     private static final Map<MultipleObject<Byte>, IcmpTypeAndCode> registry
-            = new HashMap<>();
+            = new HashMap<MultipleObject<Byte>, IcmpTypeAndCode>();
 
     public IcmpTypeAndCode(MultipleObject<Byte> multiKey, String name) {
         super(multiKey, name);

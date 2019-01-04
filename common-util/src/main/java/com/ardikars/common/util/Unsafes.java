@@ -178,7 +178,7 @@ public final class Unsafes {
         }
     }
 
-    private static Object checkUnaligned(Unsafe unsafe) {
+    private static Object checkUnaligned(final Unsafe unsafe) {
         Object maybeUnaligned = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -223,7 +223,7 @@ public final class Unsafes {
 
     static {
         Unsafe unsafe = null;
-        List<Throwable> causes = new ArrayList<>();
+        List<Throwable> causes = new ArrayList<Throwable>();
         Object maybeUnsafe = findUnsafe();
         final boolean unaligned;
         if (maybeUnsafe instanceof Throwable) {

@@ -302,11 +302,11 @@ public class NetworkInterface {
      */
     public static Collection<NetworkInterface> getNetworkInterfaces() throws SocketException {
         Enumeration<java.net.NetworkInterface> networkInterfaces = java.net.NetworkInterface.getNetworkInterfaces();
-        Set<NetworkInterface> networkInterfaceSet = new HashSet<>();
+        Set<NetworkInterface> networkInterfaceSet = new HashSet<NetworkInterface>();
         while (networkInterfaces.hasMoreElements()) {
             java.net.NetworkInterface networkInterface = networkInterfaces.nextElement();
             byte[] hardwareAddress = networkInterface.getHardwareAddress();
-            Set<Address> parentAddreses = new HashSet<>();
+            Set<Address> parentAddreses = new HashSet<Address>();
             for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
                 if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
                     Address address = new Address.Builder()
@@ -340,7 +340,7 @@ public class NetworkInterface {
             while (childs.hasMoreElements()) {
                 java.net.NetworkInterface childNetworkInterface = childs.nextElement();
                 hardwareAddress = childNetworkInterface.getHardwareAddress();
-                Set<Address> childAddresses = new HashSet<>();
+                Set<Address> childAddresses = new HashSet<Address>();
                 for (InterfaceAddress interfaceAddress : childNetworkInterface.getInterfaceAddresses()) {
                     if (interfaceAddress.getAddress() instanceof java.net.Inet4Address) {
                         Address address = new Address.Builder()

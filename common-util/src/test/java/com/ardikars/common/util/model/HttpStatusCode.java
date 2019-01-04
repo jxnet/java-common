@@ -11,7 +11,7 @@ import java.util.Map;
 public final class HttpStatusCode extends NamedNumber<Integer, HttpStatusCode> {
 
     private static final Map<Integer, HttpStatusCode> registry
-            = new HashMap<>();
+            = new HashMap<Integer, HttpStatusCode>();
 
     public static final HttpStatusCode NOT_FOUND =
             new HttpStatusCode(404, "Not found.");

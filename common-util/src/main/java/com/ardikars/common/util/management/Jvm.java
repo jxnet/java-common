@@ -114,6 +114,9 @@ public interface Jvm {
 
     long getClassVerificationTime();
 
+    @Deprecated
     boolean hasJvm();
+
+    boolean isAccessible();
 
 }

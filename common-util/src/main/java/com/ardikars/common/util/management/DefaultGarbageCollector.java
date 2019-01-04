@@ -4,7 +4,6 @@ import com.ardikars.common.util.Sets;
 import com.ardikars.common.util.Validate;
 
 import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;

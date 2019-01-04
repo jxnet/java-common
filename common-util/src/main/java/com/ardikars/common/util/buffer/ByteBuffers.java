@@ -121,7 +121,7 @@ public final class ByteBuffers {
      * @param unsafe {@link sun.misc.Unsafe} object.
      * @return returns buffer address field, or returns exception on failure.
      */
-    private static Object findBufferAddressField(ByteBuffer direct, sun.misc.Unsafe unsafe) {
+    private static Object findBufferAddressField(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
         final sun.misc.Unsafe finalUnsafe = unsafe;
         final Object maybeAddressField = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
@@ -145,7 +145,7 @@ public final class ByteBuffers {
         return maybeAddressField;
     }
 
-    private static Object findDirectBufferConstructor(ByteBuffer direct, sun.misc.Unsafe unsafe) {
+    private static Object findDirectBufferConstructor(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
         final Object maybeDirectBufferConstructor = AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 @Override
                 public Object run() {

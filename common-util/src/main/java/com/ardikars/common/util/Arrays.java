@@ -323,4 +323,13 @@ public final class Arrays {
         return all;
     }
 
+    /**
+     * To string objects.
+     * @param objs objs.
+     * @return returns {@link String}.
+     */
+    public static String toString(Object... objs) {
+        return java.util.Arrays.toString(objs);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.ardikars.common.util.management;
 
+import com.ardikars.common.logging.Logger;
+import com.ardikars.common.logging.LoggerFactory;
 import com.ardikars.common.util.Reflections;
 import sun.management.VMManagement;
 
@@ -13,6 +15,8 @@ import java.util.List;
  * @since 1.2.3
  */
 final class DefaultJvm implements Jvm {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJvm.class);
 
     private static final DefaultOperatingSystem DEFAULT_OPERATING_SYSTEM_INFO
             = new DefaultOperatingSystem();
@@ -301,6 +305,11 @@ final class DefaultJvm implements Jvm {
         return VM_MANAGEMENT != null;
     }
 
+    @Override
+    public boolean isAccessible() {
+        return VM_MANAGEMENT != null;
+    }
+
     static {
         VMManagement vmManagement = null;
         try {
@@ -313,8 +322,10 @@ final class DefaultJvm implements Jvm {
                     vmManagement = (VMManagement) object;
                 }
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-
+        } catch (NoSuchFieldException e) {
+            LOGGER.warn(e);
+        } catch (IllegalAccessException e) {
+            LOGGER.warn(e);
         }
         VM_MANAGEMENT = vmManagement;
     }

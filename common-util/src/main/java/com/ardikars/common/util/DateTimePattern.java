@@ -57,7 +57,7 @@ public final class DateTimePattern {
         public static final DatePattern YYYY_MM_WITH_SPACE_AS_DELIMITER = new DatePattern("yyyy MM", "Year Month");
         public static final DatePattern MM_YYYY_WITH_SPACE_AS_DELIMITER = new DatePattern("MM yyyy", "Month Year");
 
-        private static final Map<String, DatePattern> registry = new HashMap<>();
+        private static final Map<String, DatePattern> registry = new HashMap<String, DatePattern>();
 
         public DatePattern(String value, String name) {
             super(value, name);
@@ -100,7 +100,7 @@ public final class DateTimePattern {
         public static final TimePattern HH_MM_SS_WITH_SPACE_AS_DELIMITER = new TimePattern("hh mm ss", "Hour Munite Second");
         public static final TimePattern HH_MM_WITH_SPACE_AS_DELIMITER = new TimePattern("hh mm", "Hour Munite");
 
-        private static final Map<String, TimePattern> registry = new HashMap<>();
+        private static final Map<String, TimePattern> registry = new HashMap<String, TimePattern>();
 
         public TimePattern(String value, String name) {
             super(value, name);

@@ -40,7 +40,7 @@ public abstract class LoggerFactory {
                 loggerFactory = JdkLoggerFactory.getInstance();
             }
         } catch (Throwable e) {
-            throw e;
+            throw new RuntimeException(e);
         }
         return loggerFactory;
     }

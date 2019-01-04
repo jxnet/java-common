@@ -41,7 +41,7 @@ class BufferCleanerJdk9 implements BufferCleaner {
     }
 
     @Override
-    public void clean(Buffer buffer, Callback<Void> callback) {
+    public void clean(final Buffer buffer, final Callback<Void> callback) {
         if (System.getSecurityManager() == null) {
             try {
                 INVOKE_CLEANER.invoke(UNSAFE, buffer);
@@ -69,7 +69,7 @@ class BufferCleanerJdk9 implements BufferCleaner {
     }
 
     static {
-        Unsafe unsafe = Unsafes.getUnsafe();
+        final Unsafe unsafe = Unsafes.getUnsafe();
         final Method method;
         final Throwable error;
         if (unsafe != null) {

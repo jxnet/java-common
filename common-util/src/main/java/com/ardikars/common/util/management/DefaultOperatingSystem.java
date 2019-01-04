@@ -108,8 +108,11 @@ final class DefaultOperatingSystem implements OperatingSystem {
                 return DEFAULT_LONG_ERROR_VALUE;
             }
             return (Long) object;
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            LOGGER.warn(e.getMessage());
+        } catch (IllegalAccessException e) {
+            LOGGER.warn(e);
+            return DEFAULT_LONG_ERROR_VALUE;
+        } catch (InvocationTargetException e) {
+            LOGGER.warn(e);
             return DEFAULT_LONG_ERROR_VALUE;
         }
     }
@@ -122,9 +125,12 @@ final class DefaultOperatingSystem implements OperatingSystem {
             }
             double value = (Double) object;
             return Math.round(value * PERCENTAGE_MULTIPLIER);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            LOGGER.warn(e.getMessage());
+        } catch (IllegalAccessException e) {
+            LOGGER.warn(e);
             return DEFAULT_DOUBLE_ERROR_VALUE;
+        } catch (InvocationTargetException e) {
+            LOGGER.warn(e);
+            return DEFAULT_LONG_ERROR_VALUE;
         }
     }
 

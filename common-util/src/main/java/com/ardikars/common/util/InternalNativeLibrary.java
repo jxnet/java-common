@@ -39,7 +39,7 @@ public final class InternalNativeLibrary implements Loader<Void> {
 
     private static final int BUFFER_SIZE = 1024;
 
-    private final Set<String> libraryPaths = new HashSet<>();
+    private final Set<String> libraryPaths = new HashSet<String>();
 
     /**
      * Load all registered (inner jar) native libarary.
