@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,18 @@
 package com.ardikars.common.util;
 
 /**
- * Helper for jdk 1.2-
+ * Represents an operation that consume a single input.
  *
- * @param <E> element type.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- * @since 1.2.6
+ * @param <E> the type of the input to the operation.
+ * @since 1.2.7
  */
-public abstract class AbstractReadOnlyIterator<E> extends AbstractIterator<E> implements CommonIterator<E> {
+public interface CommonConsumer<E> {
 
     /**
-     * Remove method doesn't supported for read only iterator.
+     * Performs this operation on the given argument.
+     *
+     * @param value the input argument
      */
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("remove");
-    }
+    boolean consume(E value) throws Exception;
 
 }

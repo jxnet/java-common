@@ -26,4 +26,25 @@ public interface CommonIterable<E, U extends CommonIterator<E>> extends java.lan
     @Override
     U iterator();
 
+    /**
+     * Performs the given action for each element of the {@code Iterable}
+     * until all elements have been processed or the action throws an
+     * exception.  Unless otherwise specified by the implementing class,
+     * actions are performed in the order of iteration (if an iteration order
+     * is specified).  Exceptions thrown by the action are relayed to the
+     * caller.
+     *
+     * @implSpec
+     * <p>The default implementation behaves as if:
+     * <pre>{@code
+     *     for (T t : this)
+     *         action.accept(t);
+     * }</pre>
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     * @since 1.2.7
+     */
+    void forEach(CommonConsumer<? super E> action) throws NullPointerException;
+
 }

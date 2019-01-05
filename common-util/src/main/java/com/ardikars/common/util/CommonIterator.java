@@ -24,4 +24,32 @@ package com.ardikars.common.util;
  */
 interface CommonIterator<E> extends java.util.Iterator<E> {
 
+    /**
+     * Performs the given action for each remaining element until all elements
+     * have been processed or the action throws an exception.  Actions are
+     * performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @implSpec
+     * <p>The default implementation behaves as if:
+     * <pre>{@code
+     *     while (hasNext())
+     *         action.accept(next());
+     * }</pre>
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     * @since 1.2.7
+     */
+    void forEachRemaining(CommonConsumer<? super E> action) throws Exception;
+
+    @Override
+    boolean hasNext();
+
+    @Override
+    E next();
+
+    @Override
+    void remove();
+
 }

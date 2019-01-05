@@ -25,4 +25,12 @@ package com.ardikars.common.util;
  */
 public abstract class AbstractIterator<E> implements CommonIterator<E> {
 
+    @Override
+    public void forEachRemaining(CommonConsumer<? super E> value) throws Exception {
+        Validate.notIllegalArgument(value != null, new IllegalArgumentException("Consumer should be not null."));
+        while (hasNext()) {
+            value.consume(next());
+        }
+    }
+
 }
