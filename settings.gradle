@@ -12,4 +12,5 @@ include 'common-annotation'
 include 'common-tuple'
 include 'common-constant'
 include 'common-logging'
+include 'common-memory'
 
