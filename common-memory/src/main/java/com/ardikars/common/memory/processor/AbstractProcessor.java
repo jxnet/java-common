@@ -1,10 +1,10 @@
 package com.ardikars.common.memory.processor;
 
-import com.ardikars.common.memory.InternalUnsafe;
+import java.nio.ByteOrder;
 
 abstract class AbstractProcessor implements Processor {
 
-    static final boolean BIG_ENDIAN_NATIVE_ORDER = InternalUnsafe.BIG_ENDIAN_NATIVE_ORDER;
+    static final boolean BIG_ENDIAN_NATIVE_ORDER = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
 
     final int capacity;
 
