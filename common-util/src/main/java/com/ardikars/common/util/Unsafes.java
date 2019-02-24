@@ -17,6 +17,7 @@ import java.util.List;
  * @author common 2018/12/13
  * @author <a href="mailto:contact@ardikars.com">Langkuy</a>
  */
+@Deprecated // it will only for internal use, because it very dangerous
 @Helper
 public final class Unsafes {
 
