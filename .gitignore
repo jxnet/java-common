@@ -28,6 +28,7 @@
 /common-logging/build
 /common-logging/out
 /common-logging/obj
-/common-bom/build
-/common-bom/out
-/common-bom/obj
+/common-memory/build
+/common-memory/out
+/common-mrmory/obj
+
