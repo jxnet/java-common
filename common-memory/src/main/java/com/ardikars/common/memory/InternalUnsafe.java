@@ -4,7 +4,7 @@ import com.ardikars.common.util.Unsafes;
 
 import java.nio.ByteOrder;
 
-public class InternalUnsafe {
+class InternalUnsafe {
 
     public static final boolean BIG_ENDIAN_NATIVE_ORDER = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
     public static final boolean UNALIGNED = Unsafes.isUnaligned();
