@@ -27,4 +27,6 @@ public interface Loader<T> {
 
     void load(Callback<T> callback);
 
+    void load(Callback<T> callback, Class[] loadClasses);
+
 }

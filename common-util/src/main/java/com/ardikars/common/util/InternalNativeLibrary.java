@@ -41,6 +41,18 @@ public final class InternalNativeLibrary implements Loader<Void> {
 
     private final Set<String> libraryPaths = new HashSet<String>();
 
+    @Override
+    public void load(Callback<Void> callback, Class[] loadClasses) {
+        for (Class classes : loadClasses) {
+            try {
+                Class.forName(classes.getName());
+            } catch (ClassNotFoundException e) {
+                //
+            }
+        }
+        load(callback);
+    }
+
     /**
      * Load all registered (inner jar) native libarary.
      * @param callback callback.
