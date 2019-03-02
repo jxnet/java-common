@@ -4,6 +4,9 @@ import com.ardikars.common.memory.processor.DefaultProcessorAllocator;
 import com.ardikars.common.memory.processor.Processor;
 import com.ardikars.common.memory.processor.ProcessorAllocator;
 
+/**
+ * Some methods in this {@link AbstractMemory} class is copied from netty-buffer project with some changes.
+ */
 abstract class AbstractMemory implements Memory {
 
     final long address;
@@ -19,18 +22,31 @@ abstract class AbstractMemory implements Memory {
 
     private boolean checkBounds;
 
-    private ProcessorAllocator processorAllocator = new DefaultProcessorAllocator();
+    private final ProcessorAllocator processorAllocator;
 
     AbstractMemory(long address, int capacity, int maxCapacity) {
         this(address, capacity, maxCapacity, 0, 0);
     }
 
+    AbstractMemory(long address, int capacity, int maxCapacity, ProcessorAllocator processorAllocator) {
+        this(address, capacity, maxCapacity, 0, 0, processorAllocator);
+    }
+
     AbstractMemory(long address, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
+        this(address, capacity, maxCapacity, readerIndex, writerIndex, null);
+    }
+
+    AbstractMemory(long address, int capacity, int maxCapacity, int readerIndex, int writerIndex, ProcessorAllocator processorAllocator) {
         this.address = address;
         this.capacity = capacity;
         this.maxCapacity = maxCapacity;
         this.readerIndex = readerIndex;
         this.writerIndex = writerIndex;
+        ProcessorAllocator allocator = processorAllocator;
+        if (allocator == null) {
+            allocator = new DefaultProcessorAllocator();
+        }
+        this.processorAllocator = allocator;
     }
 
     @Override
