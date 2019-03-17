@@ -15,9 +15,12 @@ import java.security.PrivilegedAction;
 
 /**
  * Buffer clener for jdk9+
+ * Deprecated: please use common-memory
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.2.3
  */
+@Deprecated
 class BufferCleanerJdk9 implements BufferCleaner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BufferCleanerJdk9.class);

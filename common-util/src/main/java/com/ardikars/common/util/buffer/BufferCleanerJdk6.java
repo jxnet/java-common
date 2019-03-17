@@ -16,9 +16,12 @@ import java.security.PrivilegedAction;
 
 /**
  * Buffer cleaner for jdk6+
+ * Deprecated: please use common-memory
+ *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.2.3
  */
+@Deprecated
 class BufferCleanerJdk6 implements BufferCleaner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BufferCleanerJdk6.class);
