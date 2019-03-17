@@ -1,9 +1,5 @@
 package com.ardikars.common.logging;
 
-/**
- * Slf4j logger factory.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class Slf4jLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new Slf4jLoggerFactory();

@@ -1,6 +1,6 @@
 package com.ardikars.common.memory;
 
-interface Memory extends MemoryProcessor {
+public interface Memory {
 
     int capacity();
 

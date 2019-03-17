@@ -4,10 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-/**
- * JDK logger implementation.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class JdkLogger extends AbstractLogger {
 
     private static final String SELF = JdkLogger.class.getName();
@@ -57,9 +53,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void debug(String format, Object... arguments) {
+    public void debug(String format, Object... args ) {
         if (logger.isLoggable(Level.ALL)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, arguments);
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
             log(SELF, Level.ALL, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -88,9 +84,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void info(String format, Object... arguments) {
+    public void info(String format, Object... args ) {
         if (logger.isLoggable(Level.INFO)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, arguments);
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
             log(SELF, Level.INFO, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -119,9 +115,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void warn(String format, Object... arguments) {
+    public void warn(String format, Object... args ) {
         if (logger.isLoggable(Level.WARNING)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, arguments);
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
             log(SELF, Level.WARNING, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -150,9 +146,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void error(String format, Object... arguments) {
+    public void error(String format, Object... args ) {
         if (logger.isLoggable(Level.SEVERE)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, arguments);
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
             log(SELF, Level.SEVERE, tuple.getMessage(), tuple.getThrowable());
         }
     }

@@ -1,28 +1,18 @@
 package com.ardikars.common.memory;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.junit.runners.MethodSorters;
+abstract class AbstractMemorySetterAndGetterTest extends BaseTest {
 
-@RunWith(JUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MemorySetterAndGetterTest extends BaseTest {
+    protected Memory memory;
 
-    private MemoryAllocator memoryAllocator = new DefaultMemoryAllocator();
+    protected abstract MemoryAllocator memoryAllocator();
 
-    private Memory memory;
+    public abstract void  allocate();
 
-    @Before
-    public void allocate() {
-        memory = memoryAllocator.allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE);
-    }
+    public abstract void  deallocate();
 
-    @Test
-    public void booleanTest() {
+    public abstract void  booleanTest();
+
+    protected void doBooleanTest() {
         memory.setBoolean(0, true);
         memory.setBoolean(1, false);
         memory.setBoolean(2, true);
@@ -31,8 +21,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         assert memory.getBoolean(2);
     }
 
-    @Test
-    public void byteTest() {
+    public abstract void byteTest();
+
+    protected void doByteTest() {
         for (int i = 0; i < DEFAULT_CAPACITY; i++) {
             memory.setByte(i, i);
         }
@@ -41,16 +32,18 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void unsignedByteTest() {
+    public abstract void unsignedByteTest();
+
+    protected void doUnsignedByteTest() {
         int value = (Byte.MAX_VALUE * 2) + 1;
         memory.setByte(0, value);
         assert memory.getUnsignedByte(0) == (short) value;
         assert memory.getByte(0) != value;
     }
 
-    @Test
-    public void shortTest() {
+    public abstract void shortTest();
+
+    protected void doShortTest() {
         for (int i = 0; i < DEFAULT_CAPACITY / SHORT_SIZE; i++) {
             memory.setShort(i += SHORT_SIZE, i);
         }
@@ -59,8 +52,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void shortLETest() {
+    public abstract void shotLETest();
+
+    protected void doShortLETest() {
         for (int i = 0; i < DEFAULT_CAPACITY / SHORT_SIZE; i++) {
             memory.setShortLE(i += SHORT_SIZE, i);
         }
@@ -69,24 +63,27 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void unsignedShortTest() {
+    public abstract void unsignedShortTest();
+
+    protected void doUnsignedShortTest() {
         int value = (Short.MAX_VALUE * 2) + 1;
         memory.setShort(0, value);
         assert memory.getUnsignedShort(0) == value;
         assert memory.getShort(0) != value;
     }
 
-    @Test
-    public void unsignedShortLETest() {
+    public abstract void unsignedShortLETest();
+
+    protected void doUnsignedShortLETest() {
         int value = (Short.MAX_VALUE * 2) + 1;
         memory.setShortLE(0, value);
         assert memory.getUnsignedShortLE(0) == value;
         assert memory.getShortLE(0) != value;
     }
 
-    @Test
-    public void intTest() {
+    public abstract void intTest();
+
+    protected void doIntTest() {
         for (int i = 0; i < DEFAULT_CAPACITY / INT_SIZE; i++) {
             memory.setInt(i += INT_SIZE, i);
         }
@@ -95,8 +92,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void intLETest() {
+    public abstract void intLETest();
+
+    protected void doIntLETest() {
         for (int i = 0; i < DEFAULT_CAPACITY / INT_SIZE; i++) {
             memory.setIntLE(i += INT_SIZE, i);
         }
@@ -105,22 +103,25 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void unsignedIntTest() {
+    public abstract void unsignedIntTest();
+
+    protected void doUnsignedIntTest() {
         memory.setInt(0, 0xffffffff);
         assert memory.getUnsignedInt(0) == 4294967295L;
         assert memory.getInt(0) != 4294967295L;
     }
 
-    @Test
-    public void unsignedIntLETest() {
+    public abstract void unsignedIntLETest();
+
+    protected void doUnsignedIntLETest() {
         memory.setIntLE(0, 0xffffffff);
         assert memory.getUnsignedIntLE(0) == 4294967295L;
         assert memory.getIntLE(0) != 4294967295L;
     }
 
-    @Test
-    public void floatTest() {
+    public abstract void floatTest();
+
+    protected void doFloatTest() {
         float random = RANDOM.nextFloat();
         for (int i = 0; i < DEFAULT_CAPACITY / INT_SIZE; i++) {
             memory.setFloat(i += INT_SIZE, i + random);
@@ -130,8 +131,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void floatLETest() {
+    public abstract void floatLETest();
+
+    protected void doFloatLETest() {
         float random = RANDOM.nextFloat();
         for (int i = 0; i < DEFAULT_CAPACITY / INT_SIZE; i++) {
             memory.setFloatLE(i += INT_SIZE, i + random);
@@ -141,8 +143,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void longTest() {
+    public abstract void longTest();
+
+    protected void doLongTest() {
         for (int i = 0; i < DEFAULT_CAPACITY / LONG_SIZE; i++) {
             memory.setLong(i += LONG_SIZE, i);
         }
@@ -151,8 +154,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void longLETest() {
+    public abstract void longLETest();
+
+    protected void doLongLETest() {
         for (int i = 0; i < DEFAULT_CAPACITY / LONG_SIZE; i++) {
             memory.setLongLE(i += LONG_SIZE, i);
         }
@@ -161,8 +165,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void doubleTest() {
+    public abstract void doubleTest();
+
+    protected void doDoubleTest() {
         double random = RANDOM.nextDouble();
         for (int i = 0; i < DEFAULT_CAPACITY / LONG_SIZE; i++) {
             memory.setDouble(i += LONG_SIZE, i + random);
@@ -172,8 +177,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void doubleLETest() {
+    public abstract void doubleLETest();
+
+    protected void doDoubleLETest() {
         double random = RANDOM.nextDouble();
         for (int i = 0; i < DEFAULT_CAPACITY / LONG_SIZE; i++) {
             memory.setDoubleLE(i += LONG_SIZE, i + random);
@@ -183,8 +189,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void setBytesTest() {
+    public abstract void setBytesTest();
+
+    protected void doSetBytesTest() {
         memory.setBytes(0, DUMMY);
         for (int i = 0; i < DUMMY.length; i++) {
             assert memory.getByte(i) == DUMMY[i];
@@ -193,7 +200,7 @@ public class MemorySetterAndGetterTest extends BaseTest {
         for (int i = 1; i < DUMMY.length - 2; i++) {
             assert memory.getByte(i) == DUMMY[i];
         }
-        Memory srcMem = memoryAllocator.allocate(DUMMY.length);
+        Memory srcMem = memoryAllocator().allocate(DUMMY.length);
         srcMem.setBytes(0, DUMMY);
         memory.setBytes(0, srcMem);
         for (int i = 0; i < DUMMY.length; i++) {
@@ -210,8 +217,9 @@ public class MemorySetterAndGetterTest extends BaseTest {
         }
     }
 
-    @Test
-    public void getBytesTest() {
+    public abstract void getBytesTest();
+
+    protected void doGetBytesTest() {
         for (byte val : DUMMY) {
             memory.writeByte(val);
         }
@@ -226,29 +234,24 @@ public class MemorySetterAndGetterTest extends BaseTest {
         for (int i = 1; i < dst.length - 1; i++) {
             assert dst[i] == DUMMY[i - 1];
         }
-        Memory dstMem = memoryAllocator.allocate(DUMMY.length);
+        Memory dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.getBytes(0, dstMem);
         for (int i = 0; i < dstMem.capacity(); i++) {
             assert memory.getByte(i) == DUMMY[i];
         }
         dstMem.release();
-        dstMem = memoryAllocator.allocate(DUMMY.length);
+        dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.getBytes(0, dstMem, DUMMY.length / BIT_SIZE);
         for (int i = 0; i < DUMMY.length / BIT_SIZE; i++) {
             assert memory.getByte(i) == dstMem.getByte(i);
         }
         dstMem.release();
-        dstMem = memoryAllocator.allocate(DUMMY.length);
+        dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.getBytes(0, dstMem, 1, dstMem.capacity() - 1);
         for (int i = 1; i < dstMem.capacity() - 1; i++) {
             assert dstMem.getByte(i) == DUMMY[i - 1];
         }
         dstMem.release();
-    }
-
-    @After
-    public void deallocate() {
-        memory.release();
     }
 
 }

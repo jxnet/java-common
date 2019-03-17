@@ -1,9 +1,5 @@
 package com.ardikars.common.logging;
 
-/**
- * Internal logger.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 public interface Logger {
 
     String name();
@@ -24,11 +20,11 @@ public interface Logger {
 
     void log(LogLevel level, String format, Object arg1, Object arg2);
 
-    void log(LogLevel level, String format, Object... arguments);
+    void log(LogLevel level, String format, Object... args);
 
     void log(LogLevel level, Throwable throwable);
 
-    void log(LogLevel level, String message, Throwable throwables);
+    void log(LogLevel level, String message, Throwable throwable);
 
     void debug(String message);
 
@@ -38,7 +34,7 @@ public interface Logger {
 
     void debug(String format, Object arg1, Object arg2);
 
-    void debug(String format, Object... arguments);
+    void debug(String format, Object... args);
 
     void debug(String message, Throwable throwable);
 
@@ -50,7 +46,7 @@ public interface Logger {
 
     void info(String format, Object obj1, Object obj2);
 
-    void info(String format, Object... arguments);
+    void info(String format, Object... args);
 
     void info(String message, Throwable throwable);
 
@@ -62,7 +58,7 @@ public interface Logger {
 
     void warn(String format, Object arg1, Object obj2);
 
-    void warn(String format, Object... arguments);
+    void warn(String format, Object... args);
 
     void warn(String message, Throwable throwable);
 
@@ -74,7 +70,7 @@ public interface Logger {
 
     void error(String format, Object obj1, Object obj2);
 
-    void error(String format, Object... arguments);
+    void error(String format, Object... args);
 
     void error(String message, Throwable throwable);
 

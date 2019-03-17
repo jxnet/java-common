@@ -30,7 +30,6 @@ interface CommonIterator<E> extends java.util.Iterator<E> {
      * performed in the order of iteration, if that order is specified.
      * Exceptions thrown by the action are relayed to the caller.
      *
-     * @implSpec
      * <p>The default implementation behaves as if:
      * <pre>{@code
      *     while (hasNext())

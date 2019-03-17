@@ -2,13 +2,9 @@ package com.ardikars.common.logging;
 
 import org.slf4j.Logger;
 
-/**
- * Slf4j logger implementation.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class Slf4jLogger extends AbstractLogger {
 
-    private final transient Logger logger;
+    private final Logger logger;
 
     Slf4jLogger(Logger logger) {
         super(logger.getName());
@@ -46,8 +42,8 @@ class Slf4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void debug(String format, Object... arguments) {
-        logger.debug(format, arguments);
+    public void debug(String format, Object... args ) {
+        logger.debug(format, args );
     }
 
     @Override
@@ -66,8 +62,8 @@ class Slf4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void info(String format, Object... arguments) {
-        logger.info(format, arguments);
+    public void info(String format, Object... args ) {
+        logger.info(format, args );
     }
 
     @Override
@@ -86,8 +82,8 @@ class Slf4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void warn(String format, Object... arguments) {
-        logger.warn(format, arguments);
+    public void warn(String format, Object... args ) {
+        logger.warn(format, args );
     }
 
     @Override
@@ -106,8 +102,8 @@ class Slf4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void error(String format, Object... arguments) {
-        logger.error(format, arguments);
+    public void error(String format, Object... args ) {
+        logger.error(format, args );
     }
 
     @Override

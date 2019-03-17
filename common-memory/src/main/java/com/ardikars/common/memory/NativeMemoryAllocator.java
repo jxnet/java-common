@@ -1,6 +1,6 @@
 package com.ardikars.common.memory;
 
-public class DefaultMemoryAllocator implements MemoryAllocator {
+final class NativeMemoryAllocator implements MemoryAllocator {
 
     @Override
     public Memory allocate(int capacity) {
@@ -14,8 +14,8 @@ public class DefaultMemoryAllocator implements MemoryAllocator {
 
     @Override
     public Memory allocate(int capacity, int maxCapacity, int readerIndex, int writerIndex) {
-        long address = InternalUnsafe._allocate(capacity);
-        return new ReadWriteMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
+        long address = InternalUnsafeOperation._allocate(capacity);
+        return new NativeMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
     }
 
 }

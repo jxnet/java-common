@@ -2,10 +2,6 @@ package com.ardikars.common.logging;
 
 import org.apache.logging.log4j.LogManager;
 
-/**
- * Log4j2 logger factory.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class Log4j2LoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new Log4j2LoggerFactory();

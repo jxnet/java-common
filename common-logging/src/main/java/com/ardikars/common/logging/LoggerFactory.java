@@ -1,14 +1,10 @@
 package com.ardikars.common.logging;
 
-/**
- * Logger factory.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 public abstract class LoggerFactory {
 
     private static volatile LoggerFactory DEFAULT_LOGGER_FACTORY;
 
-    public static LoggerFactory getDefaultLoggerFactory() {
+    private static LoggerFactory getDefaultLoggerFactory() {
         if (DEFAULT_LOGGER_FACTORY == null) {
             DEFAULT_LOGGER_FACTORY = newDefaultFactory();
         }
@@ -45,6 +41,6 @@ public abstract class LoggerFactory {
         return loggerFactory;
     }
 
-    public abstract Logger newInstance(String name);
+    abstract Logger newInstance(String name);
 
 }

@@ -1,9 +1,5 @@
 package com.ardikars.common.logging;
 
-/**
- * Abstract logger.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 abstract class AbstractLogger implements Logger {
 
     static final String DEFAULT_FORMAT = "{}";
@@ -120,19 +116,19 @@ abstract class AbstractLogger implements Logger {
     }
 
     @Override
-    public void log(LogLevel level, String format, Object... arguments) {
+    public void log(LogLevel level, String format, Object... args ) {
         switch (level) {
             case DEBUG:
-                debug(format, arguments);
+                debug(format, args );
                 break;
             case INFO:
-                info(format, arguments);
+                info(format, args );
                 break;
             case WARN:
-                warn(format, arguments);
+                warn(format, args );
                 break;
             case ERROR:
-                error(format, arguments);
+                error(format, args );
                 break;
             default:
                 throw new Error("Unknown log level");

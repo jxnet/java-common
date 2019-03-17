@@ -45,8 +45,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void debug(String format, Object... arguments) {
-        FormattingTuple tuple = MessageFormatter.format(format, arguments);
+    public void debug(String format, Object... args ) {
+        FormattingTuple tuple = MessageFormatter.format(format, args );
         logger.debug(tuple.getMessage());
     }
 
@@ -68,8 +68,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void info(String format, Object... arguments) {
-        FormattingTuple tuple = MessageFormatter.format(format, arguments);
+    public void info(String format, Object... args ) {
+        FormattingTuple tuple = MessageFormatter.format(format, args );
         logger.info(tuple.getMessage());
     }
 
@@ -91,8 +91,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void warn(String format, Object... arguments) {
-        FormattingTuple tuple = MessageFormatter.format(format, arguments);
+    public void warn(String format, Object... args ) {
+        FormattingTuple tuple = MessageFormatter.format(format, args );
         logger.warn(tuple.getMessage());
     }
 
@@ -114,8 +114,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void error(String format, Object... arguments) {
-        FormattingTuple tuple = MessageFormatter.format(format, arguments);
+    public void error(String format, Object... args ) {
+        FormattingTuple tuple = MessageFormatter.format(format, args );
         logger.error(tuple.getMessage());
     }
 

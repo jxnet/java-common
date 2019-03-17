@@ -3,17 +3,8 @@ package com.ardikars.common.logging;
 import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.apache.logging.log4j.spi.ExtendedLoggerWrapper;
 
-/**
- * Log4j2 logger implementation.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class Log4j2Logger extends ExtendedLoggerWrapper implements Logger {
 
-    /**
-     * Constructor that wraps and existing Logger.
-     *
-     * @param logger         The Logger to wrap.
-     */
     public Log4j2Logger(org.apache.logging.log4j.Logger logger) {
         super((ExtendedLogger) logger, logger.getName(), logger.getMessageFactory());
     }
@@ -100,19 +91,19 @@ class Log4j2Logger extends ExtendedLoggerWrapper implements Logger {
     }
 
     @Override
-    public void log(LogLevel level, String format, Object... arguments) {
+    public void log(LogLevel level, String format, Object... args ) {
         switch (level) {
             case DEBUG:
-                super.debug(format, arguments);
+                super.debug(format, args );
                 break;
             case INFO:
-                super.info(format, arguments);
+                super.info(format, args );
                 break;
             case WARN:
-                super.warn(format, arguments);
+                super.warn(format, args );
                 break;
             case ERROR:
-                super.error(format, arguments);
+                super.error(format, args );
                 break;
             default:
                 throw new Error("Unknown log level");

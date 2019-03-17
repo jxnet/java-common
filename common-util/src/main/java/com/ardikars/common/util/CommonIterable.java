@@ -34,7 +34,6 @@ public interface CommonIterable<E, U extends CommonIterator<E>> extends java.lan
      * is specified).  Exceptions thrown by the action are relayed to the
      * caller.
      *
-     * @implSpec
      * <p>The default implementation behaves as if:
      * <pre>{@code
      *     for (T t : this)

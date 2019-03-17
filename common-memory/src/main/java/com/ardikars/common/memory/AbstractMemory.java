@@ -1,15 +1,8 @@
 package com.ardikars.common.memory;
 
-import com.ardikars.common.memory.processor.DefaultProcessorAllocator;
-import com.ardikars.common.memory.processor.Processor;
-import com.ardikars.common.memory.processor.ProcessorAllocator;
+import com.ardikars.common.util.Properties;
 
-/**
- * Some methods in this {@link AbstractMemory} class is copied from netty-buffer project with some changes.
- */
 abstract class AbstractMemory implements Memory {
-
-    final long address;
 
     int capacity;
     int maxCapacity;
@@ -20,33 +13,21 @@ abstract class AbstractMemory implements Memory {
     private int markedReaderIndex;
     private int markedWriterIndex;
 
-    private boolean checkBounds;
+    protected boolean freed;
 
-    private final ProcessorAllocator processorAllocator;
+    static final boolean checkBounds = Properties.getBoolean("jmalloc.checkBounds", false);
 
-    AbstractMemory(long address, int capacity, int maxCapacity) {
-        this(address, capacity, maxCapacity, 0, 0);
+    static final boolean checkAcessible = Properties.getBoolean("jmalloc.checkAccessible", false);
+
+    AbstractMemory(int capacity, int maxCapacity) {
+        this(capacity, maxCapacity, 0, 0);
     }
 
-    AbstractMemory(long address, int capacity, int maxCapacity, ProcessorAllocator processorAllocator) {
-        this(address, capacity, maxCapacity, 0, 0, processorAllocator);
-    }
-
-    AbstractMemory(long address, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
-        this(address, capacity, maxCapacity, readerIndex, writerIndex, null);
-    }
-
-    AbstractMemory(long address, int capacity, int maxCapacity, int readerIndex, int writerIndex, ProcessorAllocator processorAllocator) {
-        this.address = address;
+    AbstractMemory(int capacity, int maxCapacity, int readerIndex, int writerIndex) {
         this.capacity = capacity;
         this.maxCapacity = maxCapacity;
         this.readerIndex = readerIndex;
         this.writerIndex = writerIndex;
-        ProcessorAllocator allocator = processorAllocator;
-        if (allocator == null) {
-            allocator = new DefaultProcessorAllocator();
-        }
-        this.processorAllocator = allocator;
     }
 
     @Override
@@ -173,7 +154,7 @@ abstract class AbstractMemory implements Memory {
             throw new IllegalArgumentException(String.format(
                     "minWritableBytes: %d (expected: >= 0)", minWritableBytes));
         }
-        ensureWritable0(minWritableBytes);
+        checkWritableBytes(minWritableBytes);
         return this;
     }
 
@@ -309,7 +290,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public byte readByte() {
-        checkReadableBytes0(1);
+        checkReadableBytes(1);
         int i = readerIndex;
         byte b = getByte(i);
         readerIndex = i + 1;
@@ -323,7 +304,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public short readShort() {
-        checkReadableBytes0(2);
+        checkReadableBytes(2);
         short v = getShort(readerIndex);
         readerIndex += 2;
         return v;
@@ -331,7 +312,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public short readShortLE() {
-        checkReadableBytes0(2);
+        checkReadableBytes(2);
         short v = getShortLE(readerIndex);
         readerIndex += 2;
         return v;
@@ -349,7 +330,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public int readInt() {
-        checkReadableBytes0(4);
+        checkReadableBytes(4);
         int v = getInt(readerIndex);
         readerIndex += 4;
         return v;
@@ -357,7 +338,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public int readIntLE() {
-        checkReadableBytes0(4);
+        checkReadableBytes(4);
         int v = getIntLE(readerIndex);
         readerIndex += 4;
         return v;
@@ -395,7 +376,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public long readLong() {
-        checkReadableBytes0(8);
+        checkReadableBytes(8);
         long v = getLong(readerIndex);
         readerIndex += 8;
         return v;
@@ -403,7 +384,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public long readLongLE() {
-        checkReadableBytes0(8);
+        checkReadableBytes(8);
         long v = getLongLE(readerIndex);
         readerIndex += 8;
         return v;
@@ -465,14 +446,14 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeByte(int value) {
-        ensureWritable0(1);
+        checkWritableBytes(1);
         setByte(writerIndex++, value);
         return this;
     }
 
     @Override
     public Memory writeShort(int value) {
-        ensureWritable0(2);
+        checkWritableBytes(2);
         setShort(writerIndex, value);
         writerIndex += 2;
         return this;
@@ -480,7 +461,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeShortLE(int value) {
-        ensureWritable0(2);
+        checkWritableBytes(2);
         setShortLE(writerIndex, value);
         writerIndex += 2;
         return this;
@@ -488,7 +469,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeInt(int value) {
-        ensureWritable0(4);
+        checkWritableBytes(4);
         setInt(writerIndex, value);
         writerIndex += 4;
         return this;
@@ -496,7 +477,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeIntLE(int value) {
-        ensureWritable0(4);
+        checkWritableBytes(4);
         setIntLE(writerIndex, value);
         writerIndex += 4;
         return this;
@@ -504,7 +485,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeLong(long value) {
-        ensureWritable0(8);
+        checkWritableBytes(8);
         setLong(writerIndex, value);
         writerIndex += 8;
         return this;
@@ -512,7 +493,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory writeLongLE(long value) {
-        ensureWritable0(8);
+        checkWritableBytes(8);
         setLongLE(writerIndex, value);
         writerIndex += 8;
         return this;
@@ -549,7 +530,10 @@ abstract class AbstractMemory implements Memory {
     @Override
     public Memory writeBytes(Memory src, int length) {
         if (checkBounds) {
-            checkReadableBounds(src, length);
+            if (length > src.readableBytes()) {
+                throw new IndexOutOfBoundsException(String.format(
+                        "length(%d) exceeds src.readableBytes(%d) where src is: %s", length, src.readableBytes(), src));
+            }
         }
         writeBytes(src, src.readerIndex(), length);
         src.readerIndex(src.readerIndex() + length);
@@ -579,48 +563,8 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
-    public Processor getByteProcessor(int index) {
-        return processorAllocator.bitByte(getByte(index));
-    }
-
-    @Override
-    public Processor getShortProcessor(int index) {
-        return processorAllocator.bitShort(getShort(index));
-    }
-
-    @Override
-    public Processor getIntegerProcessor(int index) {
-        return processorAllocator.bitInteger(getInt(index));
-    }
-
-    @Override
-    public Processor getLongProcessor(int index) {
-        return processorAllocator.bitLong(getLong(index));
-    }
-
-    @Override
-    public Processor readByteProcessor() {
-        return processorAllocator.bitByte(readByte());
-    }
-
-    @Override
-    public Processor readShortProcessor() {
-        return processorAllocator.bitShort(readShort());
-    }
-
-    @Override
-    public Processor readIntegerProcessor() {
-        return processorAllocator.bitInteger(readInt());
-    }
-
-    @Override
-    public Processor readLongProcessor() {
-        return processorAllocator.bitLong(readLong());
-    }
-
-    @Override
     public Memory copy() {
-        return copy(readerIndex, readableBytes());
+        return copy(0, capacity());
     }
 
     @Override
@@ -628,68 +572,7 @@ abstract class AbstractMemory implements Memory {
         return slice(readerIndex, readableBytes());
     }
 
-    @Override
-    public long memoryAddress() {
-        return address;
-    }
-
-    @Override
-    public void release() {
-        InternalUnsafe.free(memoryAddress());
-    }
-
-    final void ensureWritable0(int minWritableBytes) {
-        if (minWritableBytes <= writableBytes()) {
-            return;
-        }
-
-        if (minWritableBytes > maxCapacity - writerIndex) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "writerIndex(%d) + minWritableBytes(%d) exceeds maxCapacity(%d): %s",
-                    writerIndex, minWritableBytes, maxCapacity, this));
-        }
-
-        // Normalize the current capacity to the power of 2.
-        int newCapacity = calculateNewCapacity(writerIndex + minWritableBytes, maxCapacity);
-
-        // Adjust to the new capacity.
-        capacity(newCapacity);
-    }
-
-    final void checkReadableBytes(int minimumReadableBytes) {
-        if (minimumReadableBytes < 0) {
-            throw new IllegalArgumentException("minimumReadableBytes: " + minimumReadableBytes + " (expected: >= 0)");
-        }
-        if (readerIndex > writerIndex - minimumReadableBytes) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "readerIndex(%d) + length(%d) exceeds writerIndex(%d): %s",
-                    readerIndex, minimumReadableBytes, writerIndex, this));
-        }
-    }
-
-    final void checkReadableBounds(final Memory src, final int length) {
-        if (length > src.readableBytes()) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "length(%d) exceeds src.readableBytes(%d) where src is: %s", length, src.readableBytes(), src));
-        }
-    }
-
-    final long addr(int index) {
-        return address + index;
-    }
-
-    final void checkIndex(int index, int fieldLength) {
-        if (isOutOfBounds(index, fieldLength, capacity())) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "index: %d, length: %d (expected: range(0, %d))", index, fieldLength, capacity()));
-        }
-    }
-
-    final boolean isOutOfBounds(int index, int length, int capacity) {
-        return (index | length | (index + length) | (capacity - (index + length))) < 0;
-    }
-
-    final int calculateNewCapacity(int minNewCapacity, int maxCapacity) {
+    private int calculateNewCapacity(int minNewCapacity, int maxCapacity) {
         if (minNewCapacity < 0) {
             throw new IllegalArgumentException("minNewCapacity: " + minNewCapacity + " (expected: 0+)");
         }
@@ -724,11 +607,64 @@ abstract class AbstractMemory implements Memory {
         return Math.min(newCapacity, maxCapacity);
     }
 
-    private void checkReadableBytes0(int minimumReadableBytes) {
-        if (readerIndex > writerIndex - minimumReadableBytes) {
+    private void checkWritableBytes(int minWritableBytes) {
+        if (minWritableBytes <= writableBytes()) {
+            return;
+        }
+
+        if (minWritableBytes > maxCapacity - writerIndex()) {
+            throw new IndexOutOfBoundsException(String.format(
+                    "writerIndex(%d) + minWritableBytes(%d) exceeds maxCapacity(%d): %s",
+                    writerIndex(), minWritableBytes, maxCapacity, this));
+        }
+
+        // Normalize the current capacity to the power of 2.
+        int newCapacity = calculateNewCapacity(writerIndex() + minWritableBytes, maxCapacity);
+
+        // Adjust to the new capacity.
+        capacity(newCapacity);
+    }
+
+    private void checkReadableBytes(int minimumReadableBytes) {
+        if (minimumReadableBytes < 0) {
+            throw new IllegalArgumentException("minimumReadableBytes: " + minimumReadableBytes + " (expected: >= 0)");
+        }
+        if (readerIndex() > writerIndex() - minimumReadableBytes) {
             throw new IndexOutOfBoundsException(String.format(
                     "readerIndex(%d) + length(%d) exceeds writerIndex(%d): %s",
-                    readerIndex, minimumReadableBytes, writerIndex, this));
+                    readerIndex(), minimumReadableBytes, writerIndex(), this));
+        }
+    }
+
+    void checkIndex(int index, int fieldLength) {
+        if (isOutOfBounds(index, fieldLength, capacity())) {
+            throw new IndexOutOfBoundsException(String.format(
+                    "index: %d, length: %d (expected: range(0, %d))", index, fieldLength, capacity()));
+        }
+    }
+
+    boolean isOutOfBounds(int index, int length, int capacity) {
+        return (index | length | (index + length) | (capacity - (index + length))) < 0;
+    }
+
+    void checkNewCapacity(int newCapacity) {
+        if (checkBounds) {
+            if (newCapacity < 0 || newCapacity > maxCapacity()) {
+                throw new IllegalArgumentException("newCapacity: " + newCapacity +
+                        " (expected: 0-" + maxCapacity() + ')');
+            }
+        }
+    }
+
+    void ensureAccessible() {
+        if (checkAcessible) {
+            if (freed) {
+                if (this instanceof NativeMemory) {
+                    throw new IllegalStateException(String.format("%d is already freed.", memoryAddress()));
+                } else {
+                    throw new IllegalStateException("Memory is already cleaned/freed.");
+                }
+            }
         }
     }
 

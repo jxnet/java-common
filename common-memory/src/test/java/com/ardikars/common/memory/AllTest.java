@@ -5,9 +5,14 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    MemoryTest.class,
-    MemoryWriterAndReaderTest.class,
-    MemorySetterAndGetterTest.class
+    InternalByteBufferHelperTest.class,
+    MemoriesTest.class,
+    NativeMemoryTest.class,
+    NativeMemoryWriterAndReaderTest.class,
+    NativeMemorySetterAndGetterTest.class,
+    DirectMemoryTest.class,
+    DirectMemoryWriterAndReaderTest.class,
+    DirectMemorySetterAndGetterTest.class
 })
 public class AllTest {
 

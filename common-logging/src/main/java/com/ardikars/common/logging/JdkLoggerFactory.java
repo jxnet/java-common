@@ -1,9 +1,5 @@
 package com.ardikars.common.logging;
 
-/**
- * JDK Logger Factory.
- * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
- */
 class JdkLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new JdkLoggerFactory();
