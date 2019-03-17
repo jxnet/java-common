@@ -10,6 +10,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ final class InternalUnsafeHelper {
     private static final boolean UNSAFE_AVAILABLE;
     private static final boolean UNALIGNED;
     private static final List<Throwable> NO_UNSAFE_CAUSES;
+    private static long BUFFER_ADDRESS_FIELD_OFFSET = -1;
+    private static final Constructor<?> DIRECT_BUFFER_CONSTRUCTOR;
 
     /**
      * Ensures the {@link Unsafe} object is available.
@@ -51,6 +55,14 @@ final class InternalUnsafeHelper {
             throw UNSUPPORTED_OPERATION_EXCEPTION;
         }
         return UNSAFE;
+    }
+
+    /**
+     * Get direct {@link ByteBuffer} constructor.
+     * @return returns direct {@link ByteBuffer} constructor.
+     */
+    public static Constructor<?> getDirectBufferConstructor() {
+        return DIRECT_BUFFER_CONSTRUCTOR;
     }
 
     /**
@@ -223,8 +235,55 @@ final class InternalUnsafeHelper {
         return maybeUnaligned;
     }
 
+    private static Object findBufferAddressField(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
+        final sun.misc.Unsafe finalUnsafe = unsafe;
+        final Object maybeAddressField = AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
+            public Object run() {
+                try {
+                    final Field field = Buffer.class.getDeclaredField("address");
+                    final long offset = finalUnsafe.objectFieldOffset(field);
+                    final long address = finalUnsafe.getLong(direct, offset);
+                    if (address == 0) {
+                        // if it's buffer is direct buffer, address will no not 0.
+                        return new IllegalStateException("Non direct buffer.");
+                    }
+                    return field;
+                } catch (NoSuchFieldException e) {
+                    return e;
+                } catch (SecurityException e) {
+                    return e;
+                }
+            }
+        });
+        return maybeAddressField;
+    }
+
+    private static Object findDirectBufferConstructor(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
+        final Object maybeDirectBufferConstructor = AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
+            public Object run() {
+                try {
+                    final Constructor<?> constructor =
+                            direct.getClass().getDeclaredConstructor(long.class, int.class);
+                    Throwable cause = Reflections.trySetAccessible(constructor, true);
+                    if (cause != null) {
+                        return cause;
+                    }
+                    return constructor;
+                } catch (NoSuchMethodException e) {
+                    return e;
+                } catch (SecurityException e) {
+                    return e;
+                }
+            }
+        });
+        return maybeDirectBufferConstructor;
+    }
+
     static {
         Unsafe unsafe = null;
+        Constructor<?> directBufferConstructor = null;
         List<Throwable> causes = new ArrayList<Throwable>();
         Object maybeUnsafe = findUnsafe();
         final boolean unaligned;
@@ -262,6 +321,45 @@ final class InternalUnsafeHelper {
                     causes.add((Throwable) maybeExceptionJdk9);
                 }
             }
+
+            ByteBuffer direct = ByteBuffer.allocateDirect(1);
+            Object maybeBufferAddressField = findBufferAddressField(direct, unsafe);
+            if (maybeBufferAddressField instanceof Field) {
+//                    LOGGER.debug("java.nio.Buffer.address: available");
+                BUFFER_ADDRESS_FIELD_OFFSET = unsafe.objectFieldOffset((Field) maybeBufferAddressField);
+            } else {
+//                    LOGGER.warn("java.nio.Buffer.address: unavailable: {}", ((Throwable) maybeBufferAddressField).getMessage());
+                unsafe = null;
+            }
+
+            long address = -1;
+            try {
+                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct, unsafe);
+                if (maybeDirectBufferConstructor instanceof Constructor<?>) {
+                    address = unsafe.allocateMemory(1);
+                    // try to use the constructor now
+                    try {
+                        ((Constructor<?>) maybeDirectBufferConstructor).newInstance(address, 1);
+                        directBufferConstructor = (Constructor<?>) maybeDirectBufferConstructor;
+//                            LOGGER.debug("direct buffer constructor: available");
+                    } catch (InstantiationException e) {
+                        directBufferConstructor = null;
+                    } catch (IllegalAccessException e) {
+                        directBufferConstructor = null;
+                    } catch (InvocationTargetException e) {
+                        directBufferConstructor = null;
+                    }
+                } else {
+//                        LOGGER.debug(
+//                                "direct buffer constructor: unavailable",
+//                                (Throwable) maybeDirectBufferConstructor);
+                    directBufferConstructor = null;
+                }
+            } finally {
+                if (address != -1) {
+                    unsafe.freeMemory(address);
+                }
+            }
         }
         if (unsafe == null) {
             UNSAFE = null;
@@ -272,6 +370,7 @@ final class InternalUnsafeHelper {
         }
         UNALIGNED = unaligned;
         NO_UNSAFE_CAUSES = Collections.unmodifiableList(causes);
+        DIRECT_BUFFER_CONSTRUCTOR = directBufferConstructor;
     }
 
 }

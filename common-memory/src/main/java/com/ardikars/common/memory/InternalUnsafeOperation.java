@@ -2,6 +2,7 @@ package com.ardikars.common.memory;
 
 import com.ardikars.common.util.Platforms;
 
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 final class InternalUnsafeOperation {
@@ -246,6 +247,18 @@ final class InternalUnsafeOperation {
         if (length != 0) {
             InternalUnsafeHelper.getUnsafe().copyMemory(src, (long) (BYTE_ARRAY_OFFSET + srcIndex), null, buf.memoryAddress() + index, length);
         }
+    }
+
+    static ByteBuffer _wrap(long memoryAddress, int size) {
+        if (InternalUnsafeHelper.getDirectBufferConstructor() != null) {
+            try {
+                return (ByteBuffer) InternalUnsafeHelper.getDirectBufferConstructor().newInstance(memoryAddress, size);
+            } catch (Throwable cause) {
+                throw new RuntimeException(cause);
+            }
+        }
+        throw new UnsupportedOperationException(
+                "sun.misc.Unsafe or java.nio.DirectByteBuffer.<init>(long, int) not available");
     }
 
 }

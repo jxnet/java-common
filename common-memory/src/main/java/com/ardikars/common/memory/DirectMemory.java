@@ -208,8 +208,12 @@ class DirectMemory extends AbstractMemory {
     @Override
     public DirectMemory duplicate() {
         ensureAccessible();
-        ByteBuffer copy = buffer.duplicate();
-        return new DirectMemory(baseIndex, copy, capacity(), maxCapacity(), readerIndex(), writerIndex());
+        return new DirectMemory(baseIndex, buffer, capacity(), maxCapacity(), readerIndex(), writerIndex());
+    }
+
+    @Override
+    public ByteBuffer nioBuffer() {
+        return buffer;
     }
 
     @Override

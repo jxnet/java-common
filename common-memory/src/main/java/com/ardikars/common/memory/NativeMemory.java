@@ -1,5 +1,7 @@
 package com.ardikars.common.memory;
 
+import java.nio.ByteBuffer;
+
 class NativeMemory extends AbstractMemory {
 
     long address;
@@ -18,15 +20,7 @@ class NativeMemory extends AbstractMemory {
     public NativeMemory capacity(int newCapacity) {
         ensureAccessible();
         checkNewCapacity(newCapacity);
-//        int oldCapacity = capacity;
         this.address = InternalUnsafeOperation._reallocate(this, newCapacity);
-//        NativeMemory newMemory = new NativeMemory(newAddress, newCapacity,
-//                maxCapacity > newCapacity ? maxCapacity : newCapacity, readerIndex(), writerIndex());
-//        if (newCapacity > oldCapacity) {
-//            newMemory.setBytes(0, this, 0, oldCapacity);
-//        } else if (newCapacity < oldCapacity) {
-//            newMemory.setBytes(0, this, 0, newCapacity);
-//        }
         this.capacity = newCapacity;
         this.maxCapacity = maxCapacity > newCapacity ? maxCapacity : newCapacity;
         return this;
@@ -179,14 +173,19 @@ class NativeMemory extends AbstractMemory {
     @Override
     public NativeMemory slice(int index, int length) {
         ensureAccessible();
-        return new SlicedNativeMemory(address, address + index, length, maxCapacity, readerIndex() - index, writerIndex() - index);
+        return new SlicedNativeMemory(address, capacity, address + index, length, maxCapacity, readerIndex() - index, writerIndex() - index);
     }
 
     @Override
     public NativeMemory duplicate() {
         ensureAccessible();
-        NativeMemory memory = copy(0, capacity);
+        NativeMemory memory = new NativeMemory(address, capacity, maxCapacity, readerIndex(), writerIndex());
         return memory;
+    }
+
+    @Override
+    public ByteBuffer nioBuffer() {
+        return InternalUnsafeOperation._wrap(memoryAddress(), capacity);
     }
 
     @Override

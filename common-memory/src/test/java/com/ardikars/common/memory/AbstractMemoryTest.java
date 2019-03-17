@@ -1,5 +1,7 @@
 package com.ardikars.common.memory;
 
+import java.nio.ByteBuffer;
+
 abstract class AbstractMemoryTest extends BaseTest {
 
     protected Memory memory;
@@ -169,6 +171,42 @@ abstract class AbstractMemoryTest extends BaseTest {
         assert newMemoryAlso.writerIndex() == newMemory.writerIndex();
         newMemory.release();
         newMemoryAlso.release();
+    }
+
+    public abstract void duplicateTest();
+
+    protected void doDuplicateTest() {
+        for (byte val : DUMMY) {
+            memory.writeByte(val);
+        }
+        Memory duplicated = memory.duplicate();
+        if (duplicated instanceof NativeMemory) {
+            assert duplicated.memoryAddress() == memory.memoryAddress();
+        }
+        assert duplicated.capacity() == memory.capacity();
+        assert duplicated.maxCapacity() == memory.maxCapacity();
+        for (int i = 0; i < DUMMY.length; i++) {
+            assert duplicated.readByte() == DUMMY[i];
+        }
+        // test visibility (sharing buffer)
+        memory.writeByte(9);
+        duplicated.writerIndex(duplicated.writerIndex() + 1);
+        assert duplicated.readByte() == 9;
+    }
+
+    public abstract void nioBufferTest();
+
+    protected void doNioBufferTest() {
+        for (byte val : DUMMY) {
+            memory.writeByte(val);
+        }
+        ByteBuffer buffer = memory.nioBuffer();
+        buffer.position(0);
+        assert buffer.isDirect();
+        assert buffer.capacity() == memory.capacity();
+        for (int i = 0; i < DUMMY.length; i++) {
+            assert buffer.get(i) == DUMMY[i];
+        }
     }
 
 }

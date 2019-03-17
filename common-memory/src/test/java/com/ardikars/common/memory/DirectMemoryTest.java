@@ -95,4 +95,16 @@ public class DirectMemoryTest extends AbstractMemoryTest {
         doNewCapacityTest();
     }
 
+    @Test
+    @Override
+    public void duplicateTest() {
+        doDuplicateTest();
+    }
+
+    @Test
+    @Override
+    public void nioBufferTest() {
+        doNioBufferTest();
+    }
+
 }

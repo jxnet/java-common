@@ -1,5 +1,8 @@
 package com.ardikars.common.memory;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
 public interface Memory {
 
     int capacity();
@@ -211,6 +214,8 @@ public interface Memory {
     Memory slice(int index, int length);
 
     Memory duplicate();
+
+    ByteBuffer nioBuffer();
 
     long memoryAddress();
 
