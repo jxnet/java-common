@@ -10,9 +10,9 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DirectMemoryTest extends AbstractMemoryTest {
+public class HeapMemoryTest extends AbstractMemoryTest {
 
-    private final MemoryAllocator MEMORY_ALLOCATOR = new DirectMemoryAllocator();
+    private final MemoryAllocator MEMORY_ALLOCATOR = new HeapMemoryAllocator();
 
     @Override
     protected MemoryAllocator memoryAllocator() {
@@ -105,7 +105,7 @@ public class DirectMemoryTest extends AbstractMemoryTest {
     @Override
     public void nioBufferTest() {
         doNioBufferTest();
-        assert memory.nioBuffer().isDirect();
+        assert !memory.nioBuffer().isDirect();
     }
 
 }

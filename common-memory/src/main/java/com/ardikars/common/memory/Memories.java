@@ -6,10 +6,17 @@ public final class Memories {
 
     public static MemoryAllocator allocator() {
         if (InternalUnsafeHelper.isUnsafeAvailable()) {
-            return new NativeMemoryAllocator();
+            return nativeAllocator();
         } else {
-            return new DirectMemoryAllocator();
+            return directAllocator();
         }
+    }
+
+    public static MemoryAllocator allocator(boolean direct) {
+        if (direct) {
+            return allocator();
+        }
+        return heapAllocator();
     }
 
     public static MemoryAllocator nativeAllocator() {
@@ -18,6 +25,10 @@ public final class Memories {
 
     public static MemoryAllocator directAllocator() {
         return new DirectMemoryAllocator();
+    }
+
+    public static MemoryAllocator heapAllocator() {
+        return new HeapMemoryAllocator();
     }
 
     public static Memory wrap(long memoryAddress, int size) {

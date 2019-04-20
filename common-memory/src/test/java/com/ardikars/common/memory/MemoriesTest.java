@@ -16,6 +16,21 @@ public class MemoriesTest {
         assert allocator instanceof DirectMemoryAllocator || allocator instanceof NativeMemoryAllocator;
         Memory memory = allocator.allocate(8);
         memory.release();
+        assert memory.nioBuffer().isDirect();
+    }
+
+    @Test
+    public void defaultAllocatorWithParameter() {
+        MemoryAllocator allocator = Memories.allocator(true);
+        assert allocator instanceof DirectMemoryAllocator || allocator instanceof NativeMemoryAllocator;
+        Memory memory = allocator.allocate(8);
+        memory.release();
+        assert memory.nioBuffer().isDirect();
+
+        MemoryAllocator heapAllocator = Memories.allocator(false);
+        assert heapAllocator instanceof HeapMemoryAllocator;
+        Memory heapMemory = heapAllocator.allocate(8);
+        assert !heapMemory.nioBuffer().isDirect();
     }
 
     @Test

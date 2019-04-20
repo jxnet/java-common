@@ -1,25 +1,20 @@
 package com.ardikars.common.memory;
 
-import com.ardikars.common.util.Platforms;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-class DirectMemory extends AbstractNioMemory {
+class HeapMemory extends AbstractNioMemory {
 
-    private static final DirectMemoryCleaner CLEANER = Platforms.getJavaMojorVersion() < 9 ?
-            new DirectMemoryCleanerJdk6() : new DirectMemoryCleanerJdk9();
-
-    public DirectMemory(int baseIndex, ByteBuffer buffer, int capacity, int maxCapacity) {
+    public HeapMemory(int baseIndex, ByteBuffer buffer, int capacity, int maxCapacity) {
         this(baseIndex, buffer, capacity, maxCapacity, 0, 0);
     }
 
-    public DirectMemory(int baseIndex, ByteBuffer buffer, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
+    public HeapMemory(int baseIndex, ByteBuffer buffer, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
         super(baseIndex, buffer, capacity, maxCapacity, readerIndex, writerIndex);
     }
 
     @Override
-    public DirectMemory capacity(int newCapacity) {
+    public HeapMemory capacity(int newCapacity) {
         ensureAccessible();
         checkNewCapacity(newCapacity);
 
@@ -37,15 +32,14 @@ class DirectMemory extends AbstractNioMemory {
             newBuffer.put(oldBuffer);
             newBuffer.clear();
         }
-        DirectMemory memory = new DirectMemory(baseIndex, newBuffer, newCapacity - baseIndex,
+        HeapMemory memory = new HeapMemory(baseIndex, newBuffer, newCapacity - baseIndex,
                 maxCapacity - baseIndex > newCapacity - baseIndex ?
-                maxCapacity - baseIndex : newCapacity - baseIndex, readerIndex(), writerIndex());
-        CLEANER.clean(oldBuffer);
+                        maxCapacity - baseIndex : newCapacity - baseIndex, readerIndex(), writerIndex());
         return memory;
     }
 
     @Override
-    public DirectMemory getBytes(int index, Memory dst, int dstIndex, int length) {
+    public HeapMemory getBytes(int index, Memory dst, int dstIndex, int length) {
         ensureAccessible();
         index = baseIndex + index;
         checkDstIndex(index, length, dstIndex, dst.capacity());
@@ -54,7 +48,7 @@ class DirectMemory extends AbstractNioMemory {
     }
 
     @Override
-    public DirectMemory getBytes(int index, byte[] dst, int dstIndex, int length) {
+    public HeapMemory getBytes(int index, byte[] dst, int dstIndex, int length) {
         ensureAccessible();
         index = baseIndex + index;
         checkDstIndex(index, length, dstIndex, dst.length);
@@ -65,56 +59,56 @@ class DirectMemory extends AbstractNioMemory {
     }
 
     @Override
-    public DirectMemory setByte(int index, int value) {
+    public HeapMemory setByte(int index, int value) {
         ensureAccessible();
         buffer.put(baseIndex + index, (byte) value);
         return this;
     }
 
     @Override
-    public DirectMemory setShort(int index, int value) {
+    public HeapMemory setShort(int index, int value) {
         ensureAccessible();
         buffer.putShort(baseIndex + index, (short) value);
         return this;
     }
 
     @Override
-    public DirectMemory setShortLE(int index, int value) {
+    public HeapMemory setShortLE(int index, int value) {
         ensureAccessible();
         buffer.putShort(baseIndex + index, Short.reverseBytes((short) value));
         return this;
     }
 
     @Override
-    public DirectMemory setInt(int index, int value) {
+    public HeapMemory setInt(int index, int value) {
         ensureAccessible();
         buffer.putInt(baseIndex + index, value);
         return this;
     }
 
     @Override
-    public DirectMemory setIntLE(int index, int value) {
+    public HeapMemory setIntLE(int index, int value) {
         ensureAccessible();
         buffer.putInt(baseIndex + index, Integer.reverseBytes(value));
         return this;
     }
 
     @Override
-    public DirectMemory setLong(int index, long value) {
+    public HeapMemory setLong(int index, long value) {
         ensureAccessible();
         buffer.putLong(baseIndex + index, value);
         return this;
     }
 
     @Override
-    public DirectMemory setLongLE(int index, long value) {
+    public HeapMemory setLongLE(int index, long value) {
         ensureAccessible();
         buffer.putLong(baseIndex + index, Long.reverseBytes(value));
         return this;
     }
 
     @Override
-    public DirectMemory setBytes(int index, Memory src, int srcIndex, int length) {
+    public HeapMemory setBytes(int index, Memory src, int srcIndex, int length) {
         ensureAccessible();
         index = baseIndex + index;
         checkSrcIndex(index, length, srcIndex, src.capacity());
@@ -125,7 +119,7 @@ class DirectMemory extends AbstractNioMemory {
     }
 
     @Override
-    public DirectMemory setBytes(int index, byte[] src, int srcIndex, int length) {
+    public HeapMemory setBytes(int index, byte[] src, int srcIndex, int length) {
         ensureAccessible();
         index = baseIndex + index;
         checkSrcIndex(index, length, srcIndex, src.length);
@@ -138,27 +132,27 @@ class DirectMemory extends AbstractNioMemory {
     }
 
     @Override
-    public DirectMemory copy(int index, int length) {
+    public HeapMemory copy(int index, int length) {
         ensureAccessible();
         index = baseIndex + index;
         ByteBuffer copy = ByteBuffer.allocateDirect(length);
-        DirectMemory newMemory = new DirectMemory(baseIndex, copy, length,
+        HeapMemory newMemory = new HeapMemory(baseIndex, copy, length,
                 maxCapacity > length ? maxCapacity : length, readerIndex(), writerIndex());
         newMemory.setBytes(0, this, index, length);
         return newMemory;
     }
 
     @Override
-    public DirectMemory slice(int index, int length) {
+    public HeapMemory slice(int index, int length) {
         ensureAccessible();
-        return new SlicedDirectMemory(baseIndex + index, buffer, length, maxCapacity(),
+        return new SlicedHeapMemory(baseIndex + index, buffer, length, maxCapacity(),
                 readerIndex() - index, writerIndex() - index);
     }
 
     @Override
-    public DirectMemory duplicate() {
+    public HeapMemory duplicate() {
         ensureAccessible();
-        return new DirectMemory(baseIndex, buffer, capacity(), maxCapacity(), readerIndex(), writerIndex());
+        return new HeapMemory(baseIndex, buffer, capacity(), maxCapacity(), readerIndex(), writerIndex());
     }
 
     @Override
@@ -168,19 +162,12 @@ class DirectMemory extends AbstractNioMemory {
 
     @Override
     public void release() {
-        if (!freed) {
-            CLEANER.clean(buffer);
-            freed = true;
-        }
+        // do noting here
     }
 
     @Override
     public long memoryAddress() {
-        ensureAccessible();
-        if (InternalUnsafeHelper.isUnsafeAvailable()) {
-            return InternalByteBufferHelper.directByteBufferAddress(buffer);
-        }
-        return 0;
+        return 0; // has no memory address
     }
 
 }

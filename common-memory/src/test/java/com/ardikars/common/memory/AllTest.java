@@ -12,7 +12,10 @@ import org.junit.runners.Suite;
     NativeMemorySetterAndGetterTest.class,
     DirectMemoryTest.class,
     DirectMemoryWriterAndReaderTest.class,
-    DirectMemorySetterAndGetterTest.class
+    DirectMemorySetterAndGetterTest.class,
+    HeapMemoryTest.class,
+    HeapMemoryWriterAndReaderTest.class,
+    HeapMemorySetterAndGetterTest.class
 })
 public class AllTest {
 
