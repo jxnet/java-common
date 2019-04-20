@@ -7,7 +7,7 @@ ext {
 
 	NAME = 'common'
 	GROUP = 'com.ardikars.common'
-	VERSION = '1.2.7.RC1'
+	VERSION = '1.2.7.RC2'
 	DESCRIPTION = 'Java Common is an project focused on all aspects of reusable Java components.'
 
 	MAVEN_LOCAL_REPOSITORY = "${rootDir}/build/repository"
@@ -83,6 +83,12 @@ ext {
 		dependency {
 			groupId "${GROUP}"
 			artifactId "common-util"
+			version "${VERSION}"
+		}
+
+		dependency {
+			groupId "${GROUP}"
+			artifactId "common-memory"
 			version "${VERSION}"
 		}
 
