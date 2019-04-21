@@ -47,8 +47,6 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory getBytes(int index, Memory dst, int dstIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
-        checkDstIndex(index, length, dstIndex, dst.capacity());
         dst.setBytes(dstIndex, this, index, length);
         return this;
     }
@@ -56,8 +54,6 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory getBytes(int index, byte[] dst, int dstIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
-        checkDstIndex(index, length, dstIndex, dst.length);
         ByteBuffer tmpBuf = buffer.duplicate();
         tmpBuf.clear().position(index).limit(index + length);
         tmpBuf.get(dst, dstIndex, length);
@@ -67,68 +63,63 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory setByte(int index, int value) {
         ensureAccessible();
-        buffer.put(baseIndex + index, (byte) value);
+        buffer.put(index(index), (byte) value);
         return this;
     }
 
     @Override
     public DirectMemory setShort(int index, int value) {
         ensureAccessible();
-        buffer.putShort(baseIndex + index, (short) value);
+        buffer.putShort(index(index), (short) value);
         return this;
     }
 
     @Override
     public DirectMemory setShortLE(int index, int value) {
         ensureAccessible();
-        buffer.putShort(baseIndex + index, Short.reverseBytes((short) value));
+        buffer.putShort(index(index), Short.reverseBytes((short) value));
         return this;
     }
 
     @Override
     public DirectMemory setInt(int index, int value) {
         ensureAccessible();
-        buffer.putInt(baseIndex + index, value);
+        buffer.putInt(index(index), value);
         return this;
     }
 
     @Override
     public DirectMemory setIntLE(int index, int value) {
         ensureAccessible();
-        buffer.putInt(baseIndex + index, Integer.reverseBytes(value));
+        buffer.putInt(index(index), Integer.reverseBytes(value));
         return this;
     }
 
     @Override
     public DirectMemory setLong(int index, long value) {
         ensureAccessible();
-        buffer.putLong(baseIndex + index, value);
+        buffer.putLong(index(index), value);
         return this;
     }
 
     @Override
     public DirectMemory setLongLE(int index, long value) {
         ensureAccessible();
-        buffer.putLong(baseIndex + index, Long.reverseBytes(value));
+        buffer.putLong(index(index), Long.reverseBytes(value));
         return this;
     }
 
     @Override
     public DirectMemory setBytes(int index, Memory src, int srcIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
-        checkSrcIndex(index, length, srcIndex, src.capacity());
         for (int i = 0; i < length; i++) {
             buffer.put(index++, src.getByte(srcIndex++));
         }
         return this;
     }
 
-    @Override
     public DirectMemory setBytes(int index, byte[] src, int srcIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
-        checkSrcIndex(index, length, srcIndex, src.length);
         byte[] bytesSrc = Arrays.copyOfRange(src, srcIndex, srcIndex + length);
         int pos = buffer.position();
         buffer.position(index);
@@ -137,10 +128,11 @@ class DirectMemory extends AbstractNioMemory {
         return this;
     }
 
+
     @Override
     public DirectMemory copy(int index, int length) {
         ensureAccessible();
-        index = baseIndex + index;
+        checkIndex(index, length);
         ByteBuffer copy = ByteBuffer.allocateDirect(length);
         DirectMemory newMemory = new DirectMemory(baseIndex, copy, length,
                 maxCapacity > length ? maxCapacity : length, readerIndex(), writerIndex());
@@ -167,20 +159,20 @@ class DirectMemory extends AbstractNioMemory {
     }
 
     @Override
-    public void release() {
-        if (!freed) {
-            CLEANER.clean(buffer);
-            freed = true;
-        }
-    }
-
-    @Override
     public long memoryAddress() {
         ensureAccessible();
         if (InternalUnsafeHelper.isUnsafeAvailable()) {
             return InternalByteBufferHelper.directByteBufferAddress(buffer);
         }
         return 0;
+    }
+
+    @Override
+    public void release() {
+        if (!freed) {
+            CLEANER.clean(buffer);
+            freed = true;
+        }
     }
 
 }

@@ -23,57 +23,48 @@ abstract class AbstractNioMemory extends AbstractMemory {
     @Override
     public byte getByte(int index) {
         ensureAccessible();
-        return buffer.get(baseIndex + index);
+        return buffer.get(index(index));
     }
 
     @Override
     public short getShort(int index) {
         ensureAccessible();
-        return buffer.getShort(baseIndex + index);
+        return buffer.getShort(index(index));
     }
 
     @Override
     public short getShortLE(int index) {
         ensureAccessible();
-        return Short.reverseBytes(buffer.getShort(baseIndex + index));
+        return Short.reverseBytes(buffer.getShort(index(index)));
     }
 
     @Override
     public int getInt(int index) {
         ensureAccessible();
-        return buffer.getInt(baseIndex + index);
+        return buffer.getInt(index(index));
     }
 
     @Override
     public int getIntLE(int index) {
         ensureAccessible();
-        return Integer.reverseBytes(buffer.getInt(baseIndex + index));
+        return Integer.reverseBytes(buffer.getInt(index(index)));
     }
 
     @Override
     public long getLong(int index) {
         ensureAccessible();
-        return buffer.getLong(baseIndex + index);
+        return buffer.getLong(index(index));
     }
 
     @Override
     public long getLongLE(int index) {
         ensureAccessible();
-        return Long.reverseBytes(buffer.getLong(baseIndex + index));
+        return Long.reverseBytes(buffer.getLong(index(index)));
     }
 
     @Override
     public ByteBuffer nioBuffer() {
         return buffer;
-    }
-
-    @Override
-    public long memoryAddress() {
-        ensureAccessible();
-        if (InternalUnsafeHelper.isUnsafeAvailable()) {
-            return InternalByteBufferHelper.directByteBufferAddress(buffer);
-        }
-        return 0;
     }
 
     protected void checkSrcIndex(int index, int length, int srcIndex, int srcCapacity) {
@@ -95,6 +86,10 @@ abstract class AbstractNioMemory extends AbstractMemory {
             throw new IndexOutOfBoundsException(String.format(
                     "index: %d, length: %d (expected: range(0, %d))", index, fieldLength, capacity));
         }
+    }
+
+    final int index(int index) {
+        return baseIndex + index;
     }
 
 }
