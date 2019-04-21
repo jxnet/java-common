@@ -47,7 +47,7 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory getBytes(int index, Memory dst, int dstIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
+        // index = baseIndex + index;
         checkDstIndex(index, length, dstIndex, dst.capacity());
         dst.setBytes(dstIndex, this, index, length);
         return this;
@@ -56,7 +56,7 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory getBytes(int index, byte[] dst, int dstIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
+        // index = baseIndex + index;
         checkDstIndex(index, length, dstIndex, dst.length);
         ByteBuffer tmpBuf = buffer.duplicate();
         tmpBuf.clear().position(index).limit(index + length);
@@ -116,7 +116,7 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory setBytes(int index, Memory src, int srcIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
+        // index = baseIndex + index;
         checkSrcIndex(index, length, srcIndex, src.capacity());
         for (int i = 0; i < length; i++) {
             buffer.put(index++, src.getByte(srcIndex++));
@@ -127,7 +127,7 @@ class DirectMemory extends AbstractNioMemory {
     @Override
     public DirectMemory setBytes(int index, byte[] src, int srcIndex, int length) {
         ensureAccessible();
-        index = baseIndex + index;
+        // index = baseIndex + index;
         checkSrcIndex(index, length, srcIndex, src.length);
         byte[] bytesSrc = Arrays.copyOfRange(src, srcIndex, srcIndex + length);
         int pos = buffer.position();
