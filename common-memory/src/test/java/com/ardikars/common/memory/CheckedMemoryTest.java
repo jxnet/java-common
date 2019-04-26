@@ -10,9 +10,9 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NativeMemoryTest extends AbstractMemoryTest {
+public class CheckedMemoryTest extends AbstractMemoryTest {
 
-    private final MemoryAllocator MEMORY_ALLOCATOR = new NativeMemoryAllocator();
+    private final MemoryAllocator MEMORY_ALLOCATOR = new DefaultMemoryAllocator();
 
     @Override
     protected MemoryAllocator memoryAllocator() {
@@ -21,8 +21,8 @@ public class NativeMemoryTest extends AbstractMemoryTest {
 
     @Before
     public void allocate() {
-        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE);
-        Memory mem = new NativeMemory(memory.memoryAddress(), memory.capacity(), memory.maxCapacity());
+        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE, true);
+        Memory mem = new CheckedMemory(memory.memoryAddress(), memory.capacity(), memory.maxCapacity());
         assert mem.memoryAddress() == memory.memoryAddress();
     }
 

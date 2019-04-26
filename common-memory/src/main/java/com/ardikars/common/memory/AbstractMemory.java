@@ -1,8 +1,11 @@
 package com.ardikars.common.memory;
 
-import com.ardikars.common.util.Properties;
+import com.ardikars.common.memory.accessor.MemoryAccessor;
+import com.ardikars.common.memory.accessor.MemoryAccessors;
 
 abstract class AbstractMemory implements Memory {
+
+    static final MemoryAccessor ACCESSOR = MemoryAccessors.memoryAccessor();
 
     int capacity;
     int maxCapacity;
@@ -14,10 +17,6 @@ abstract class AbstractMemory implements Memory {
     private int markedWriterIndex;
 
     protected boolean freed;
-
-    static final boolean checkBounds = Properties.getBoolean("jmalloc.checkBounds", false);
-
-    static final boolean checkAcessible = Properties.getBoolean("jmalloc.checkAccessible", false);
 
     AbstractMemory(int capacity, int maxCapacity) {
         this(capacity, maxCapacity, 0, 0);
@@ -397,19 +396,6 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
-    public Memory readBytes(Memory dst, int length) {
-        if (checkBounds) {
-            if (length > dst.writableBytes()) {
-                throw new IndexOutOfBoundsException(String.format(
-                        "length(%d) exceeds dst.writableBytes(%d) where dst is: %s", length, dst.writableBytes(), dst));
-            }
-        }
-        readBytes(dst, dst.writerIndex(), length);
-        dst.writerIndex(dst.writerIndex() + length);
-        return this;
-    }
-
-    @Override
     public Memory readBytes(Memory dst, int dstIndex, int length) {
         checkReadableBytes(length);
         getBytes(readerIndex, dst, dstIndex, length);
@@ -528,19 +514,6 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
-    public Memory writeBytes(Memory src, int length) {
-        if (checkBounds) {
-            if (length > src.readableBytes()) {
-                throw new IndexOutOfBoundsException(String.format(
-                        "length(%d) exceeds src.readableBytes(%d) where src is: %s", length, src.readableBytes(), src));
-            }
-        }
-        writeBytes(src, src.readerIndex(), length);
-        src.readerIndex(src.readerIndex() + length);
-        return this;
-    }
-
-    @Override
     public Memory writeBytes(Memory src, int srcIndex, int length) {
         ensureWritable(length);
         setBytes(writerIndex, src, srcIndex, length);
@@ -648,23 +621,9 @@ abstract class AbstractMemory implements Memory {
     }
 
     void checkNewCapacity(int newCapacity) {
-        if (checkBounds) {
-            if (newCapacity < 0 || newCapacity > maxCapacity()) {
-                throw new IllegalArgumentException("newCapacity: " + newCapacity +
-                        " (expected: 0-" + maxCapacity() + ')');
-            }
-        }
-    }
-
-    void ensureAccessible() {
-        if (checkAcessible) {
-            if (freed) {
-                if (this instanceof NativeMemory) {
-                    throw new IllegalStateException(String.format("%d is already freed.", memoryAddress()));
-                } else {
-                    throw new IllegalStateException("Memory is already cleaned/freed.");
-                }
-            }
+        if (newCapacity < 0 || newCapacity > maxCapacity()) {
+            throw new IllegalArgumentException("newCapacity: " + newCapacity +
+                    " (expected: 0-" + maxCapacity() + ')');
         }
     }
 

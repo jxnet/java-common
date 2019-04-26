@@ -2,12 +2,12 @@ package com.ardikars.common.memory;
 
 import java.nio.ByteBuffer;
 
-class SlicedNativeMemory extends NativeMemory {
+class SlicedUncheckedMemory extends UncheckedMemory {
 
     private final long baseAddress;
     private final int baseCapacity;
 
-    public SlicedNativeMemory(long baseAddress, int baseCapacity, long address, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
+    public SlicedUncheckedMemory(long baseAddress, int baseCapacity, long address, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
         super(address, capacity, maxCapacity, readerIndex, writerIndex);
         this.baseAddress = baseAddress;
         this.baseCapacity = baseCapacity;
@@ -15,13 +15,13 @@ class SlicedNativeMemory extends NativeMemory {
 
     @Override
     public ByteBuffer nioBuffer() {
-        return InternalUnsafeOperation._wrap(baseAddress, baseCapacity);
+        return ACCESSOR.nioBuffer(baseAddress, baseCapacity);
     }
 
     @Override
     public void release() {
         if (!freed) {
-            InternalUnsafeOperation.free(baseAddress);
+            ACCESSOR.deallocate(baseAddress);
         }
     }
 

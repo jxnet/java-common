@@ -10,9 +10,9 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HeapMemorySetterAndGetterTest extends AbstractMemorySetterAndGetterTest {
+public class CheckedMemoryWriterAndReaderTest extends AbstractMemoryWriterAndReaderTest {
 
-    private final MemoryAllocator MEMORY_ALLOCATOR = new HeapMemoryAllocator();
+    private final MemoryAllocator MEMORY_ALLOCATOR = new DefaultMemoryAllocator();
 
     @Override
     protected MemoryAllocator memoryAllocator() {
@@ -21,7 +21,7 @@ public class HeapMemorySetterAndGetterTest extends AbstractMemorySetterAndGetter
 
     @Before
     public void allocate() {
-        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE);
+        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE, true);
     }
 
     @After
@@ -55,7 +55,7 @@ public class HeapMemorySetterAndGetterTest extends AbstractMemorySetterAndGetter
 
     @Test
     @Override
-    public void shotLETest() {
+    public void shortLETest() {
         doShortLETest();
     }
 
@@ -133,14 +133,14 @@ public class HeapMemorySetterAndGetterTest extends AbstractMemorySetterAndGetter
 
     @Test
     @Override
-    public void setBytesTest() {
-        doSetBytesTest();
+    public void writeBytesTest() {
+        doWriteBytesTest();
     }
 
     @Test
     @Override
-    public void getBytesTest() {
-        doGetBytesTest();
+    public void readBytesTest() {
+        doReadBytesTest();
     }
 
 }

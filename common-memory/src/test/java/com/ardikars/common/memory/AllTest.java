@@ -1,21 +1,19 @@
 package com.ardikars.common.memory;
 
+import com.ardikars.common.memory.internal.ByteBufferHelperTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    InternalByteBufferHelperTest.class,
+    ByteBufferHelperTest.class,
     MemoriesTest.class,
-    NativeMemoryTest.class,
-    NativeMemoryWriterAndReaderTest.class,
-    NativeMemorySetterAndGetterTest.class,
-    DirectMemoryTest.class,
-    DirectMemoryWriterAndReaderTest.class,
-    DirectMemorySetterAndGetterTest.class,
-    HeapMemoryTest.class,
-    HeapMemoryWriterAndReaderTest.class,
-    HeapMemorySetterAndGetterTest.class
+    UncheckedMemoryTest.class,
+    UncheckedMemoryWriterAndReaderTest.class,
+    UncheckedMemorySetterAndGetterTest.class,
+    CheckedMemoryTest.class,
+    CheckedMemoryWriterAndReaderTest.class,
+    CheckedMemorySetterAndGetterTest.class
 })
 public class AllTest {
 

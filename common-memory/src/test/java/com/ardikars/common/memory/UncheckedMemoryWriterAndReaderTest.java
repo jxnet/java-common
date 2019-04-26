@@ -10,9 +10,9 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NativeMemoryWriterAndReaderTest extends AbstractMemoryWriterAndReaderTest {
+public class UncheckedMemoryWriterAndReaderTest extends AbstractMemoryWriterAndReaderTest {
 
-    private final MemoryAllocator MEMORY_ALLOCATOR = new NativeMemoryAllocator();
+    private final MemoryAllocator MEMORY_ALLOCATOR = new DefaultMemoryAllocator();
 
     @Override
     protected MemoryAllocator memoryAllocator() {
@@ -21,7 +21,7 @@ public class NativeMemoryWriterAndReaderTest extends AbstractMemoryWriterAndRead
 
     @Before
     public void allocate() {
-        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE);
+        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE, false);
     }
 
     @After

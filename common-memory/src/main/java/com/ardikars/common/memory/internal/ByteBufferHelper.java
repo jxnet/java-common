@@ -1,4 +1,4 @@
-package com.ardikars.common.memory;
+package com.ardikars.common.memory.internal;
 
 import com.ardikars.common.util.Reflections;
 
@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-final class InternalByteBufferHelper {
+public final class ByteBufferHelper {
 
     private static long BUFFER_ADDRESS_FIELD_OFFSET = -1;
     private static final Constructor<?> DIRECT_BUFFER_CONSTRUCTOR;
@@ -21,8 +21,8 @@ final class InternalByteBufferHelper {
      * @return returns management address.
      * @since 1.2.3
      */
-    static long directByteBufferAddress(ByteBuffer buffer) {
-        return InternalUnsafeHelper.getUnsafe().getLong(buffer, BUFFER_ADDRESS_FIELD_OFFSET);
+    public static long directByteBufferAddress(ByteBuffer buffer) {
+        return UnsafeHelper.getUnsafe().getLong(buffer, BUFFER_ADDRESS_FIELD_OFFSET);
     }
 
     /**
@@ -31,27 +31,13 @@ final class InternalByteBufferHelper {
      * @param size buffer size.
      * @return returns {@link ByteBuffer} object.
      */
-    static ByteBuffer wrapDirectByteBuffer(long memoryAddress, int size) {
+    public static ByteBuffer wrapDirectByteBuffer(long memoryAddress, int size) {
         if (DIRECT_BUFFER_CONSTRUCTOR != null) {
             try {
                 return (ByteBuffer) DIRECT_BUFFER_CONSTRUCTOR.newInstance(memoryAddress, size);
             } catch (Throwable cause) {
                 throw new RuntimeException(cause);
             }
-        }
-        throw new UnsupportedOperationException(
-                "sun.misc.Unsafe or java.nio.DirectByteBuffer.<init>(long, int) not available");
-    }
-
-    /**
-     * Allocate direct buffer with.
-     * @param size buffer size.
-     * @return returns {@link ByteBuffer} object.
-     */
-    static ByteBuffer allocateDirectByteBuffer(int size) {
-        if (DIRECT_BUFFER_CONSTRUCTOR != null) {
-            long address = InternalUnsafeHelper.getUnsafe().allocateMemory(size);
-            return wrapDirectByteBuffer(address, size);
         }
         throw new UnsupportedOperationException(
                 "sun.misc.Unsafe or java.nio.DirectByteBuffer.<init>(long, int) not available");
@@ -110,17 +96,17 @@ final class InternalByteBufferHelper {
 
     static {
         Constructor<?> directBufferConstructor;
-        if (InternalUnsafeHelper.getUnsafe() != null) {
+        if (UnsafeHelper.getUnsafe() != null) {
             ByteBuffer direct = ByteBuffer.allocateDirect(1);
-            Object maybeBufferAddressField = findBufferAddressField(direct, InternalUnsafeHelper.getUnsafe());
+            Object maybeBufferAddressField = findBufferAddressField(direct, UnsafeHelper.getUnsafe());
             if (maybeBufferAddressField instanceof Field) {
-                BUFFER_ADDRESS_FIELD_OFFSET = InternalUnsafeHelper.getUnsafe().objectFieldOffset((Field) maybeBufferAddressField);
+                BUFFER_ADDRESS_FIELD_OFFSET = UnsafeHelper.getUnsafe().objectFieldOffset((Field) maybeBufferAddressField);
             }
             long address = -1;
             try {
-                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct, InternalUnsafeHelper.getUnsafe());
+                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct, UnsafeHelper.getUnsafe());
                 if (maybeDirectBufferConstructor instanceof Constructor<?>) {
-                    address = InternalUnsafeHelper.getUnsafe().allocateMemory(1);
+                    address = UnsafeHelper.getUnsafe().allocateMemory(1);
                     try {
                         ((Constructor<?>) maybeDirectBufferConstructor).newInstance(address, 1);
                         directBufferConstructor = (Constructor<?>) maybeDirectBufferConstructor;
@@ -136,7 +122,7 @@ final class InternalByteBufferHelper {
                 }
             } finally {
                 if (address != -1) {
-                    InternalUnsafeHelper.getUnsafe().freeMemory(address);
+                    UnsafeHelper.getUnsafe().freeMemory(address);
                 }
             }
         } else {

@@ -136,7 +136,7 @@ abstract class AbstractMemoryTest extends BaseTest {
         }
         memory.readShort();
         Memory sliced = memory.slice();
-        if (memory instanceof NativeMemory) {
+        if (memory instanceof CheckedMemory) {
             assert sliced.memoryAddress() - 2 == memory.memoryAddress();
         }
         assert sliced.capacity() == DUMMY.length - 2;
@@ -180,7 +180,7 @@ abstract class AbstractMemoryTest extends BaseTest {
             memory.writeByte(val);
         }
         Memory duplicated = memory.duplicate();
-        if (duplicated instanceof NativeMemory) {
+        if (duplicated instanceof CheckedMemory) {
             assert duplicated.memoryAddress() == memory.memoryAddress();
         }
         assert duplicated.capacity() == memory.capacity();

@@ -10,9 +10,9 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HeapMemoryTest extends AbstractMemoryTest {
+public class UncheckedMemoryTest extends AbstractMemoryTest {
 
-    private final MemoryAllocator MEMORY_ALLOCATOR = new HeapMemoryAllocator();
+    private final MemoryAllocator MEMORY_ALLOCATOR = new DefaultMemoryAllocator();
 
     @Override
     protected MemoryAllocator memoryAllocator() {
@@ -21,7 +21,9 @@ public class HeapMemoryTest extends AbstractMemoryTest {
 
     @Before
     public void allocate() {
-        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE);
+        memory = memoryAllocator().allocate(DEFAULT_CAPACITY, DEFAULT_CAPACITY + INT_SIZE, false);
+        Memory mem = new CheckedMemory(memory.memoryAddress(), memory.capacity(), memory.maxCapacity());
+        assert mem.memoryAddress() == memory.memoryAddress();
     }
 
     @After
@@ -73,14 +75,14 @@ public class HeapMemoryTest extends AbstractMemoryTest {
 
     @Test
     @Override
-    public void copyTest() {
-        doCopyTest();
+    public void sliceTest() {
+        doSliceTest();
     }
 
     @Test
     @Override
-    public void sliceTest() {
-        doSliceTest();
+    public void copyTest() {
+        doCopyTest();
     }
 
     @Test
@@ -105,7 +107,6 @@ public class HeapMemoryTest extends AbstractMemoryTest {
     @Override
     public void nioBufferTest() {
         doNioBufferTest();
-        assert !memory.nioBuffer().isDirect();
     }
 
 }

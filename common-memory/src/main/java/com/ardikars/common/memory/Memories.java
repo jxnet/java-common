@@ -1,56 +1,40 @@
 package com.ardikars.common.memory;
 
+import com.ardikars.common.memory.internal.ByteBufferHelper;
+
 import java.nio.ByteBuffer;
 
 public final class Memories {
 
     public static MemoryAllocator allocator() {
-        if (InternalUnsafeHelper.isUnsafeAvailable()) {
-            return nativeAllocator();
-        } else {
-            return directAllocator();
-        }
-    }
-
-    public static MemoryAllocator allocator(boolean direct) {
-        if (direct) {
-            return allocator();
-        }
-        return heapAllocator();
-    }
-
-    public static MemoryAllocator nativeAllocator() {
-        return new NativeMemoryAllocator();
-    }
-
-    public static MemoryAllocator directAllocator() {
-        return new DirectMemoryAllocator();
-    }
-
-    public static MemoryAllocator heapAllocator() {
-        return new HeapMemoryAllocator();
+        return new DefaultMemoryAllocator();
     }
 
     public static Memory wrap(long memoryAddress, int size) {
-        return new NativeMemory(memoryAddress, size, size);
+        return wrap(memoryAddress, size, true);
     }
 
-    public static Memory wrap(ByteBuffer memoryBuffer, boolean forceWrap) throws UnsupportedOperationException {
-        int capacity = memoryBuffer.capacity();
-        if (!memoryBuffer.isDirect()) {
-            if (forceWrap) {
-                ByteBuffer buffer = ByteBuffer.allocateDirect(capacity);
-                memoryBuffer.position(0);
-                memoryBuffer.limit(capacity);
-                buffer.put(memoryBuffer);
-                return new DirectMemory(0, memoryBuffer, capacity, capacity);
-            } else {
-                throw new UnsupportedOperationException(
-                        String.format("ByteBuffer.isDirect(): %s", memoryBuffer.isDirect()));
-            }
-        } else {
-            return new DirectMemory(0, memoryBuffer, capacity, capacity);
+    public static Memory wrap(long memoryAddress, int size, boolean checking) {
+        if (checking) {
+            return new CheckedMemory(memoryAddress, size, size);
         }
+        return new UncheckedMemory(memoryAddress, size, size);
+    }
+
+    public static Memory wrap(ByteBuffer buffer) throws UnsupportedOperationException {
+        return wrap(buffer, true);
+    }
+
+    public static Memory wrap(ByteBuffer buffer, boolean checking) throws UnsupportedOperationException {
+        if (!buffer.isDirect()) {
+            throw new UnsupportedOperationException();
+        }
+        int capacity = buffer.capacity();
+        long address = ByteBufferHelper.directByteBufferAddress(buffer);
+        if (checking) {
+            return new CheckedMemory(address, capacity, capacity);
+        }
+        return new UncheckedMemory(address, capacity, capacity);
     }
 
 }
