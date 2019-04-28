@@ -10,7 +10,7 @@ Getting Started
 ### Prerequisites
  
   - ##### Java Version
-    - Java 8 (or newer)
+    - Java 6 (or newer)
 
 
 ### How to Use
@@ -26,14 +26,26 @@ Getting Started
 >>>     </dependency>
 >>>     <dependency>
 >>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-constant</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-logging</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-memory</artifactId>
+>>>     </dependency>
+>>>     <dependency>
+>>>         <groupId>com.ardikars.common</groupId>
 >>>         <artifactId>common-net</artifactId>
 >>>     </dependency>
 >>>     <dependency>
->>>         <groupId>com.ardikars.tuple</groupId>
->>>         <artifactId>common-annotation</artifactId>
+>>>         <groupId>com.ardikars.common</groupId>
+>>>         <artifactId>common-tuple</artifactId>
 >>>     </dependency>
 >>>     <dependency>
->>>         <groupId>com.ardikars.tuple</groupId>
+>>>         <groupId>com.ardikars.common</groupId>
 >>>         <artifactId>common-util</artifactId>
 >>>     </dependency>
 >>> </dependencies>
@@ -43,7 +55,7 @@ Getting Started
 >>>         <dependency>
 >>>             <groupId>com.ardikars.common</groupId>
 >>>             <artifactId>common</artifactId>
->>>             <version>1.2.1.Final</version>
+>>>             <version>1.2.7.RELEASE</version>
 >>>             <type>pom</type>
 >>>             <scope>import</scope>
 >>>         </dependency>
