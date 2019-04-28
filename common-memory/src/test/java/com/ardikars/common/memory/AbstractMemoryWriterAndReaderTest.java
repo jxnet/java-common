@@ -1,5 +1,7 @@
 package com.ardikars.common.memory;
 
+import java.nio.charset.Charset;
+
 abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
 
     protected Memory memory;
@@ -271,6 +273,21 @@ abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
             assert dstMem.getByte(i) == DUMMY[i - 1];
         }
         dstMem.release();
+    }
+
+    public abstract void writeReadCharSequaceTest();
+
+    protected void doWriteReadCharSequaceTest() {
+        String msg = "Hello java!.....";
+        int length = msg.length();
+        Charset charset = Charset.forName("ASCII");
+        memory.writeCharSequence(msg, charset);
+        assert msg.equals(memory.readCharSequence(length, charset));
+
+        memory.setIndex(0, 0);
+        charset = Charset.forName("UTF-8");
+        memory.writeCharSequence(msg, charset);
+        assert msg.equals(memory.readCharSequence(length, charset));
     }
 
 }

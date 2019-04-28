@@ -1,7 +1,7 @@
 package com.ardikars.common.memory;
 
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
 public interface Memory {
 
@@ -91,6 +91,8 @@ public interface Memory {
 
     Memory getBytes(int index, byte[] dst, int dstIndex, int length);
 
+    CharSequence getCharSequence(int index, int length, Charset charset);
+
     Memory setBoolean(int index, boolean value);
 
     Memory setByte(int index, int value);
@@ -124,6 +126,8 @@ public interface Memory {
     Memory setBytes(int index, byte[] src);
 
     Memory setBytes(int index, byte[] src, int srcIndex, int length);
+
+    Memory setCharSequence(int index, CharSequence sequence, Charset charset);
 
     boolean readBoolean();
 
@@ -171,6 +175,8 @@ public interface Memory {
 
     Memory skipBytes(int length);
 
+    CharSequence readCharSequence(int length, Charset charset);
+
     Memory writeBoolean(boolean value);
 
     Memory writeByte(int value);
@@ -204,6 +210,8 @@ public interface Memory {
     Memory writeBytes(byte[] src);
 
     Memory writeBytes(byte[] src, int srcIndex, int length);
+
+    Memory writeCharSequence(CharSequence sequence, Charset charset);
 
     Memory copy();
 

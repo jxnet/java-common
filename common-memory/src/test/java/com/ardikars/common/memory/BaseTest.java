@@ -13,9 +13,9 @@ abstract class BaseTest {
     int INT_SIZE = Integer.SIZE / Byte.SIZE;
     int LONG_SIZE = Long.SIZE / Byte.SIZE;
 
-    int DEFAULT_CAPACITY = 32; //LONG_SIZE * RANDOM.nextInt(Integer.MAX_VALUE / (BIT_SIZE * INT_SIZE));
+    int DEFAULT_CAPACITY = 16; //LONG_SIZE * RANDOM.nextInt(Integer.MAX_VALUE / (BIT_SIZE * INT_SIZE));
     int DEFAULT_MAX_CAPACITY = DEFAULT_CAPACITY + INT_SIZE;
 
-    byte[] DUMMY = new byte[] { 0, 1, 2, 3, 4};
+    byte[] DUMMY = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
 }

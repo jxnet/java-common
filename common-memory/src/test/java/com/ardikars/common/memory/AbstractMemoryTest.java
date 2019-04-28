@@ -136,9 +136,7 @@ abstract class AbstractMemoryTest extends BaseTest {
         }
         memory.readShort();
         Memory sliced = memory.slice();
-        if (memory instanceof CheckedMemory) {
-            assert sliced.memoryAddress() - 2 == memory.memoryAddress();
-        }
+        assert sliced.memoryAddress() - 2 == memory.memoryAddress();
         assert sliced.capacity() == DUMMY.length - 2;
         assert sliced.maxCapacity() == memory.maxCapacity();
         for (int i = 0; i < sliced.capacity(); i++) {
@@ -190,8 +188,8 @@ abstract class AbstractMemoryTest extends BaseTest {
         }
         // test visibility (sharing buffer)
         memory.writeByte(9);
-        duplicated.writerIndex(duplicated.writerIndex() + 1);
-        assert duplicated.readByte() == 9;
+        duplicated.setByte(duplicated.writerIndex() - 1, 9);
+        assert duplicated.getByte(duplicated.writerIndex() - 1) == 9;
     }
 
     public abstract void nioBufferTest();

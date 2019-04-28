@@ -3,12 +3,16 @@ package com.ardikars.common.memory;
 import com.ardikars.common.memory.accessor.MemoryAccessor;
 import com.ardikars.common.memory.accessor.MemoryAccessors;
 
+import java.nio.charset.Charset;
+
 abstract class AbstractMemory implements Memory {
 
     static final MemoryAccessor ACCESSOR = MemoryAccessors.memoryAccessor();
 
     int capacity;
     int maxCapacity;
+
+    int writtenBytes = 0;
 
     private int readerIndex;
     private int writerIndex;
@@ -227,6 +231,13 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
+    public CharSequence getCharSequence(int index, int length, Charset charset) {
+        byte[] bytes = new byte[length];
+        this.getBytes(index, bytes);
+        return new String(bytes, charset);
+    }
+
+    @Override
     public Memory setBoolean(int index, boolean value) {
         setByte(index, value? 1 : 0);
         return this;
@@ -279,6 +290,65 @@ abstract class AbstractMemory implements Memory {
     @Override
     public Memory setBytes(int index, byte[] src) {
         setBytes(index, src, 0, src.length);
+        return this;
+    }
+
+    @Override
+    public Memory setCharSequence(int index, CharSequence seq, Charset charset) {
+        // see netty-buffer code
+        final byte WRITE_UTF_UNKNOWN = (byte) '?';
+        final char MAX_CHAR_VALUE = 255;
+        if (charset.equals(Charset.forName("UTF-8"))) {
+            int len = seq.length();
+
+            int oldIndex = index;
+
+            for (int i = 0; i < len; i++) {
+                char c = seq.charAt(i);
+                if (c < 0x80) {
+                    this.setByte(index++, (byte) c);
+                } else if (c < 0x800) {
+                    this.setByte(index++, (byte) (0xc0 | (c >> 6)));
+                    this.setByte(index++, (byte) (0x80 | (c & 0x3f)));
+                } else if (c >= '\uD800' && c <= '\uDFFF') {
+                    if (!Character.isHighSurrogate(c)) {
+                        this.setByte(index++, WRITE_UTF_UNKNOWN);
+                        continue;
+                    }
+                    final char c2;
+                    try {
+                        c2 = seq.charAt(++i);
+                    } catch (IndexOutOfBoundsException ignored) {
+                        this.setByte(index++, WRITE_UTF_UNKNOWN);
+                        break;
+                    }
+                    if (!Character.isLowSurrogate(c2)) {
+                        this.setByte(index++, WRITE_UTF_UNKNOWN);
+                        this.setByte(index++, Character.isHighSurrogate(c2) ? WRITE_UTF_UNKNOWN : c2);
+                    } else {
+                        int codePoint = Character.toCodePoint(c, c2);
+                        this.setByte(index++, (byte) (0xf0 | (codePoint >> 18)));
+                        this.setByte(index++, (byte) (0x80 | ((codePoint >> 12) & 0x3f)));
+                        this.setByte(index++, (byte) (0x80 | ((codePoint >> 6) & 0x3f)));
+                        this.setByte(index++, (byte) (0x80 | (codePoint & 0x3f)));
+                    }
+                } else {
+                    this.setByte(index++, (byte) (0xe0 | (c >> 12)));
+                    this.setByte(index++, (byte) (0x80 | ((c >> 6) & 0x3f)));
+                    this.setByte(index++, (byte) (0x80 | (c & 0x3f)));
+                }
+            }
+            writtenBytes = index - oldIndex;
+        } else if (charset.equals(Charset.forName("ASCII"))) {
+            for (int i = 0; i < seq.length(); i++) {
+                this.setByte(index++, (byte) ((seq.charAt(i) > MAX_CHAR_VALUE) ? '?' : seq.charAt(i)));
+            }
+            writtenBytes = seq.length();
+        } else {
+            byte[] chars = seq.toString().getBytes(charset);
+            this.setBytes(index, chars);
+            writtenBytes = chars.length;
+        }
         return this;
     }
 
@@ -425,6 +495,13 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
+    public CharSequence readCharSequence(int length, Charset charset) {
+        CharSequence sequence = this.getCharSequence(readerIndex, length, charset);
+        readerIndex += length;
+        return sequence;
+    }
+
+    @Override
     public Memory writeBoolean(boolean value) {
         writeByte(value ? 1 : 0);
         return this;
@@ -532,6 +609,13 @@ abstract class AbstractMemory implements Memory {
         ensureWritable(length);
         setBytes(writerIndex, src, srcIndex, length);
         writerIndex += length;
+        return this;
+    }
+
+    @Override
+    public Memory writeCharSequence(CharSequence sequence, Charset charset) {
+        this.setCharSequence(writerIndex, sequence, charset);
+        writerIndex += writtenBytes;
         return this;
     }
 

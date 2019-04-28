@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
+import java.nio.charset.Charset;
+
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UncheckedMemoryWriterAndReaderTest extends AbstractMemoryWriterAndReaderTest {
@@ -141,6 +143,12 @@ public class UncheckedMemoryWriterAndReaderTest extends AbstractMemoryWriterAndR
     @Override
     public void readBytesTest() {
         doReadBytesTest();
+    }
+
+    @Test
+    @Override
+    public void writeReadCharSequaceTest() {
+        doWriteReadCharSequaceTest();
     }
 
 }

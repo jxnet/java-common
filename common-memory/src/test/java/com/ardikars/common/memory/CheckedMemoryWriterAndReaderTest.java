@@ -143,4 +143,10 @@ public class CheckedMemoryWriterAndReaderTest extends AbstractMemoryWriterAndRea
         doReadBytesTest();
     }
 
+    @Test
+    @Override
+    public void writeReadCharSequaceTest() {
+        doWriteReadCharSequaceTest();
+    }
+
 }

@@ -57,7 +57,7 @@ public final class UnsafeHelper {
      * Returns immutable no unsafe causes.
      * @return returns immutable no unsafe causes.
      */
-    public List<Throwable> getNoUnsafeCauses() {
+    public static List<Throwable> getNoUnsafeCauses() {
         return NO_UNSAFE_CAUSES;
     }
 
