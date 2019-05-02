@@ -1,5 +1,10 @@
 package com.ardikars.common.memory;
 
+/**
+ * Memory allocator.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 public interface MemoryAllocator {
 
     Memory allocate(int capacity);

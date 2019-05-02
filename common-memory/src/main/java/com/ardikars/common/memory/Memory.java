@@ -3,6 +3,17 @@ package com.ardikars.common.memory;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
+/**
+ * Used to wrap low-level memory address.
+ *
+ * <h3>Creation of a buffer</h3>
+ *
+ * It is recommended to create a new buffer using the helper methods in
+ * {@link Memories} rather than calling an individual implementation's
+ * constructor.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 public interface Memory {
 
     /**
@@ -981,70 +992,403 @@ public interface Memory {
      */
     double readDoubleLE();
 
+    /**
+     * Transfers this buffer's data to the specified destination starting at
+     * the current {@code readerIndex} until the destination becomes
+     * non-writable, and increases the {@code readerIndex} by the number of the
+     * transferred bytes.  This method is basically same with
+     * {@link #readBytes(Memory, int, int)}, except that this method
+     * increases the {@code writerIndex} of the destination by the number of
+     * the transferred bytes while {@link #readBytes(Memory, int, int)}
+     * does not.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code dst.writableBytes} is greater than
+     *            {@code this.readableBytes}
+     */
     Memory readBytes(Memory dst);
 
+    /**
+     * Transfers this buffer's data to the specified destination starting at
+     * the current {@code readerIndex} and increases the {@code readerIndex}
+     * by the number of the transferred bytes (= {@code length}).  This method
+     * is basically same with {@link #readBytes(Memory, int, int)},
+     * except that this method increases the {@code writerIndex} of the
+     * destination by the number of the transferred bytes (= {@code length})
+     * while {@link #readBytes(Memory, int, int)} does not.
+     *
+     * @throws IndexOutOfBoundsException
+     *         if {@code length} is greater than {@code this.readableBytes} or
+     *         if {@code length} is greater than {@code dst.writableBytes}
+     */
     Memory readBytes(Memory dst, int length);
 
+    /**
+     * Transfers this buffer's data to the specified destination starting at
+     * the current {@code readerIndex} and increases the {@code readerIndex}
+     * by the number of the transferred bytes (= {@code length}).
+     *
+     * @param dst destination.
+     * @param dstIndex the first index of the destination
+     * @param length   the number of bytes to transfer
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if the specified {@code dstIndex} is less than {@code 0},
+     *         if {@code length} is greater than {@code this.readableBytes}, or
+     *         if {@code dstIndex + length} is greater than
+     *            {@code dst.capacity}
+     */
     Memory readBytes(Memory dst, int dstIndex, int length);
 
+    /**
+     * Transfers this buffer's data to the specified destination starting at
+     * the current {@code readerIndex} and increases the {@code readerIndex}
+     * by the number of the transferred bytes (= {@code dst.length}).
+     *
+     * @param dst destination.
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code dst.length} is greater than {@code this.readableBytes}
+     */
     Memory readBytes(byte[] dst);
 
+    /**
+     * Transfers this buffer's data to the specified destination starting at
+     * the current {@code readerIndex} and increases the {@code readerIndex}
+     * by the number of the transferred bytes (= {@code length}).
+     *
+     * @param dst destination.
+     * @param dstIndex the first index of the destination
+     * @param length the number of bytes to transfer
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if the specified {@code dstIndex} is less than {@code 0},
+     *         if {@code length} is greater than {@code this.readableBytes}, or
+     *         if {@code dstIndex + length} is greater than {@code dst.length}
+     */
     Memory readBytes(byte[] dst, int dstIndex, int length);
 
+    /**
+     * Increases the current {@code readerIndex} by the specified
+     * {@code length} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code length} is greater than {@code this.readableBytes}
+     */
     Memory skipBytes(int length);
 
+    /**
+     * Gets a {@link CharSequence} with the given length at the current {@code readerIndex}
+     * and increases the {@code readerIndex} by the given length.
+     *
+     * @param length the length to read
+     * @param charset that should be used
+     * @return the char sequence.
+     * @throws IndexOutOfBoundsException
+     *         if {@code length} is greater than {@code this.readableBytes}
+     */
     CharSequence readCharSequence(int length, Charset charset);
 
+    /**
+     * Sets the specified boolean at the current {@code writerIndex}
+     * and increases the {@code writerIndex} by {@code 1} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 1}
+     */
     Memory writeBoolean(boolean value);
 
+    /**
+     * Sets the specified byte at the current {@code writerIndex}
+     * and increases the {@code writerIndex} by {@code 1} in this buffer.
+     * The 24 high-order bits of the specified value are ignored.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 1}
+     */
     Memory writeByte(int value);
 
+    /**
+     * Sets the specified 16-bit short integer at the current
+     * {@code writerIndex} and increases the {@code writerIndex} by {@code 2}
+     * in this buffer.  The 16 high-order bits of the specified value are ignored.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 2}
+     */
     Memory writeShort(int value);
 
+    /**
+     * Sets the specified 16-bit short integer in the Little Endian Byte
+     * Order at the current {@code writerIndex} and increases the
+     * {@code writerIndex} by {@code 2} in this buffer.
+     * The 16 high-order bits of the specified value are ignored.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 2}
+     */
     Memory writeShortLE(int value);
 
+    /**
+     * Sets the specified 32-bit integer at the current {@code writerIndex}
+     * and increases the {@code writerIndex} by {@code 4} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 4}
+     */
     Memory writeInt(int value);
 
+    /**
+     * Sets the specified 32-bit integer at the current {@code writerIndex}
+     * in the Little Endian Byte Order and increases the {@code writerIndex}
+     * by {@code 4} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 4}
+     */
     Memory writeIntLE(int value);
 
+    /**
+     * Sets the specified 64-bit long integer at the current
+     * {@code writerIndex} and increases the {@code writerIndex} by {@code 8}
+     * in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 8}
+     */
     Memory writeLong(long value);
 
+    /**
+     * Sets the specified 64-bit long integer at the current
+     * {@code writerIndex} in the Little Endian Byte Order and
+     * increases the {@code writerIndex} by {@code 8}
+     * in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 8}
+     */
     Memory writeLongLE(long value);
 
+    /**
+     * Sets the specified 32-bit floating point number at the current
+     * {@code writerIndex} and increases the {@code writerIndex} by {@code 4}
+     * in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 4}
+     */
     Memory writeFloat(float value);
 
+    /**
+     * Sets the specified 32-bit floating point number at the current
+     * {@code writerIndex} in Little Endian Byte Order and increases
+     * the {@code writerIndex} by {@code 4} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 4}
+     */
     Memory writeFloatLE(float value);
 
+    /**
+     * Sets the specified 64-bit floating point number at the current
+     * {@code writerIndex} and increases the {@code writerIndex} by {@code 8}
+     * in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 8}
+     */
     Memory writeDouble(double value);
 
+    /**
+     * Sets the specified 64-bit floating point number at the current
+     * {@code writerIndex} in Little Endian Byte Order and increases
+     * the {@code writerIndex} by {@code 8} in this buffer.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is less than {@code 8}
+     */
     Memory writeDoubleLE(double value);
 
+    /**
+     * Transfers the specified source buffer's data to this buffer starting at
+     * the current {@code writerIndex} until the source buffer becomes
+     * unreadable, and increases the {@code writerIndex} by the number of
+     * the transferred bytes. This method is basically same with
+     * {@link #writeBytes(Memory, int, int)}, except that this method
+     * increases the {@code readerIndex} of the source buffer by the number of
+     * the transferred bytes while {@link #writeBytes(Memory, int, int)}
+     * does not.
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code src.readableBytes} is greater than
+     *            {@code this.writableBytes}
+     */
     Memory writeBytes(Memory src);
 
+    /**
+     * Transfers the specified source buffer's data to this buffer starting at
+     * the current {@code writerIndex} and increases the {@code writerIndex}
+     * by the number of the transferred bytes (= {@code length}).  This method
+     * is basically same with {@link #writeBytes(Memory, int, int)},
+     * except that this method increases the {@code readerIndex} of the source
+     * buffer by the number of the transferred bytes (= {@code length}) while
+     * {@link #writeBytes(Memory, int, int)} does not.
+     *
+     * @param src source.
+     * @param length the number of bytes to transfer.
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code length} is greater than {@code this.writableBytes} or
+     *         if {@code length} is greater then {@code src.readableBytes}
+     */
     Memory writeBytes(Memory src, int length);
 
+    /**
+     * Transfers the specified source buffer's data to this buffer starting at
+     * the current {@code writerIndex} and increases the {@code writerIndex}
+     * by the number of the transferred bytes (= {@code length}).
+     *
+     * @param src source.
+     * @param srcIndex the first index of the source
+     * @param length   the number of bytes to transfer
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if the specified {@code srcIndex} is less than {@code 0},
+     *         if {@code srcIndex + length} is greater than
+     *            {@code src.capacity}, or
+     *         if {@code length} is greater than {@code this.writableBytes}
+     */
     Memory writeBytes(Memory src, int srcIndex, int length);
 
+    /**
+     * Transfers the specified source array's data to this buffer starting at
+     * the current {@code writerIndex} and increases the {@code writerIndex}
+     * by the number of the transferred bytes (= {@code src.length}).
+     *
+     * @param src source.
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if {@code src.length} is greater than {@code this.writableBytes}
+     */
     Memory writeBytes(byte[] src);
 
+    /**
+     * Transfers the specified source array's data to this buffer starting at
+     * the current {@code writerIndex} and increases the {@code writerIndex}
+     * by the number of the transferred bytes (= {@code length}).
+     *
+     * @param src source.
+     * @param srcIndex the first index of the source
+     * @param length   the number of bytes to transfer
+     *
+     * @return this {@link Memory}.
+     * @throws IndexOutOfBoundsException
+     *         if the specified {@code srcIndex} is less than {@code 0},
+     *         if {@code srcIndex + length} is greater than
+     *            {@code src.length}, or
+     *         if {@code length} is greater than {@code this.writableBytes}
+     */
     Memory writeBytes(byte[] src, int srcIndex, int length);
 
+    /**
+     * Writes the specified {@link CharSequence} at the current {@code writerIndex} and increases
+     * the {@code writerIndex} by the written bytes.
+     * in this buffer.
+     *
+     * @param sequence to write.
+     * @param charset that should be used.
+     * @return the written number of bytes.
+     * @throws IndexOutOfBoundsException
+     *         if {@code this.writableBytes} is not large enough to write the whole sequence
+     */
     Memory writeCharSequence(CharSequence sequence, Charset charset);
 
+    /**
+     * Returns a copy of this buffer's readable bytes. Modifying the content
+     * of the returned buffer or this buffer does not affect each other at all.
+     * This method is identical to {@code copy(readerIndex(), readableBytes())}.
+     * This method does not modify {@code readerIndex} or {@code writerIndex} of
+     * this buffer.
+     * @return copied {@link Memory} buffer's.
+     */
     Memory copy();
 
+    /**
+     * Returns a copy of this buffer's sub-region.  Modifying the content of
+     * the returned buffer or this buffer does not affect each other at all.
+     * This method does not modify {@code readerIndex} or {@code writerIndex} of
+     * this buffer.
+     * @param index index.
+     * @param length length.
+     * @return copied {@link Memory} buffer's.
+     */
     Memory copy(int index, int length);
 
+    /**
+     * Returns a slice of this buffer's readable bytes. Modifying the content
+     * of the returned buffer or this buffer affects each other's content
+     * while they maintain separate indexes and marks.  This method is
+     * identical to {@code slice(readerIndex(), readableBytes())}.
+     * This method does not modify {@code readerIndex} or {@code writerIndex} of
+     * this buffer.
+     * @return returns sliced {@link Memory} buffer's.
+     */
     Memory slice();
 
+    /**
+     * Returns a slice of this buffer's sub-region. Modifying the content of
+     * the returned buffer or this buffer affects each other's content while
+     * they maintain separate indexes and marks.
+     * This method does not modify {@code readerIndex} or {@code writerIndex} of
+     * this buffer.
+     * @param index index.
+     * @param length length.
+     * @return returns sliced {@link Memory} buffer's.
+     */
     Memory slice(int index, int length);
 
+    /**
+     * Duplicate the this {@link Memory} buffer. Modifying the content
+     * of the returned buffer or this buffer affects each other's content
+     * while they maintain separate indexes and marks
+     * @return returns duplicated {@link Memory}.
+     */
     Memory duplicate();
 
+    /**
+     * Exposes this {@link Memory} buffer's as an NIO {@link ByteBuffer}'s. The returned buffer
+     * either share or contains the copied content of this buffer, while changing the position
+     * and limit of the returned NIO buffer does not affect the indexes and marks of this buffer.
+     * This method does not modify {@code readerIndex} or {@code writerIndex} of this buffer.
+     * Please note that the returned NIO buffer will not see the changes of this buffer if this buffer
+     * is a dynamic buffer and it adjusted its capacity and returned NIO buffer has no cleaner.
+     * @return returns direct {@link ByteBuffer} with no cleaner.
+     */
     ByteBuffer nioBuffer();
 
+    /**
+     * @return returns the low-level memory address that point to the first byte of ths backing data.
+     */
     long memoryAddress();
 
+    /**
+     * Deallocate/freeing this {@link Memory} buffer.
+     */
     void release();
 
 }

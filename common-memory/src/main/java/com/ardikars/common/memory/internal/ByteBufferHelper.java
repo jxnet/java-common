@@ -10,6 +10,11 @@ import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+/**
+ * Direct ByteBuffer helper.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 public final class ByteBufferHelper {
 
     private static long BUFFER_ADDRESS_FIELD_OFFSET = -1;

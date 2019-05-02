@@ -5,6 +5,11 @@ import com.ardikars.common.memory.accessor.MemoryAccessors;
 
 import java.nio.charset.Charset;
 
+/**
+ * Abstract implementation of {@link Memory}.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 abstract class AbstractMemory implements Memory {
 
     static final MemoryAccessor ACCESSOR = MemoryAccessors.memoryAccessor();

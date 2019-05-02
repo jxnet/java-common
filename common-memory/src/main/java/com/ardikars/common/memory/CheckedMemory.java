@@ -2,6 +2,11 @@ package com.ardikars.common.memory;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Implementation of {@link Memory} with checking bounds on getter or setter method.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 class CheckedMemory extends UncheckedMemory {
 
     public CheckedMemory(long address, int capacity, int maxCapacity) {
