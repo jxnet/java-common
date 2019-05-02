@@ -6,6 +6,11 @@ import sun.misc.Unsafe;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Abstract implementation of {@link MemoryAccessor}.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 abstract class AbstractMemoryAcessor implements MemoryAccessor {
 
     static final Unsafe UNSAFE = UnsafeHelper.getUnsafe();

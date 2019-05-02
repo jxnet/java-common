@@ -1,5 +1,10 @@
 package com.ardikars.common.memory.accessor;
 
+/**
+ * Unalign big endian implementation of {@link MemoryAccessor}.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 class UnalignBEMemoryAccessor extends AbstractMemoryAcessor {
 
     @Override

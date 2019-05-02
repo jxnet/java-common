@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Used to get {@link Unsafe} instance.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 public final class UnsafeHelper {
 
     private static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION

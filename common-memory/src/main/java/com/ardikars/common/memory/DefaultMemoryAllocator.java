@@ -1,5 +1,10 @@
 package com.ardikars.common.memory;
 
+/**
+ * The default {@link MemoryAllocator} for allocating {@link Memory} buffer's.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 final class DefaultMemoryAllocator implements MemoryAllocator {
 
     @Override

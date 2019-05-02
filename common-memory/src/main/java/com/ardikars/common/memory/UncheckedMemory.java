@@ -4,6 +4,11 @@ import com.ardikars.common.memory.internal.UnsafeHelper;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Implementation of {@link Memory} without checking bounds on getter or setter method.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 class UncheckedMemory extends AbstractMemory {
 
     long address;

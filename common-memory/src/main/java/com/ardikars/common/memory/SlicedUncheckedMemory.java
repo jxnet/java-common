@@ -2,6 +2,12 @@ package com.ardikars.common.memory;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Sliced {@link UncheckedMemory}.
+ * Memory address on this {@link SlicedUncheckedMemory} is parent memory address + some index.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 class SlicedUncheckedMemory extends UncheckedMemory {
 
     private final long baseAddress;

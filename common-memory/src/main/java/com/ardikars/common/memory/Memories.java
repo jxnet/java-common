@@ -6,8 +6,17 @@ import com.ardikars.common.util.Validate;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Used for allocating memory buffer or wrapping buffer.
+ *
+ * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
+ */
 public final class Memories {
 
+    /**
+     * Get default memory allocator.
+     * @return returns default {@link MemoryAllocator}.
+     */
     public static MemoryAllocator allocator() {
         return new DefaultMemoryAllocator();
     }
@@ -30,8 +39,6 @@ public final class Memories {
      * @return returns {@link Memory}.
      */
     public static Memory wrap(long memoryAddress, int size, boolean checking) {
-        Validate.notIllegalArgument(memoryAddress > 0,
-                new IllegalArgumentException(String.format("memoryAddress: %d (expected: > 0)", memoryAddress)));
         Validate.notIllegalArgument(size > 0,
                 new IllegalArgumentException(String.format("size: %d (expected: > 0)", size)));
         if (checking) {
@@ -70,6 +77,11 @@ public final class Memories {
         return new UncheckedMemory(address, capacity, capacity);
     }
 
+    /**
+     * Wrap hex string into {@link Memory}.
+     * @param hexStream hex string.
+     * @return returns {@link Memory}.
+     */
     public static Memory wrap(CharSequence hexStream) {
         return wrap(hexStream, true);
     }
