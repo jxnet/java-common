@@ -188,8 +188,13 @@ class ByteBuf extends AbstractMemory {
     }
 
     @Override
+    public boolean isDirect() {
+        return buffer.isDirect();
+    }
+
+    @Override
     public long memoryAddress() {
-        if (Unsafe.HAS_UNSAFE) {
+        if (Unsafe.HAS_UNSAFE && isDirect()) {
             return ByteBufferHelper.directByteBufferAddress(buffer);
         }
         return 0;
