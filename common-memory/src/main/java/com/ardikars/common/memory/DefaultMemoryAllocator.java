@@ -1,5 +1,9 @@
 package com.ardikars.common.memory;
 
+import com.ardikars.common.memory.internal.Unsafe;
+
+import java.nio.ByteBuffer;
+
 /**
  * The default {@link MemoryAllocator} for allocating {@link Memory} buffer's.
  *
@@ -34,11 +38,17 @@ final class DefaultMemoryAllocator implements MemoryAllocator {
 
     @Override
     public Memory allocate(int capacity, int maxCapacity, int readerIndex, int writerIndex, boolean checking) {
-        long address = AbstractMemory.ACCESSOR.allocate(capacity);
-        if (checking) {
-            return new CheckedMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
+        if (Unsafe.HAS_UNSAFE) {
+            long address = AbstractMemory.ACCESSOR.allocate(capacity);
+            if (checking) {
+                return new CheckedMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
+            }
+            return new UncheckedMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocateDirect(capacity);
+            Memory memory = new ByteBuf(0, buffer, capacity, maxCapacity, readerIndex, writerIndex);
+            return memory;
         }
-        return new UncheckedMemory(address, capacity, maxCapacity, readerIndex, writerIndex);
     }
 
 }

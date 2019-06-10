@@ -136,7 +136,9 @@ abstract class AbstractMemoryTest extends BaseTest {
         }
         memory.readShort();
         Memory sliced = memory.slice();
-        assert sliced.memoryAddress() - 2 == memory.memoryAddress();
+        if (hasUnsafe) {
+            assert sliced.memoryAddress() - 2 == memory.memoryAddress();
+        }
         assert sliced.capacity() == DUMMY.length - 2;
         assert sliced.maxCapacity() == memory.maxCapacity();
         for (int i = 0; i < sliced.capacity(); i++) {
