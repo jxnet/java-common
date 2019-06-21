@@ -13,7 +13,13 @@ import org.junit.runners.Suite;
     UncheckedMemorySetterAndGetterTest.class,
     CheckedMemoryTest.class,
     CheckedMemoryWriterAndReaderTest.class,
-    CheckedMemorySetterAndGetterTest.class
+    CheckedMemorySetterAndGetterTest.class,
+//    PooledCheckedMemory.class,
+    PooledCheckedMemorySetterAndGetterTest.class,
+    PooledCheckedMemoryWriterAndReaderTest.class,
+//    PooledUncheckedMemory.class,
+    PooledUncheckedMemorySetterAndGetterTest.class,
+    PooledUncheckedMemoryWriterAndReaderTest.class
 })
 public class AllTest {
 

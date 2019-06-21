@@ -19,4 +19,6 @@ public interface MemoryAllocator {
 
     Memory allocate(int capacity, int maxCapacity, int readerIndex, int writerIndex, boolean checking);
 
+    void close();
+
 }

@@ -6,6 +6,16 @@ abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
 
     protected Memory memory;
 
+    private final boolean pooled;
+
+    AbstractMemoryWriterAndReaderTest() {
+        this.pooled = false;
+    }
+
+    AbstractMemoryWriterAndReaderTest(boolean pooled) {
+        this.pooled = pooled;
+    }
+
     protected abstract MemoryAllocator memoryAllocator();
 
     public abstract void allocate();
@@ -231,7 +241,7 @@ abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
         for (int i = 0; i < 2; i++) {
             assert memory.getByte(i) == DUMMY[i + 2];
         }
-        memSrc.release();
+        doRelease(memSrc);
     }
 
     public abstract void readBytesTest();
@@ -258,21 +268,21 @@ abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
         for (int i = 0; i < dstMem.capacity(); i++) {
             assert memory.getByte(i) == DUMMY[i];
         }
-        dstMem.release();
+        doRelease(dstMem);
         memory.readerIndex(0);
         dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.readBytes(dstMem, DUMMY.length / BIT_SIZE);
         for (int i = 0; i < DUMMY.length / BIT_SIZE; i++) {
             assert memory.getByte(i) == dstMem.getByte(i);
         }
-        dstMem.release();
+        doRelease(dstMem);
         memory.readerIndex(0);
         dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.readBytes(dstMem, 1, dstMem.capacity() - 1);
         for (int i = 1; i < dstMem.capacity() - 1; i++) {
             assert dstMem.getByte(i) == DUMMY[i - 1];
         }
-        dstMem.release();
+        doRelease(dstMem);
     }
 
     public abstract void writeReadCharSequaceTest();
@@ -288,6 +298,12 @@ abstract class AbstractMemoryWriterAndReaderTest extends BaseTest {
         charset = Charset.forName("UTF-8");
         memory.writeCharSequence(msg, charset);
         assert msg.equals(memory.readCharSequence(length, charset));
+    }
+
+    private void doRelease(Memory memory) {
+        if (!pooled) {
+            memory.release();
+        }
     }
 
 }

@@ -4,6 +4,16 @@ abstract class AbstractMemorySetterAndGetterTest extends BaseTest {
 
     protected Memory memory;
 
+    private final boolean pooled;
+
+    AbstractMemorySetterAndGetterTest() {
+        this.pooled = false;
+    }
+
+    AbstractMemorySetterAndGetterTest(boolean pooled) {
+        this.pooled = pooled;
+    }
+
     protected abstract MemoryAllocator memoryAllocator();
 
     public abstract void  allocate();
@@ -239,19 +249,25 @@ abstract class AbstractMemorySetterAndGetterTest extends BaseTest {
         for (int i = 0; i < dstMem.capacity(); i++) {
             assert memory.getByte(i) == DUMMY[i];
         }
-        dstMem.release();
+        doRelease(dstMem);
         dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.getBytes(0, dstMem, DUMMY.length / BIT_SIZE);
         for (int i = 0; i < DUMMY.length / BIT_SIZE; i++) {
             assert memory.getByte(i) == dstMem.getByte(i);
         }
-        dstMem.release();
+        doRelease(dstMem);
         dstMem = memoryAllocator().allocate(DUMMY.length);
         memory.getBytes(0, dstMem, 1, dstMem.capacity() - 1);
         for (int i = 1; i < dstMem.capacity() - 1; i++) {
             assert dstMem.getByte(i) == DUMMY[i - 1];
         }
-        dstMem.release();
+        doRelease(dstMem);
+    }
+
+    private void doRelease(Memory memory) {
+        if (!pooled) {
+            memory.release();
+        }
     }
 
 }

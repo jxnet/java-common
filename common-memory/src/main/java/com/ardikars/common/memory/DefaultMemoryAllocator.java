@@ -51,4 +51,9 @@ final class DefaultMemoryAllocator implements MemoryAllocator {
         }
     }
 
+    @Override
+    public void close() {
+        //
+    }
+
 }

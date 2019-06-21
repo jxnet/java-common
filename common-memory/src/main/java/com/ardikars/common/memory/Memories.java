@@ -5,6 +5,9 @@ import com.ardikars.common.util.Hexs;
 import com.ardikars.common.util.Validate;
 
 import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Used for allocating memory buffer or wrapping buffer.
@@ -13,12 +16,28 @@ import java.nio.ByteBuffer;
  */
 public final class Memories {
 
+    static Map<Integer, Queue<PooledMemory>> POOLS;
+
     /**
      * Get default memory allocator.
      * @return returns default {@link MemoryAllocator}.
      */
     public static MemoryAllocator allocator() {
         return new DefaultMemoryAllocator();
+    }
+
+    /**
+     * Get pooled memory allocator.
+     * @param poolSize pool size.
+     * @param maxPoolSize maximum pool size.
+     * @param maxMemoryCapacity memory capacity per buffer.
+     * @return returns pooled {@link MemoryAllocator}.
+     */
+    public synchronized static MemoryAllocator allocator(int poolSize, int maxPoolSize, int maxMemoryCapacity) {
+        if (POOLS == null) {
+            POOLS = new ConcurrentHashMap<Integer, Queue<PooledMemory>>();
+        }
+        return new PooledMemoryAllocator(poolSize, maxPoolSize, maxMemoryCapacity);
     }
 
     /**
@@ -100,6 +119,18 @@ public final class Memories {
         Memory memory = allocator().allocate(data.length, checking);
         memory.setBytes(0, data);
         return memory;
+    }
+
+    static void offer(Memory memory) {
+        POOLS.get(memory.maxCapacity()).offer(new PooledMemory(memory));
+    }
+
+    static Memory poll(int maxCapacity) {
+        PooledMemory pooledMemory = POOLS.get(maxCapacity).poll();
+        if (pooledMemory != null) {
+            return pooledMemory.get();
+        }
+        return null;
     }
 
 }

@@ -2,7 +2,7 @@ package com.ardikars.common.memory;
 
 import java.nio.ByteBuffer;
 
-public class SlicedByteBuf extends ByteBuf {
+class SlicedByteBuf extends ByteBuf {
 
     SlicedByteBuf(int capacity, int maxCapacity) {
         this(capacity, maxCapacity, 0, 0);

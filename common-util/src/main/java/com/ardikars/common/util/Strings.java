@@ -17,6 +17,7 @@
 package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
+import com.ardikars.common.annotation.Incubating;
 
 import java.nio.charset.Charset;
 
@@ -60,11 +61,11 @@ public final class Strings {
      * @since 1.0.0
      */
     public static String toHexString(final byte value) {
-        String srt = Integer.toHexString((value) & 0xff);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
+        String str = Integer.toHexString((value) & 0xff);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
         }
-        return (srt);
+        return (str);
     }
 
     /**
@@ -102,11 +103,11 @@ public final class Strings {
      * @since 1.0.0
      */
     public static String toHexString(final short value) {
-        String srt = Integer.toHexString((value) & 0xFFFF);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
+        String str = Integer.toHexString((value) & 0xFFFF);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
         }
-        return (srt);
+        return (str);
     }
 
     /**
@@ -144,11 +145,11 @@ public final class Strings {
      * @since 1.0.0
      */
     public static String toHexString(final int value) {
-        String srt = Integer.toHexString(value);
-        if ((srt.length() & 1) == 1) {
-            return ("0" + srt);
+        String str = Integer.toHexString(value);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
         }
-        return (srt);
+        return (str);
     }
 
     /**
@@ -180,12 +181,55 @@ public final class Strings {
     }
 
     /**
+     * Float to hex stream.
+     * @param value float array.
+     * @return hex stream.
+     */
+    public static String toHexString(final float value) {
+        String str = Float.toHexString(value);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
+        }
+        return (str);
+    }
+
+    /**
+     * Float array to hex stream.
+     * @param data float array.
+     * @return hex stream.
+     */
+    public static String toHexString(final float[] data) {
+        return toHexString(data, 0, data.length);
+    }
+
+    /**
+     * Float array to hex stream.
+     * @param data float array.
+     * @param offset offset.
+     * @param length length.
+     * @return hex stream.
+     */
+    public static String toHexString(final float[] data, final int offset, final int length) {
+        Validate.notInBounds(data, offset, length);
+        StringBuilder sb = new StringBuilder(length);
+        int l = length(data.length, offset, length);
+        for (int i = offset; i < l; i++) {
+            sb.append(toHexString(data[i]));
+        }
+        return sb.toString();
+    }
+
+    /**
      * Long to hex stream.
      * @param value long.
      * @return hex stream.
      */
     public static String toHexString(final long value) {
-        return String.format("%016x", value);
+        String str = Long.toHexString(value);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
+        }
+        return (str);
     }
 
     /**
@@ -215,6 +259,45 @@ public final class Strings {
     }
 
     /**
+     * Double to hex stream.
+     * @param value double value.
+     * @return hex stream.
+     */
+    public static String toHexString(final double value) {
+        String str = Double.toHexString(value);
+        if ((str.length() & 1) == 1) {
+            return ("0" + str);
+        }
+        return (str);
+    }
+
+    /**
+     * Double array to hex stream.
+     * @param data double array.
+     * @return hex stream.
+     */
+    public static String toHexString(final double[] data) {
+        return toHexString(data, 0, data.length);
+    }
+
+    /**
+     * Double array to hex stream.
+     * @param data double array.
+     * @param offset offset.
+     * @param length length.
+     * @return hex stream.
+     */
+    public static String toHexString(final double[] data, final int offset, final int length) {
+        Validate.notInBounds(data, offset, length);
+        StringBuilder sb = new StringBuilder(length);
+        int l = length(data.length, offset, length);
+        for (int i = offset; i < l; i++) {
+            sb.append(toHexString(data[i]));
+        }
+        return sb.toString();
+    }
+
+    /**
      * String to hex string.
      * @param value string.
      * @return hex string.
@@ -231,12 +314,126 @@ public final class Strings {
      * @param charset charset.
      * @return hex string.
      */
+    @Incubating
     public static String toHexString(final String value, Charset charset) {
         Validate.notIllegalArgument(value != null && !value.isEmpty(),
                 new IllegalArgumentException("Value should be not null and empty."));
         Validate.notIllegalArgument(charset != null,
                 new IllegalArgumentException("Charset should be not null."));
         return toHexString(value.getBytes(charset));
+    }
+
+    public static ToStringBuilder toStringBuilder(Object obj) {
+        return toStringBuilder(obj, "{", "}", "=", ",", false);
+    }
+
+    public static ToStringBuilder toStringJsonBuilder(Object obj) {
+        return toStringBuilder("", "{", "}", ":", ",", true);
+    }
+
+    public static ToStringBuilder toStringBuilder(Object obj, String start, String end, String delimiter, String separator, boolean quoteString) {
+        return toStringBuilder(obj.getClass().getSimpleName(), start, end, delimiter, separator, quoteString);
+    }
+
+    public static ToStringBuilder toStringBuilder(String name, String start, String end, String delimiter, String separator, boolean quoteString) {
+        return new ToStringBuilder(name, start, end, delimiter, separator, quoteString);
+    }
+
+    public static final class ToStringBuilder {
+
+        private final String name;
+        private final String start;
+        private final String end;
+        private final String delimiter;
+        private final String separator;
+        private final boolean quoteString;
+        private final ValueHolder holderHead = new ValueHolder();
+        private ValueHolder holderTail = holderHead;
+
+        private ToStringBuilder(String name, String start, String end, String delimiter, String separator, boolean quoteString) {
+            this.name = name;
+            this.start = start;
+            this.end = end;
+            this.delimiter = delimiter;
+            this.separator = separator;
+            this.quoteString = quoteString;
+        }
+
+        public ToStringBuilder add(String name, Object value) {
+            Validate.notIllegalArgument(name != null && !name.isEmpty());
+            ValueHolder valueHolder = addHolder();
+            valueHolder.name = name;
+            valueHolder.value = value;
+            return this;
+        }
+
+        @Override
+        public String toString() {
+            String nextSeparator = "";
+            StringBuilder builder = new StringBuilder(32).append(name).append(start);
+            for (ValueHolder valueHolder = holderHead.next;
+                valueHolder != null;
+                valueHolder = valueHolder.next) {
+                Object value = valueHolder.value;
+                if (value != null) {
+                    builder.append(nextSeparator);
+                    nextSeparator = separator;
+                    if (valueHolder.name != null) {
+                        if (quoteString) {
+                            builder.append('\"').append(valueHolder.name).append('\"').append(delimiter);
+                        } else {
+                            builder.append(valueHolder.name).append(delimiter);
+                        }
+                    }
+                    if (value.getClass().isArray()) {
+                        String arrayString;
+                        if (value instanceof byte[]) {
+                            byte[] array = (byte[]) value;
+                            arrayString = Strings.toHexString(array);
+                        } else if (value instanceof short[]) {
+                            arrayString = Strings.toHexString((short[]) value);
+                        } else if (value instanceof int[]) {
+                            arrayString = Strings.toHexString((int[]) value);
+                        } else if (value instanceof float[]) {
+                            arrayString = Strings.toHexString((float[]) value);
+                        } else if (value instanceof long[]) {
+                            arrayString = Strings.toHexString((long[]) value);
+                        } else if (value instanceof double[]) {
+                            arrayString = Strings.toHexString((double[]) value);
+                        } else {
+                            arrayString = Arrays.toString(value);
+                        }
+                        if (quoteString) {
+                            builder.append('\"').append(arrayString).append('\"');
+                        } else {
+                            builder.append(arrayString);
+                        }
+                    } else {
+                        if (quoteString && value instanceof CharSequence) {
+                            builder.append("\"").append(value).append("\"");
+                        } else {
+                            builder.append(value);
+                        }
+                    }
+                }
+            }
+            return builder.append(end).toString();
+        }
+
+        private static final class ValueHolder {
+
+            private String name;
+            private Object value;
+            private ValueHolder next;
+
+        }
+
+        private ValueHolder addHolder() {
+            ValueHolder valueHolder = new ValueHolder();
+            holderTail = holderTail.next = valueHolder;
+            return valueHolder;
+        }
+
     }
 
 }
