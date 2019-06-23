@@ -2,7 +2,9 @@ package com.ardikars.common.memory;
 
 import com.ardikars.common.memory.accessor.MemoryAccessor;
 import com.ardikars.common.memory.accessor.MemoryAccessors;
+import com.ardikars.common.memory.internal.Unsafe;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -12,7 +14,11 @@ import java.nio.charset.Charset;
  */
 abstract class AbstractMemory implements Memory {
 
-    static final MemoryAccessor ACCESSOR = MemoryAccessors.memoryAccessor();
+    static final MemoryAccessor ACCESSOR = Unsafe.HAS_UNSAFE ? MemoryAccessors.memoryAccessor() : null;
+
+    static final Charset DEFAULT_CHARSET = Charset.defaultCharset();
+
+    ByteBuffer buffer;
 
     int capacity;
     int maxCapacity;
@@ -32,10 +38,15 @@ abstract class AbstractMemory implements Memory {
     }
 
     AbstractMemory(int capacity, int maxCapacity, int readerIndex, int writerIndex) {
+        this(null, capacity, maxCapacity, readerIndex, writerIndex);
+    }
+
+    AbstractMemory(ByteBuffer buffer, int capacity, int maxCapacity, int readerIndex, int writerIndex) {
         this.capacity = capacity;
         this.maxCapacity = maxCapacity;
         this.readerIndex = readerIndex;
         this.writerIndex = writerIndex;
+        this.buffer = buffer;
     }
 
     @Override
@@ -471,6 +482,11 @@ abstract class AbstractMemory implements Memory {
     }
 
     @Override
+    public Memory readBytes(Memory dst, int length) {
+        return readBytes(dst, 0, length);
+    }
+
+    @Override
     public Memory readBytes(Memory dst, int dstIndex, int length) {
         checkReadableBytes(length);
         getBytes(readerIndex, dst, dstIndex, length);
@@ -593,6 +609,11 @@ abstract class AbstractMemory implements Memory {
     public Memory writeBytes(Memory src) {
         writeBytes(src, src.readableBytes());
         return this;
+    }
+
+    @Override
+    public Memory writeBytes(Memory src, int length) {
+        return writeBytes(src, 0, length);
     }
 
     @Override

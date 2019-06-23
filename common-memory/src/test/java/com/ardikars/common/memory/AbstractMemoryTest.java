@@ -14,6 +14,16 @@ abstract class AbstractMemoryTest extends BaseTest {
 
     public abstract void capacityAndMaxCapacityTest();
 
+    private final boolean pooled;
+
+    AbstractMemoryTest() {
+        pooled = false;
+    }
+
+    AbstractMemoryTest(boolean pooled) {
+        this.pooled = pooled;
+    }
+
     protected void doCapacityAndMaxCapacityTest() {
         assert memory.capacity() == DEFAULT_CAPACITY;
         assert memory.maxCapacity() == DEFAULT_MAX_CAPACITY;
@@ -124,8 +134,8 @@ abstract class AbstractMemoryTest extends BaseTest {
         assert copy.readerIndex() == memory.readerIndex();
         assert copy.writerIndex() == memory.writerIndex();
         assert copy.getByte(0) == memory.getByte(2);
-        cpy.release();
-        copy.release();
+        doRelease(cpy);
+        doRelease(copy);
     }
 
     public abstract void sliceTest();
@@ -136,7 +146,9 @@ abstract class AbstractMemoryTest extends BaseTest {
         }
         memory.readShort();
         Memory sliced = memory.slice();
-        assert sliced.memoryAddress() - 2 == memory.memoryAddress();
+        if (hasUnsafe) {
+            assert sliced.memoryAddress() - 2 == memory.memoryAddress();
+        }
         assert sliced.capacity() == DUMMY.length - 2;
         assert sliced.maxCapacity() == memory.maxCapacity();
         for (int i = 0; i < sliced.capacity(); i++) {
@@ -167,8 +179,8 @@ abstract class AbstractMemoryTest extends BaseTest {
         assert newMemoryAlso.capacity() == capacity;
         assert newMemoryAlso.readerIndex() == newMemory.readerIndex();
         assert newMemoryAlso.writerIndex() == newMemory.writerIndex();
-        newMemory.release();
-        newMemoryAlso.release();
+        doRelease(newMemory);
+        doRelease(newMemoryAlso);
     }
 
     public abstract void duplicateTest();
@@ -203,6 +215,12 @@ abstract class AbstractMemoryTest extends BaseTest {
         assert buffer.capacity() == memory.capacity();
         for (int i = 0; i < DUMMY.length; i++) {
             assert buffer.get(i) == DUMMY[i];
+        }
+    }
+
+    private void doRelease(Memory memory) {
+        if (!pooled) {
+            memory.release();
         }
     }
 

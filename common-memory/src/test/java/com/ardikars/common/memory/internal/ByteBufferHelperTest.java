@@ -17,7 +17,7 @@ import java.nio.ByteBuffer;
 public class ByteBufferHelperTest {
 
     private boolean hasUnsafe = UnsafeHelper.isUnsafeAvailable();
-    private MemoryAccessor accessor = MemoryAccessors.memoryAccessor();
+    private MemoryAccessor accessor = hasUnsafe ? MemoryAccessors.memoryAccessor() : null;
 
     private ByteBuffer buffer;
 

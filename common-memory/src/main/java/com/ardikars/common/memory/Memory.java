@@ -1382,6 +1382,11 @@ public interface Memory {
     ByteBuffer nioBuffer();
 
     /**
+     * Returns {@code true} only if this buffer is an direct buffer, false otherwise.
+     */
+    boolean isDirect();
+
+    /**
      * @return returns the low-level memory address that point to the first byte of ths backing data.
      */
     long memoryAddress();

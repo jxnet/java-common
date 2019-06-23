@@ -148,6 +148,11 @@ class UncheckedMemory extends AbstractMemory {
     }
 
     @Override
+    public boolean isDirect() {
+        return true;
+    }
+
+    @Override
     public long memoryAddress() {
         return address;
     }
