@@ -18,6 +18,7 @@ import java.security.PrivilegedAction;
 public final class ByteBufferHelper {
 
     private static long BUFFER_ADDRESS_FIELD_OFFSET = -1;
+    private static Field ADDRESS_FIELD;
     private static final Constructor<?> DIRECT_BUFFER_CONSTRUCTOR;
 
     /**
@@ -27,7 +28,15 @@ public final class ByteBufferHelper {
      * @since 1.2.3
      */
     public static long directByteBufferAddress(ByteBuffer buffer) {
-        return UnsafeHelper.getUnsafe().getLong(buffer, BUFFER_ADDRESS_FIELD_OFFSET);
+        if (Unsafe.HAS_UNSAFE) {
+            return UnsafeHelper.getUnsafe().getLong(buffer, BUFFER_ADDRESS_FIELD_OFFSET);
+        } else {
+            try {
+                return ADDRESS_FIELD.getLong(buffer);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -51,19 +60,23 @@ public final class ByteBufferHelper {
 
     /**
      * Find buffer address field.
-     * @param unsafe {@link sun.misc.Unsafe} object.
      * @return returns buffer address field, or returns exception on failure.
      * @since 1.2.3
      */
-    private static Object findBufferAddressField(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
-        final sun.misc.Unsafe finalUnsafe = unsafe;
+    private static Object findBufferAddressField(final ByteBuffer direct) {
         final Object maybeAddressField = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
                 try {
                     final Field field = Buffer.class.getDeclaredField("address");
-                    final long offset = finalUnsafe.objectFieldOffset(field);
-                    final long address = finalUnsafe.getLong(direct, offset);
+                    long address;
+                    if (Unsafe.HAS_UNSAFE) {
+                        final long offset = UnsafeHelper.getUnsafe().objectFieldOffset(field);
+                        address = UnsafeHelper.getUnsafe().getLong(direct, offset);
+                    } else {
+                        field.setAccessible(true);
+                        address = field.getLong(direct);
+                    }
                     if (address == 0) {
                         // if it's buffer is direct buffer, address will no not 0.
                         return new IllegalStateException("Non direct buffer.");
@@ -72,6 +85,8 @@ public final class ByteBufferHelper {
                 } catch (NoSuchFieldException e) {
                     return e;
                 } catch (SecurityException e) {
+                    return e;
+                } catch (IllegalAccessException e) {
                     return e;
                 }
             }
@@ -103,37 +118,38 @@ public final class ByteBufferHelper {
 
     static {
         Constructor<?> directBufferConstructor;
-        if (UnsafeHelper.getUnsafe() != null) {
-            ByteBuffer direct = ByteBuffer.allocateDirect(1);
-            Object maybeBufferAddressField = findBufferAddressField(direct, UnsafeHelper.getUnsafe());
-            if (maybeBufferAddressField instanceof Field) {
-                BUFFER_ADDRESS_FIELD_OFFSET = UnsafeHelper.getUnsafe().objectFieldOffset((Field) maybeBufferAddressField);
+        ByteBuffer direct = ByteBuffer.allocateDirect(1);
+        Object maybeBufferAddressField = findBufferAddressField(direct);
+        if (maybeBufferAddressField instanceof Field) {
+            ADDRESS_FIELD = (Field) maybeBufferAddressField;
+            if (Unsafe.HAS_UNSAFE) {
+                BUFFER_ADDRESS_FIELD_OFFSET = UnsafeHelper.getUnsafe().objectFieldOffset(ADDRESS_FIELD);
             }
-            long address = -1;
-            try {
-                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct);
-                if (maybeDirectBufferConstructor instanceof Constructor<?>) {
+        }
+        long address = -1;
+        try {
+            Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct);
+            if (maybeDirectBufferConstructor instanceof Constructor<?>) {
+                if (Unsafe.HAS_UNSAFE) {
                     address = UnsafeHelper.getUnsafe().allocateMemory(1);
-                    try {
-                        ((Constructor<?>) maybeDirectBufferConstructor).newInstance(address, 1);
-                        directBufferConstructor = (Constructor<?>) maybeDirectBufferConstructor;
-                    } catch (InstantiationException e) {
-                        directBufferConstructor = null;
-                    } catch (IllegalAccessException e) {
-                        directBufferConstructor = null;
-                    } catch (InvocationTargetException e) {
-                        directBufferConstructor = null;
-                    }
-                } else {
+                }
+                try {
+                    ((Constructor<?>) maybeDirectBufferConstructor).newInstance(address, 1);
+                    directBufferConstructor = (Constructor<?>) maybeDirectBufferConstructor;
+                } catch (InstantiationException e) {
+                    directBufferConstructor = null;
+                } catch (IllegalAccessException e) {
+                    directBufferConstructor = null;
+                } catch (InvocationTargetException e) {
                     directBufferConstructor = null;
                 }
-            } finally {
-                if (address != -1) {
-                    UnsafeHelper.getUnsafe().freeMemory(address);
-                }
+            } else {
+                directBufferConstructor = null;
             }
-        } else {
-            directBufferConstructor = null;
+        } finally {
+            if (address != -1 && Unsafe.HAS_UNSAFE) {
+                UnsafeHelper.getUnsafe().freeMemory(address);
+            }
         }
         DIRECT_BUFFER_CONSTRUCTOR = directBufferConstructor;
     }
