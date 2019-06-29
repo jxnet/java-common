@@ -1,6 +1,7 @@
 package com.ardikars.common.memory;
 
 import com.ardikars.common.memory.internal.ByteBufferHelper;
+import com.ardikars.common.memory.internal.Unsafe;
 import com.ardikars.common.util.Hexs;
 import com.ardikars.common.util.Validate;
 
@@ -16,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class Memories {
 
+    private static MemoryAllocator DEFAULT_MEMORY_ALLOCATOR = new DefaultMemoryAllocator();
+
     static Map<Integer, Queue<PooledMemory>> POOLS;
 
     /**
@@ -23,7 +26,7 @@ public final class Memories {
      * @return returns default {@link MemoryAllocator}.
      */
     public static MemoryAllocator allocator() {
-        return new DefaultMemoryAllocator();
+        return DEFAULT_MEMORY_ALLOCATOR;
     }
 
     /**
@@ -60,6 +63,10 @@ public final class Memories {
     public static Memory wrap(long memoryAddress, int size, boolean checking) {
         Validate.notIllegalArgument(size > 0,
                 new IllegalArgumentException(String.format("size: %d (expected: > 0)", size)));
+        if (!Unsafe.HAS_UNSAFE) {
+            ByteBuffer bbNoCleaner = ByteBufferHelper.wrapDirectByteBuffer(memoryAddress, size);
+            return new ByteBuf(0, bbNoCleaner, size, size, 0, 0);
+        }
         if (checking) {
             return new CheckedMemory(memoryAddress, size, size);
         }
@@ -88,6 +95,9 @@ public final class Memories {
                 new IllegalArgumentException("buffer: null (expected: non null)"));
         Validate.notIllegalArgument(buffer.isDirect(),
                 new IllegalArgumentException(String.format("buffer.isDirect(): %b (expected: direct buffer)", buffer.isDirect())));
+        if (!Unsafe.HAS_UNSAFE) {
+            return new ByteBuf(0, buffer, buffer.capacity(), buffer.capacity(), 0, 0);
+        }
         int capacity = buffer.capacity();
         long address = ByteBufferHelper.directByteBufferAddress(buffer);
         if (checking) {
@@ -113,11 +123,48 @@ public final class Memories {
      * @throws IllegalArgumentException invalid hex characters.
      */
     public static Memory wrap(CharSequence hexStream, boolean checking) {
+        return wrap(DEFAULT_MEMORY_ALLOCATOR, hexStream, checking);
+    }
+
+    /**
+     * Wrap hex string into {@link Memory}.
+     * @param allocator memory allocator.
+     * @param hexStream hex string.
+     * @param checking if true it will do bounds checking for every get/set method, false will not bounds checking.
+     * @return returns {@link Memory}.
+     * @throws IllegalArgumentException invalid hex characters.
+     */
+    public static Memory wrap(MemoryAllocator allocator, CharSequence hexStream, boolean checking) {
         Validate.notIllegalArgument(hexStream != null,
                 new IllegalArgumentException(String.format("hexStream: null (expected: non null)")));
         byte[] data = Hexs.parseHex(hexStream.toString());
-        Memory memory = allocator().allocate(data.length, checking);
+        Memory memory = allocator.allocate(data.length, checking);
         memory.setBytes(0, data);
+        return memory;
+    }
+
+    /**
+     * Wrap bytes array into {@link Memory}.
+     * @param bytes raw bytes.
+     * @param checking if true it will do bounds checking for every get/set method, false will not bounds checking.
+     * @return returns {@link Memory}.
+     */
+    public static Memory wrap(byte[] bytes, boolean checking) {
+        return wrap(DEFAULT_MEMORY_ALLOCATOR, bytes, checking);
+    }
+
+    /**
+     * Wrap bytes array into {@link Memory}.
+     * @param allocator memory allocator.
+     * @param bytes raw bytes.
+     * @param checking if true it will do bounds checking for every get/set method, false will not bounds checking.
+     * @return returns {@link Memory}.
+     */
+    public static Memory wrap(MemoryAllocator allocator, byte[] bytes, boolean checking) {
+        Validate.notIllegalArgument(bytes != null,
+                new IllegalArgumentException(String.format("hexStream: null (expected: non null)")));
+        Memory memory = allocator.allocate(bytes.length, checking);
+        memory.setBytes(0, bytes);
         return memory;
     }
 
