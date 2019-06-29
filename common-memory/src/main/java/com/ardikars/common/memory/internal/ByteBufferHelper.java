@@ -35,6 +35,7 @@ public final class ByteBufferHelper {
      * @param memoryAddress management address.
      * @param size buffer size.
      * @return returns {@link ByteBuffer} object.
+     * @since 1.2.3
      */
     public static ByteBuffer wrapDirectByteBuffer(long memoryAddress, int size) {
         if (DIRECT_BUFFER_CONSTRUCTOR != null) {
@@ -52,6 +53,7 @@ public final class ByteBufferHelper {
      * Find buffer address field.
      * @param unsafe {@link sun.misc.Unsafe} object.
      * @return returns buffer address field, or returns exception on failure.
+     * @since 1.2.3
      */
     private static Object findBufferAddressField(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
         final sun.misc.Unsafe finalUnsafe = unsafe;
@@ -77,7 +79,7 @@ public final class ByteBufferHelper {
         return maybeAddressField;
     }
 
-    private static Object findDirectBufferConstructor(final ByteBuffer direct, final sun.misc.Unsafe unsafe) {
+    private static Object findDirectBufferConstructor(final ByteBuffer direct) {
         final Object maybeDirectBufferConstructor = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -109,7 +111,7 @@ public final class ByteBufferHelper {
             }
             long address = -1;
             try {
-                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct, UnsafeHelper.getUnsafe());
+                Object maybeDirectBufferConstructor = findDirectBufferConstructor(direct);
                 if (maybeDirectBufferConstructor instanceof Constructor<?>) {
                     address = UnsafeHelper.getUnsafe().allocateMemory(1);
                     try {
