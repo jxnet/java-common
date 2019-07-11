@@ -39,7 +39,77 @@ public final class Hexs {
             + "+--------+-------------------------------------------------+--------+\n";
 
     private static final String HEXDUMP_PRETTY_FOOTER = ""
-            + "+--------+-------------------------------------------------+--------+";
+            + "+--------+---------------------------------" +
+            "----------------+--------+";
+
+    private static final char[] HEXDUMP_TABLE;
+
+
+    /**
+     * {@link ByteBuffer} to hex string.
+     * @param buffer buffer.
+     * @return returns hex string.
+     */
+    public static String toHexString(final ByteBuffer buffer) {
+        return toHexString(buffer, 0, buffer.capacity());
+    }
+
+    /**
+     * {@link ByteBuffer} to hex string.
+     * @param buffer buffer.
+     * @param offset offset.
+     * @param length length.
+     * @return returns hex string.
+     */
+    public static String toHexString(final ByteBuffer buffer, final int offset, final int length) {
+        if (length == 0) {
+            return "";
+        }
+        int endIndex = offset + length;
+        char[] buf = new char[length << 1];
+
+        int srcIdx = offset;
+        int dstIdx = 0;
+        for (; srcIdx < endIndex; srcIdx++, dstIdx += 2) {
+            System.arraycopy(
+                    HEXDUMP_TABLE, (buffer.get(srcIdx) & 0xFF) << 1,
+                    buf, dstIdx, 2);
+        }
+        return new String(buf);
+    }
+
+    /**
+     * {@link ByteBuffer} to hex string.
+     * @param buffer buffer.
+     * @return returns hex string.
+     */
+    public static String toHexString(final byte[] buffer) {
+        return toHexString(buffer, 0, buffer.length);
+    }
+
+    /**
+     * {@link ByteBuffer} to hex string.
+     * @param buffer buffer.
+     * @param offset offset.
+     * @param length length.
+     * @return returns hex string.
+     */
+    public static String toHexString(final byte[] buffer, final int offset, final int length) {
+        if (length == 0) {
+            return "";
+        }
+        int endIndex = offset + length;
+        char[] buf = new char[length << 1];
+
+        int srcIdx = offset;
+        int dstIdx = 0;
+        for (; srcIdx < endIndex; srcIdx++, dstIdx += 2) {
+            System.arraycopy(
+                    HEXDUMP_TABLE, (buffer[srcIdx] & 0xFF) << 1,
+                    buf, dstIdx, 2);
+        }
+        return new String(buf);
+    }
 
     /**
      * Byte array to hex dump format.
@@ -71,7 +141,8 @@ public final class Hexs {
             builder.append(String.format("%08d", lineNumber++) + " | ");
             int lineMax = Math.min(max - pos, 16);
             for (int i = 0; i < lineMax; i++) {
-                builder.append(Strings.toHexString(data[pos + i]));
+                int index = (data[pos + i] & 0xFF) << 1;
+                builder.append(new String(new char[] {HEXDUMP_TABLE[index], HEXDUMP_TABLE[++index]}));
                 builder.append(" ");
             }
             while (builder.length() < 48) {
@@ -114,7 +185,8 @@ public final class Hexs {
             builder.append(String.format("%08d", lineNumber++) + " | ");
             int lineMax = Math.min(max - pos, 16);
             for (int i = 0; i < lineMax; i++) {
-                builder.append(Strings.toHexString(buffer.get(pos + i)));
+                int index = (buffer.get(pos + i) & 0xFF) << 1;
+                builder.append(new String(new char[] {HEXDUMP_TABLE[index], HEXDUMP_TABLE[++index]}));
                 builder.append(" ");
             }
             while (builder.length() < 48) {
@@ -122,7 +194,7 @@ public final class Hexs {
             }
             builder.append("| ");
             for (int i = 0; i < lineMax; i++) {
-                char c = (char) buffer.getChar(pos + i);
+                char c = buffer.getChar(pos + i);
                 if ((c < 32) || (c > 127)) {
                     c = '.';
                 }
@@ -159,6 +231,15 @@ public final class Hexs {
                     + Character.digit(hexStream.charAt(i + 1), 16));
         }
         return data;
+    }
+
+    static {
+        HEXDUMP_TABLE = new char[256 * 4];
+        final char[] DIGITS = "0123456789abcdef".toCharArray();
+        for (int i = 0; i < 256; i ++) {
+            HEXDUMP_TABLE[ i << 1     ] = DIGITS[i >>> 4 & 0x0F];
+            HEXDUMP_TABLE[(i << 1) + 1] = DIGITS[i       & 0x0F];
+        }
     }
 
 }
