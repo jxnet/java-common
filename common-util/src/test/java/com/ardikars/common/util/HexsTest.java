@@ -3,6 +3,8 @@ package com.ardikars.common.util;
 import org.junit.Test;
 
 
+import java.nio.ByteBuffer;
+
 import static org.junit.Assert.assertEquals;
 
 public class HexsTest extends BaseTest {
@@ -23,6 +25,28 @@ public class HexsTest extends BaseTest {
                 "00000000 | 0a 2b 2d 02 05 | .+-..\n" +
                 "+--------+-------------------------------------------------+--------+";
         assertEquals(expected, Hexs.toPrettyHexDump(byteData));
+    }
+
+    @Test
+    public void bytestoHex() {
+        assertEquals("0a2b2d0205", Hexs.toHexString(byteData));
+    }
+
+    @Test
+    public void bytestoHexWithRange() {
+        assertEquals("2b2d02", Hexs.toHexString(byteData, 1, 3));
+    }
+
+    @Test
+    public void bufferToHex() {
+        ByteBuffer buffer = ByteBuffer.wrap(byteData);
+        assertEquals("0a2b2d0205", Hexs.toHexString(buffer));
+    }
+
+    @Test
+    public void bufferToHexWithRange() {
+        ByteBuffer buffer = ByteBuffer.wrap(byteData);
+        assertEquals("2b2d02", Hexs.toHexString(buffer, 1, 3));
     }
 
 }

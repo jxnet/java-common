@@ -55,7 +55,7 @@ Getting Started
 >>>         <dependency>
 >>>             <groupId>com.ardikars.common</groupId>
 >>>             <artifactId>common</artifactId>
->>>             <version>1.3.0.RELEASE</version>
+>>>             <version>1.3.3.RELEASE</version>
 >>>             <type>pom</type>
 >>>             <scope>import</scope>
 >>>         </dependency>
