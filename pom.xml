@@ -13,7 +13,7 @@
     <groupId>com.ardikars.common</groupId>
     <artifactId>common</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.5-SNAPSHOT</version>
+    <version>1.3.5</version>
 
     <name>common</name>
 
@@ -34,8 +34,8 @@
     </organization>
 
     <scm>
-        <connection>scm:git:https://github.com/jxnet/java-common.git</connection>
-        <developerConnection>scm:git:ssh://github.com/jxnet/java-common.git</developerConnection>
+        <connection>scm:git:git@github.com:jxnet/java-common.git</connection>
+        <developerConnection>scm:git:git@github.com:jxnet/java-common.git</developerConnection>
         <url>https://github.com/jxnet/java-common</url>
         <tag>HEAD</tag>
     </scm>
