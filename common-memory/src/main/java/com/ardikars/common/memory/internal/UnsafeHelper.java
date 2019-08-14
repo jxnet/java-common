@@ -1,6 +1,8 @@
 package com.ardikars.common.memory.internal;
 
 
+import com.ardikars.common.annotation.Helper;
+import com.ardikars.common.annotation.InternalApi;
 import com.ardikars.common.util.Platforms;
 import com.ardikars.common.util.Properties;
 import com.ardikars.common.util.Reflections;
@@ -21,6 +23,8 @@ import java.util.List;
  *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
+@Helper
+@InternalApi
 public final class UnsafeHelper {
 
     private static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION

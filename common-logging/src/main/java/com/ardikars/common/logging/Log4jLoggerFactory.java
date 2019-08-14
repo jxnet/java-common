@@ -2,6 +2,7 @@ package com.ardikars.common.logging;
 
 import org.apache.log4j.LogManager;
 
+@Deprecated
 class Log4jLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new Log4jLoggerFactory();

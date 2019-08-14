@@ -1,5 +1,7 @@
 package com.ardikars.common.memory.internal;
 
+import com.ardikars.common.annotation.Incubating;
+import com.ardikars.common.annotation.InternalApi;
 import com.ardikars.common.util.Reflections;
 
 import java.lang.reflect.Constructor;
@@ -15,6 +17,8 @@ import java.security.PrivilegedAction;
  *
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  */
+@Incubating
+@InternalApi
 public final class ByteBufferHelper {
 
     private static long BUFFER_ADDRESS_FIELD_OFFSET = -1;

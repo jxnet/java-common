@@ -3,6 +3,7 @@ package com.ardikars.common.logging;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+@Deprecated
 class Log4jLogger extends AbstractLogger {
 
     private final transient Logger logger;

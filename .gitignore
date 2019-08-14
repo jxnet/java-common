@@ -6,6 +6,7 @@
 *.swp
 /gradle.properties
 /.gradle
+/.mvn
 /.idea
 /build
 /out

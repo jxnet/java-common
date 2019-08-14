@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+@Deprecated
 class JdkLogger extends AbstractLogger {
 
     private static final String SELF = JdkLogger.class.getName();

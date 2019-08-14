@@ -1,11 +1,16 @@
 package com.ardikars.common.memory.internal;
 
+import com.ardikars.common.annotation.Helper;
+import com.ardikars.common.annotation.InternalApi;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+@Helper
+@InternalApi
 public class Unsafe {
 
     public static final boolean HAS_UNSAFE = UnsafeHelper.isUnsafeAvailable();
