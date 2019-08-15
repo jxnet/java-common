@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-memory</artifactId>
+    <name>common-memory</name>
+    <description>Common memory</description>
 
     <properties>
         <javaModuleName>${project.groupId}.memory</javaModuleName>
