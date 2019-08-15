@@ -55,7 +55,7 @@ Getting Started
 >>>         <dependency>
 >>>             <groupId>com.ardikars.common</groupId>
 >>>             <artifactId>common</artifactId>
->>>             <version>1.3.3.RELEASE</version>
+>>>             <version>1.3.7</version>
 >>>             <type>pom</type>
 >>>             <scope>import</scope>
 >>>         </dependency>
@@ -67,11 +67,13 @@ Build Java Common from Source
 =============================
 
 ### Build
-   - ```./gradlew clean build```
+   - ```./mvnw clean package```
    
 ### Skip Test
-   - ```./gradlew clean build -x test```
-
+   - ```./mvnw clean package -x test```
+   
+### Test
+   - ```./mvnw clean site site:stage -Pcoverage,spotbugs,checkstyle,pmd```
 
 License
 =======
