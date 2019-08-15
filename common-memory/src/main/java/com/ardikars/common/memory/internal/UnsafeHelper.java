@@ -1,12 +1,10 @@
 package com.ardikars.common.memory.internal;
 
-
 import com.ardikars.common.annotation.Helper;
 import com.ardikars.common.annotation.InternalApi;
 import com.ardikars.common.util.Platforms;
 import com.ardikars.common.util.Properties;
 import com.ardikars.common.util.Reflections;
-import sun.misc.Unsafe;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -17,6 +15,8 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import sun.misc.Unsafe;
 
 /**
  * Used to get {@link Unsafe} instance.
@@ -208,6 +208,7 @@ public final class UnsafeHelper {
                                 return unsafe.getBoolean(object, offset);
                             }
                         } catch (NoSuchFieldException ignore) {
+                            System.out.println(ignore);
                         }
                     }
                     Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");

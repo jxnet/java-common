@@ -255,7 +255,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory setBoolean(int index, boolean value) {
-        setByte(index, value? 1 : 0);
+        setByte(index, value ? 1 : 0);
         return this;
     }
 
@@ -732,8 +732,8 @@ abstract class AbstractMemory implements Memory {
 
     void checkNewCapacity(int newCapacity) {
         if (newCapacity < 0 || newCapacity > maxCapacity()) {
-            throw new IllegalArgumentException("newCapacity: " + newCapacity +
-                    " (expected: 0-" + maxCapacity() + ')');
+            throw new IllegalArgumentException("newCapacity: " + newCapacity
+                    + " (expected: 0-" + maxCapacity() + ')');
         }
     }
 

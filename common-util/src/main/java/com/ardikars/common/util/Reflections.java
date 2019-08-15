@@ -123,8 +123,8 @@ public class Reflections {
         int superClassIndex = 0;
         final List<Class<?>> allInterfaces = getAllInterfaces(cls);
         int interfaceIndex = 0;
-        while (interfaceIndex < allInterfaces.size() ||
-                superClassIndex < allSuperclasses.size()) {
+        while (interfaceIndex < allInterfaces.size()
+                || superClassIndex < allSuperclasses.size()) {
             Class<?> acls;
             if (interfaceIndex >= allInterfaces.size()) {
                 acls = allSuperclasses.get(superClassIndex++);
@@ -201,8 +201,8 @@ public class Reflections {
                 return candidateMethod;
             }
         }
-        throw new NoSuchMethodException("Can't find a public method for " +
-                methodName + " " + Arrays.toString(parameterTypes));
+        throw new NoSuchMethodException("Can't find a public method for "
+                + methodName + " " + Arrays.toString(parameterTypes));
     }
 
     private static Throwable setAccessible(final AccessibleObject object, final boolean checkAccessible) throws RuntimeException {

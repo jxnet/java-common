@@ -23,7 +23,7 @@ final class PooledMemoryAllocator implements MemoryAllocator {
     PooledMemoryAllocator(int poolSize, int maxPoolSize, int maxMemoryCapacity) {
         this.poolSize = poolSize;
         this.maxMemoryCapacity = maxMemoryCapacity;
-        this.moreMemoryCounter = new AtomicInteger( maxPoolSize - poolSize);
+        this.moreMemoryCounter = new AtomicInteger(maxPoolSize - poolSize);
         Queue<PooledMemory> queue = new ConcurrentLinkedQueue<PooledMemory>();
         for (int i = 0; i < poolSize; i++) {
             Memory memory = doAllocateForPooledMemory(maxMemoryCapacity, maxMemoryCapacity, 0, 0, true);

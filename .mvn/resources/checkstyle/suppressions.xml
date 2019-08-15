@@ -10,4 +10,7 @@
     <!-- Suppress checks for unit test code. -->
     <suppress files="[/\\]test[/\\]" checks=".*"/>
 
+    <suppress files="MessageFormatter\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="FormattingTuple\.java" checks="[a-zA-Z0-9]*"/>
+
 </suppressions>

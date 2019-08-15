@@ -36,11 +36,13 @@ public final class Memories {
      * @param maxMemoryCapacity memory capacity per buffer.
      * @return returns pooled {@link MemoryAllocator}.
      */
-    public synchronized static MemoryAllocator allocator(int poolSize, int maxPoolSize, int maxMemoryCapacity) {
-        if (POOLS == null) {
-            POOLS = new ConcurrentHashMap<Integer, Queue<PooledMemory>>();
+    public static MemoryAllocator allocator(int poolSize, int maxPoolSize, int maxMemoryCapacity) {
+        synchronized (Memories.class) {
+            if (POOLS == null) {
+                POOLS = new ConcurrentHashMap<Integer, Queue<PooledMemory>>();
+            }
+            return new PooledMemoryAllocator(poolSize, maxPoolSize, maxMemoryCapacity);
         }
-        return new PooledMemoryAllocator(poolSize, maxPoolSize, maxMemoryCapacity);
     }
 
     /**

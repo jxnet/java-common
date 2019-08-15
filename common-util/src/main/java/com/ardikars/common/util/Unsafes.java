@@ -3,7 +3,6 @@ package com.ardikars.common.util;
 import com.ardikars.common.annotation.Helper;
 import com.ardikars.common.logging.Logger;
 import com.ardikars.common.logging.LoggerFactory;
-import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,6 +11,7 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import sun.misc.Unsafe;
 
 /**
  * @author common 2018/12/13
@@ -198,6 +198,7 @@ public final class Unsafes {
                                 return unsafe.getBoolean(object, offset);
                             }
                         } catch (NoSuchFieldException ignore) {
+                            LOGGER.warn(ignore);
                         }
                     }
                     Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");
@@ -228,7 +229,8 @@ public final class Unsafes {
         Object maybeUnsafe = findUnsafe();
         final boolean unaligned;
         if (maybeUnsafe instanceof Throwable) {
-            LOGGER.warn("Unable to get an instance of Unsafes. Unsafes-based operations will be unavailable: {}", ((Throwable) maybeUnsafe).getMessage());
+            LOGGER.warn("Unable to get an instance of Unsafes. Unsafes-based operations will be unavailable: {}",
+                    ((Throwable) maybeUnsafe).getMessage());
             unaligned = false;
             causes.add((Throwable) maybeUnsafe);
         } else {

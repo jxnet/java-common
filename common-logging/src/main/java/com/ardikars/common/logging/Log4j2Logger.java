@@ -91,19 +91,19 @@ class Log4j2Logger extends ExtendedLoggerWrapper implements Logger {
     }
 
     @Override
-    public void log(LogLevel level, String format, Object... args ) {
+    public void log(LogLevel level, String format, Object... args) {
         switch (level) {
             case DEBUG:
-                super.debug(format, args );
+                super.debug(format, args);
                 break;
             case INFO:
-                super.info(format, args );
+                super.info(format, args);
                 break;
             case WARN:
-                super.warn(format, args );
+                super.warn(format, args);
                 break;
             case ERROR:
-                super.error(format, args );
+                super.error(format, args);
                 break;
             default:
                 throw new Error("Unknown log level");

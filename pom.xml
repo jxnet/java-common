@@ -160,6 +160,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
+                        <configuration>
+<!--                            <rulesets>-->
+<!--                                <ruleset>.mvn/resources/pmd/pmd.xml</ruleset>-->
+<!--                            </rulesets>-->
+                            <failOnViolation>true</failOnViolation>
+                        </configuration>
                     </plugin>
                 </plugins>
             </reporting>
@@ -175,9 +181,7 @@
                             <configLocation>.mvn/resources/checkstyle/checkstyle.xml</configLocation>
                             <suppressionsLocation>.mvn/resources/checkstyle/suppressions.xml</suppressionsLocation>
                             <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>false</failsOnError>
-                            <linkXRef>false</linkXRef>
+                            <failsOnError>true</failsOnError>
                         </configuration>
                     </plugin>
                 </plugins>

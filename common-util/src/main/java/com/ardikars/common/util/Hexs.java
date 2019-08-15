@@ -39,8 +39,8 @@ public final class Hexs {
             + "+--------+-------------------------------------------------+--------+\n";
 
     private static final String HEXDUMP_PRETTY_FOOTER = ""
-            + "+--------+---------------------------------" +
-            "----------------+--------+";
+            + "+--------+---------------------------------"
+            + "----------------+--------+";
 
     private static final char[] HEXDUMP_TABLE;
 
@@ -235,10 +235,10 @@ public final class Hexs {
 
     static {
         HEXDUMP_TABLE = new char[256 * 4];
-        final char[] DIGITS = "0123456789abcdef".toCharArray();
-        for (int i = 0; i < 256; i ++) {
-            HEXDUMP_TABLE[ i << 1     ] = DIGITS[i >>> 4 & 0x0F];
-            HEXDUMP_TABLE[(i << 1) + 1] = DIGITS[i       & 0x0F];
+        final char[] digits = "0123456789abcdef".toCharArray();
+        for (int i = 0; i < 256; i++) {
+            HEXDUMP_TABLE[ i << 1     ] = digits[i >>> 4 & 0x0F];
+            HEXDUMP_TABLE[(i << 1) + 1] = digits[i       & 0x0F];
         }
     }
 
