@@ -26,7 +26,7 @@ public final class Unsafes {
     private static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION
             = new UnsupportedOperationException("sun.misc.Unsafe unavailable.");
 
-    private static final sun.misc.Unsafe UNSAFE;
+    private static final Unsafe UNSAFE;
     private static final boolean UNSAFE_AVAILABLE;
     private static final boolean UNALIGNED;
     private static final List<Throwable> NO_UNSAFE_CAUSES;
@@ -67,7 +67,7 @@ public final class Unsafes {
     }
 
     private static long normalize(long d, int k) {
-        return ((long) (Math.ceil(((double) d) / k)) * k);
+        return (long) (Math.ceil(((double) d) / k)) * k;
     }
 
     private static ClassLoader getClassLoader(final Class<?> clazz) {
@@ -104,9 +104,9 @@ public final class Unsafes {
         final Object maybeUnsafe = AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
-                Class<sun.misc.Unsafe> type = sun.misc.Unsafe.class;
+                Class<Unsafe> type = Unsafe.class;
                 try {
-                    final Field unsafeField = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
+                    final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
                     Throwable unsafeFieldSetAccessible = Reflections.trySetAccessible(unsafeField, true);
                     if (unsafeFieldSetAccessible != null) {
                         return unsafeFieldSetAccessible;
@@ -160,10 +160,10 @@ public final class Unsafes {
      * Ensure the unsafe supports all necessary methods to work around the mistake in the latest OpenJDK.
      */
     @SuppressWarnings("checkstyle:magicnumber")
-    private static Object checkJdk6Unsafe(sun.misc.Unsafe unsafe) {
+    private static Object checkJdk6Unsafe(Unsafe unsafe) {
         try {
             long arrayBaseOffset = unsafe.arrayBaseOffset(byte[].class);
-            byte[] buffer = new byte[(int) arrayBaseOffset + (2 * 8)];
+            byte[] buffer = new byte[(int) arrayBaseOffset + 2 * 8];
             unsafe.putByte(buffer, arrayBaseOffset, (byte) 0x00);
             unsafe.putBoolean(buffer, arrayBaseOffset, false);
             unsafe.putChar(buffer, normalize(arrayBaseOffset, 2), '0');
@@ -235,7 +235,7 @@ public final class Unsafes {
             causes.add((Throwable) maybeUnsafe);
         } else {
 
-            unsafe = (sun.misc.Unsafe) maybeUnsafe;
+            unsafe = (Unsafe) maybeUnsafe;
             LOGGER.info("sun.misc.Unsafes.theUnsafe available.");
 
             Object maybeExceptionJdk6 = checkJdk6Unsafe(unsafe);

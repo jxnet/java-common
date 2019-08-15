@@ -151,7 +151,7 @@ public final class Hexs {
             builder.append("| ");
             for (int i = 0; i < lineMax; i++) {
                 char c = (char) data[pos + i];
-                if ((c < 32) || (c > 127)) {
+                if (c < 32 || c > 127) {
                     c = '.';
                 }
                 builder.append(c);
@@ -195,7 +195,7 @@ public final class Hexs {
             builder.append("| ");
             for (int i = 0; i < lineMax; i++) {
                 char c = buffer.getChar(pos + i);
-                if ((c < 32) || (c > 127)) {
+                if (c < 32 || c > 127) {
                     c = '.';
                 }
                 builder.append(c);

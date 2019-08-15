@@ -230,6 +230,7 @@ class ByteBuf extends AbstractMemory {
                 });
             }
         } else {
+            LOGGER.info("Released automaticly");
             // released automaticly by GC
             // Is not permitted to create direct ByteBuffer without cleaner
         }

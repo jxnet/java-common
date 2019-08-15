@@ -21,6 +21,7 @@ package com.ardikars.common.util;
  * @param <E> emelent type.
  * @param <U> custom iterator type,
  */
+@Deprecated
 public interface CommonIterable<E, U extends CommonIterator<E>> extends java.lang.Iterable<E> {
 
     @Override

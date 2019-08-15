@@ -76,7 +76,7 @@ public final class Platforms {
      * Returns true if Linux platform, false otherwise.
      * @return returns true if linux platform, false otherwise.
      */
-    public static final boolean isLinux() {
+    public static boolean isLinux() {
         return name == Name.LINUX;
     }
 
@@ -84,7 +84,7 @@ public final class Platforms {
      * Returns true if Android platform, false otherwise.
      * @return returns true if android platform, false otherwise.
      */
-    public static final boolean isAndroid() {
+    public static boolean isAndroid() {
         return name == Name.ANDROID;
     }
 
@@ -92,7 +92,7 @@ public final class Platforms {
      * Returns true if FreeBsd platform, false otherwise.
      * @return returns true if FreeBsd platform, false otherwise.
      */
-    public static final boolean isFreeBsd() {
+    public static boolean isFreeBsd() {
         return name == Name.FREEBSD;
     }
 
@@ -100,7 +100,7 @@ public final class Platforms {
      * Returns true if Darwin (MacOs) platform, false otherwise.
      * @return returns true if Darwin (MacOs) platform, false otherwise.
      */
-    public static final boolean isDarwin() {
+    public static boolean isDarwin() {
         return name == Name.DARWIN;
     }
 
@@ -108,7 +108,7 @@ public final class Platforms {
      * Returns true if 32-bit architecture, false otherwise.
      * @return returns true if 32-bit architecture, false otherwise.
      */
-    public static final boolean is32Bit() {
+    public static boolean is32Bit() {
         return architecture == Architecture._32_BIT;
     }
 
@@ -116,7 +116,7 @@ public final class Platforms {
      * Returns true if 64-bit architecture, false otherwise.
      * @return returns true if 64-bit architecture, false otherwise.
      */
-    public static final boolean is64Bit() {
+    public static boolean is64Bit() {
         return architecture == Architecture._64_BIT;
     }
 
@@ -124,7 +124,7 @@ public final class Platforms {
      * Returns true if Arm architecture, false otherwise.
      * @return returns true if Arm architecture, false otherwise.
      */
-    public static final boolean isArm() {
+    public static boolean isArm() {
         return Properties.getProperty(OS_ARCH).toLowerCase().trim().startsWith("arm");
     }
 
@@ -132,7 +132,7 @@ public final class Platforms {
      * Returns true if Intel platform, false otherwise.
      * @return returns true if Intel platform, false otherwise.
      */
-    public static final boolean isIntel() {
+    public static boolean isIntel() {
         final String arch = Properties.getProperty(OS_ARCH).toLowerCase().trim();
         return arch.startsWith("x86") || arch.startsWith("x64");
     }
@@ -141,7 +141,7 @@ public final class Platforms {
      * Returns true if Amd platform, false otherwise.
      * @return returns true if Amd platform, false otherwise.
      */
-    public static final boolean isAmd() {
+    public static boolean isAmd() {
         return Properties.getProperty(OS_ARCH).toLowerCase().trim().startsWith("amd");
     }
 
@@ -151,7 +151,7 @@ public final class Platforms {
      * @return returns Cpu version.
      */
     @Deprecated
-    public static final String getVersion() {
+    public static String getVersion() {
         return getCpuVersion();
     }
 
@@ -159,7 +159,7 @@ public final class Platforms {
      * Get Cpu Version.
      * @return returns Cpu version.
      */
-    public static final String getCpuVersion() {
+    public static String getCpuVersion() {
         final String version = Properties.getProperty("os.version");
         if (Character.isDigit(version.charAt(version.indexOf('v') + 1))) {
             return String.valueOf("v" + version.charAt(version.indexOf('v') + 1));

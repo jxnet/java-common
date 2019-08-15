@@ -357,7 +357,7 @@ abstract class AbstractMemory implements Memory {
             writtenBytes = index - oldIndex;
         } else if (charset.equals(Charset.forName("ASCII"))) {
             for (int i = 0; i < seq.length(); i++) {
-                this.setByte(index++, (byte) ((seq.charAt(i) > MAX_CHAR_VALUE) ? '?' : seq.charAt(i)));
+                this.setByte(index++, (byte) (seq.charAt(i) > MAX_CHAR_VALUE ? '?' : seq.charAt(i)));
             }
             writtenBytes = seq.length();
         } else {
