@@ -18,7 +18,6 @@ package com.ardikars.common.util;
 
 import com.ardikars.common.annotation.Helper;
 
-import com.ardikars.common.annotation.Untested;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -29,7 +28,6 @@ import java.nio.ByteOrder;
  * @since 1.0.0
  */
 @Helper
-@Untested
 public final class Bytes {
 
     public Bytes() { }

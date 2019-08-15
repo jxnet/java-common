@@ -44,10 +44,8 @@ public final class ValidateNumber {
         int length = text.length();
         for (int i = 0; i < length; i++) {
             char character = text.charAt(i);
-            if (!Character.isDigit(character)) {
-                if (character != ',') {
-                    throw new IllegalArgumentException("Text should not contains non numeric and comma separator.");
-                }
+            if (!Character.isDigit(character) && character != ',') {
+                throw new IllegalArgumentException("Text should not contains non numeric and comma separator.");
             }
         }
     }
@@ -63,10 +61,8 @@ public final class ValidateNumber {
         int length = text.length();
         for (int i = 0; i < length; i++) {
             char character = text.charAt(i);
-            if (!Character.isDigit(character)) {
-                if (character != ',' && character != '.') {
-                    throw new IllegalArgumentException("Text should not contains non numeric, dot and comma separator.");
-                }
+            if (!Character.isDigit(character) && character != ',' && character != '.') {
+                throw new IllegalArgumentException("Text should not contains non numeric, dot and comma separator.");
             }
         }
     }
@@ -81,10 +77,8 @@ public final class ValidateNumber {
         Validate.notIllegalArgument(text.length() > 0, new IllegalArgumentException("Text should be not empty."));
         int length = text.length();
         for (int i = 0; i < length; i++) {
-            if (!Character.isDigit(text.charAt(i))) {
-                if (text.charAt(i) != '.') {
-                    throw new IllegalArgumentException("Text should not contains non numeric and dot separator.");
-                }
+            if (!Character.isDigit(text.charAt(i)) && text.charAt(i) != '.') {
+                throw new IllegalArgumentException("Text should not contains non numeric and dot separator.");
             }
         }
     }

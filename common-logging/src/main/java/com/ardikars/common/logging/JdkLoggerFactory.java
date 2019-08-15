@@ -1,5 +1,6 @@
 package com.ardikars.common.logging;
 
+@Deprecated
 class JdkLoggerFactory extends LoggerFactory {
 
     private static final LoggerFactory INSTANCE = new JdkLoggerFactory();

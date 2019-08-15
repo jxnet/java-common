@@ -89,6 +89,6 @@ public final class Integer {
     /**
      * 0
      */
-    public static final BigInteger MIN_UINT64_VALUE = new BigInteger("0");
+    public static final BigInteger MIN_UINT64_VALUE = BigInteger.ZERO;
 
 }

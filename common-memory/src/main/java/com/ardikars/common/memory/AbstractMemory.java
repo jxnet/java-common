@@ -255,7 +255,7 @@ abstract class AbstractMemory implements Memory {
 
     @Override
     public Memory setBoolean(int index, boolean value) {
-        setByte(index, value? 1 : 0);
+        setByte(index, value ? 1 : 0);
         return this;
     }
 
@@ -357,7 +357,7 @@ abstract class AbstractMemory implements Memory {
             writtenBytes = index - oldIndex;
         } else if (charset.equals(Charset.forName("ASCII"))) {
             for (int i = 0; i < seq.length(); i++) {
-                this.setByte(index++, (byte) ((seq.charAt(i) > MAX_CHAR_VALUE) ? '?' : seq.charAt(i)));
+                this.setByte(index++, (byte) (seq.charAt(i) > MAX_CHAR_VALUE ? '?' : seq.charAt(i)));
             }
             writtenBytes = seq.length();
         } else {
@@ -732,8 +732,8 @@ abstract class AbstractMemory implements Memory {
 
     void checkNewCapacity(int newCapacity) {
         if (newCapacity < 0 || newCapacity > maxCapacity()) {
-            throw new IllegalArgumentException("newCapacity: " + newCapacity +
-                    " (expected: 0-" + maxCapacity() + ')');
+            throw new IllegalArgumentException("newCapacity: " + newCapacity
+                    + " (expected: 0-" + maxCapacity() + ')');
         }
     }
 

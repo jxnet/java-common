@@ -47,7 +47,7 @@ public final class Strings {
     private static int length(final int dataLength, final int offset, final int length) {
         int l;
         if (dataLength != length && offset != 0) {
-            l = (offset + length);
+            l = offset + length;
         } else {
             l = length;
         }
@@ -63,9 +63,9 @@ public final class Strings {
     public static String toHexString(final byte value) {
         String str = Integer.toHexString((value) & 0xff);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**
@@ -105,9 +105,9 @@ public final class Strings {
     public static String toHexString(final short value) {
         String str = Integer.toHexString((value) & 0xFFFF);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**
@@ -147,9 +147,9 @@ public final class Strings {
     public static String toHexString(final int value) {
         String str = Integer.toHexString(value);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**
@@ -188,9 +188,9 @@ public final class Strings {
     public static String toHexString(final float value) {
         String str = Float.toHexString(value);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**
@@ -227,9 +227,9 @@ public final class Strings {
     public static String toHexString(final long value) {
         String str = Long.toHexString(value);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**
@@ -266,9 +266,9 @@ public final class Strings {
     public static String toHexString(final double value) {
         String str = Double.toHexString(value);
         if ((str.length() & 1) == 1) {
-            return ("0" + str);
+            return "0" + str;
         }
-        return (str);
+        return str;
     }
 
     /**

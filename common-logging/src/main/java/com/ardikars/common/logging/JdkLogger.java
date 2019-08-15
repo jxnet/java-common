@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+@Deprecated
 class JdkLogger extends AbstractLogger {
 
     private static final String SELF = JdkLogger.class.getName();
@@ -53,9 +54,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void debug(String format, Object... args ) {
+    public void debug(String format, Object... args) {
         if (logger.isLoggable(Level.ALL)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
             log(SELF, Level.ALL, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -84,9 +85,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void info(String format, Object... args ) {
+    public void info(String format, Object... args) {
         if (logger.isLoggable(Level.INFO)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
             log(SELF, Level.INFO, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -115,9 +116,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void warn(String format, Object... args ) {
+    public void warn(String format, Object... args) {
         if (logger.isLoggable(Level.WARNING)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
             log(SELF, Level.WARNING, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -146,9 +147,9 @@ class JdkLogger extends AbstractLogger {
     }
 
     @Override
-    public void error(String format, Object... args ) {
+    public void error(String format, Object... args) {
         if (logger.isLoggable(Level.SEVERE)) {
-            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args );
+            FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
             log(SELF, Level.SEVERE, tuple.getMessage(), tuple.getThrowable());
         }
     }
@@ -160,7 +161,7 @@ class JdkLogger extends AbstractLogger {
         }
     }
 
-    private void log(String callerFQCN, Level level, String msg, Throwable t) {
+    private void log(String callerFqcn, Level level, String msg, Throwable t) {
         LogRecord record = new LogRecord(level, msg);
         record.setLoggerName(name());
         record.setThrown(t);
@@ -169,7 +170,7 @@ class JdkLogger extends AbstractLogger {
         int selfIndex = -1;
         for (int i = 0; i < steArray.length; i++) {
             final String className = steArray[i].getClassName();
-            if (className.equals(callerFQCN) || className.equals(SUPER)) {
+            if (className.equals(callerFqcn) || className.equals(SUPER)) {
                 selfIndex = i;
                 break;
             }
@@ -178,7 +179,7 @@ class JdkLogger extends AbstractLogger {
         int found = -1;
         for (int i = selfIndex + 1; i < steArray.length; i++) {
             final String className = steArray[i].getClassName();
-            if (!(className.equals(callerFQCN) || className.equals(SUPER))) {
+            if (!(className.equals(callerFqcn) || className.equals(SUPER))) {
                 found = i;
                 break;
             }

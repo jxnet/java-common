@@ -326,7 +326,8 @@ public class NetworkInterface {
                     .index(networkInterface.getIndex())
                     .name(networkInterface.getName())
                     .displayName(networkInterface.getDisplayName())
-                    .hardwareAddress(hardwareAddress == null || hardwareAddress.length != MacAddress.MAC_ADDRESS_LENGTH ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
+                    .hardwareAddress(hardwareAddress == null || hardwareAddress.length != MacAddress.MAC_ADDRESS_LENGTH
+                            ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
                     .addresses(parentAddreses)
                     .mtu(networkInterface.getMTU())
                     .pointToPoint(networkInterface.isPointToPoint())
@@ -360,7 +361,8 @@ public class NetworkInterface {
                         .index(childNetworkInterface.getIndex())
                         .name(childNetworkInterface.getName())
                         .displayName(childNetworkInterface.getDisplayName())
-                        .hardwareAddress(hardwareAddress == null || hardwareAddress.length != MacAddress.MAC_ADDRESS_LENGTH ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
+                        .hardwareAddress(hardwareAddress == null || hardwareAddress.length != MacAddress.MAC_ADDRESS_LENGTH
+                                ? MacAddress.ZERO : MacAddress.valueOf(hardwareAddress))
                         .addresses(childAddresses)
                         .mtu(childNetworkInterface.getMTU())
                         .pointToPoint(childNetworkInterface.isPointToPoint())

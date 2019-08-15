@@ -38,8 +38,8 @@ class PooledByteBuf extends ByteBuf {
 
     @Override
     public Memory slice(int index, int length) {
-        ByteBuf duplicated = new PooledSlicedByteBuf(baseIndex + index, buffer.duplicate(), length, maxCapacity(), readerIndex() - index, writerIndex() - index);
-        return duplicated;
+        return new PooledSlicedByteBuf(baseIndex + index, buffer.duplicate(), length, maxCapacity(),
+                readerIndex() - index, writerIndex() - index);
     }
 
     @Override

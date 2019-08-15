@@ -116,19 +116,19 @@ abstract class AbstractLogger implements Logger {
     }
 
     @Override
-    public void log(LogLevel level, String format, Object... args ) {
+    public void log(LogLevel level, String format, Object... args) {
         switch (level) {
             case DEBUG:
-                debug(format, args );
+                debug(format, args);
                 break;
             case INFO:
-                info(format, args );
+                info(format, args);
                 break;
             case WARN:
-                warn(format, args );
+                warn(format, args);
                 break;
             case ERROR:
-                error(format, args );
+                error(format, args);
                 break;
             default:
                 throw new Error("Unknown log level");

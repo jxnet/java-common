@@ -2,9 +2,10 @@ package com.ardikars.common.memory.accessor;
 
 import com.ardikars.common.memory.internal.ByteBufferHelper;
 import com.ardikars.common.memory.internal.UnsafeHelper;
-import sun.misc.Unsafe;
 
 import java.nio.ByteBuffer;
+
+import sun.misc.Unsafe;
 
 /**
  * Abstract implementation of {@link MemoryAccessor}.

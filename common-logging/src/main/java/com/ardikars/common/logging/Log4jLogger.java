@@ -3,6 +3,7 @@ package com.ardikars.common.logging;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+@Deprecated
 class Log4jLogger extends AbstractLogger {
 
     private final transient Logger logger;
@@ -45,8 +46,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void debug(String format, Object... args ) {
-        FormattingTuple tuple = MessageFormatter.format(format, args );
+    public void debug(String format, Object... args) {
+        FormattingTuple tuple = MessageFormatter.format(format, args);
         logger.debug(tuple.getMessage());
     }
 
@@ -68,8 +69,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void info(String format, Object... args ) {
-        FormattingTuple tuple = MessageFormatter.format(format, args );
+    public void info(String format, Object... args) {
+        FormattingTuple tuple = MessageFormatter.format(format, args);
         logger.info(tuple.getMessage());
     }
 
@@ -91,8 +92,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void warn(String format, Object... args ) {
-        FormattingTuple tuple = MessageFormatter.format(format, args );
+    public void warn(String format, Object... args) {
+        FormattingTuple tuple = MessageFormatter.format(format, args);
         logger.warn(tuple.getMessage());
     }
 
@@ -114,8 +115,8 @@ class Log4jLogger extends AbstractLogger {
     }
 
     @Override
-    public void error(String format, Object... args ) {
-        FormattingTuple tuple = MessageFormatter.format(format, args );
+    public void error(String format, Object... args) {
+        FormattingTuple tuple = MessageFormatter.format(format, args);
         logger.error(tuple.getMessage());
     }
 

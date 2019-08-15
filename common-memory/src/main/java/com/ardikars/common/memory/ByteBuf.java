@@ -1,5 +1,7 @@
 package com.ardikars.common.memory;
 
+import com.ardikars.common.logging.Logger;
+import com.ardikars.common.logging.LoggerFactory;
 import com.ardikars.common.memory.internal.ByteBufferHelper;
 import com.ardikars.common.memory.internal.Unsafe;
 import com.ardikars.common.memory.internal.UnsafeHelper;
@@ -11,6 +13,8 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 class ByteBuf extends AbstractMemory {
+
+    private static final Logger LOGGER;
 
     static final Method CLEANER;
 
@@ -172,7 +176,8 @@ class ByteBuf extends AbstractMemory {
 
     @Override
     public Memory slice(int index, int length) {
-        ByteBuf duplicated = new SlicedByteBuf(baseIndex + index, buffer.duplicate(), length, maxCapacity(), readerIndex() - index, writerIndex() - index);
+        ByteBuf duplicated = new SlicedByteBuf(baseIndex + index, buffer.duplicate(),
+                length, maxCapacity(), readerIndex() - index, writerIndex() - index);
         return duplicated;
     }
 
@@ -216,24 +221,35 @@ class ByteBuf extends AbstractMemory {
                         try {
                             CLEANER.invoke(UnsafeHelper.getUnsafe(), buffer);
                         } catch (InvocationTargetException e) {
+                            LOGGER.warn(e);
                         } catch (IllegalAccessException e) {
+                            LOGGER.warn(e);
                         }
                         return null;
                     }
                 });
             }
         } else {
+            LOGGER.info("Released automaticly");
             // released automaticly by GC
             // Is not permitted to create direct ByteBuffer without cleaner
         }
     }
 
     static {
+        LOGGER = LoggerFactory.getLogger(ByteBuf.class);
         Method method;
         if (Unsafe.HAS_UNSAFE) {
+            LOGGER.debug("Unsafe is available.");
             Unsafe unsafe = new Unsafe();
             method = unsafe.bufferCleaner();
+            if (method != null) {
+                LOGGER.debug("ByteBuffer cleaner is available.");
+            } else {
+                LOGGER.error("ByteBuffer cleaner is not available.");
+            }
         } else {
+            LOGGER.warn("Unssafe is not available.");
             method = null;
         }
         CLEANER = method;

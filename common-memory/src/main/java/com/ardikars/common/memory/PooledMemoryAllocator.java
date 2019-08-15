@@ -23,7 +23,7 @@ final class PooledMemoryAllocator implements MemoryAllocator {
     PooledMemoryAllocator(int poolSize, int maxPoolSize, int maxMemoryCapacity) {
         this.poolSize = poolSize;
         this.maxMemoryCapacity = maxMemoryCapacity;
-        this.moreMemoryCounter = new AtomicInteger( maxPoolSize - poolSize);
+        this.moreMemoryCounter = new AtomicInteger(maxPoolSize - poolSize);
         Queue<PooledMemory> queue = new ConcurrentLinkedQueue<PooledMemory>();
         for (int i = 0; i < poolSize; i++) {
             Memory memory = doAllocateForPooledMemory(maxMemoryCapacity, maxMemoryCapacity, 0, 0, true);
@@ -59,8 +59,11 @@ final class PooledMemoryAllocator implements MemoryAllocator {
 
     @Override
     public Memory allocate(int capacity, int maxCapacity, int readerIndex, int writerIndex, boolean checking) {
-        if (capacity > maxCapacity) {
+        if (capacity > maxMemoryCapacity) {
             throw new IllegalArgumentException(String.format("capacity: %d <= %d", capacity, maxMemoryCapacity));
+        }
+        if (maxCapacity > maxMemoryCapacity) {
+            throw new IllegalArgumentException(String.format("maxCapacity: %d <= %d", capacity, maxMemoryCapacity));
         }
         Memory memory = Memories.poll(maxMemoryCapacity);
         if (memory != null) {

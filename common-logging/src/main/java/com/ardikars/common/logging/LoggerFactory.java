@@ -33,7 +33,7 @@ public abstract class LoggerFactory {
             } else if (Log4jLoggerFactory.hasLog4j()) {
                 loggerFactory = Log4jLoggerFactory.getInstance();
             } else {
-                loggerFactory = JdkLoggerFactory.getInstance();
+                loggerFactory = NoLoggerFactory.getInstance();
             }
         } catch (Throwable e) {
             throw new RuntimeException(e);

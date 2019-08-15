@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Indicates that a feature is incubating or unstable. This means that the feature is currently a work-in-progress and may
  * change at any time.
- *
+ * <p>
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.0.0
  */

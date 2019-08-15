@@ -19,42 +19,42 @@ class AlignMemoryAcessor extends AbstractMemoryAcessor {
 
     @Override
     public int getInt(long addr) {
-        return UNSAFE.getByte(addr) << 24 |
-                (UNSAFE.getByte(addr + 1) & 0xff) << 16 |
-                (UNSAFE.getByte(addr + 2) & 0xff) <<  8 |
-                UNSAFE.getByte(addr + 3)  & 0xff;
+        return UNSAFE.getByte(addr) << 24
+                | (UNSAFE.getByte(addr + 1) & 0xff) << 16
+                | (UNSAFE.getByte(addr + 2) & 0xff) <<  8
+                | UNSAFE.getByte(addr + 3)  & 0xff;
     }
 
     @Override
     public int getIntLE(long addr) {
-        return UNSAFE.getByte(addr) & 0xff |
-                (UNSAFE.getByte(addr + 1) & 0xff) <<  8 |
-                (UNSAFE.getByte(addr + 2) & 0xff) << 16 |
-                UNSAFE.getByte(addr + 3) << 24;
+        return UNSAFE.getByte(addr) & 0xff
+                | (UNSAFE.getByte(addr + 1) & 0xff) <<  8
+                | (UNSAFE.getByte(addr + 2) & 0xff) << 16
+                | UNSAFE.getByte(addr + 3) << 24;
     }
 
     @Override
     public long getLong(long addr) {
-        return ((long) UNSAFE.getByte(addr)) << 56 |
-                (UNSAFE.getByte(addr + 1) & 0xffL) << 48 |
-                (UNSAFE.getByte(addr + 2) & 0xffL) << 40 |
-                (UNSAFE.getByte(addr + 3) & 0xffL) << 32 |
-                (UNSAFE.getByte(addr + 4) & 0xffL) << 24 |
-                (UNSAFE.getByte(addr + 5) & 0xffL) << 16 |
-                (UNSAFE.getByte(addr + 6) & 0xffL) <<  8 |
-                (UNSAFE.getByte(addr + 7)) & 0xffL;
+        return ((long) UNSAFE.getByte(addr)) << 56
+                | (UNSAFE.getByte(addr + 1) & 0xffL) << 48
+                | (UNSAFE.getByte(addr + 2) & 0xffL) << 40
+                | (UNSAFE.getByte(addr + 3) & 0xffL) << 32
+                | (UNSAFE.getByte(addr + 4) & 0xffL) << 24
+                | (UNSAFE.getByte(addr + 5) & 0xffL) << 16
+                | (UNSAFE.getByte(addr + 6) & 0xffL) <<  8
+                | (UNSAFE.getByte(addr + 7)) & 0xffL;
     }
 
     @Override
     public long getLongLE(long addr) {
-        return (UNSAFE.getByte(addr))    & 0xffL        |
-                (UNSAFE.getByte(addr + 1) & 0xffL) <<  8 |
-                (UNSAFE.getByte(addr + 2) & 0xffL) << 16 |
-                (UNSAFE.getByte(addr + 3) & 0xffL) << 24 |
-                (UNSAFE.getByte(addr + 4) & 0xffL) << 32 |
-                (UNSAFE.getByte(addr + 5) & 0xffL) << 40 |
-                (UNSAFE.getByte(addr + 6) & 0xffL) << 48 |
-                ((long) UNSAFE.getByte(addr + 7))  << 56;
+        return (UNSAFE.getByte(addr))    & 0xffL
+                | (UNSAFE.getByte(addr + 1) & 0xffL) <<  8
+                | (UNSAFE.getByte(addr + 2) & 0xffL) << 16
+                | (UNSAFE.getByte(addr + 3) & 0xffL) << 24
+                | (UNSAFE.getByte(addr + 4) & 0xffL) << 32
+                | (UNSAFE.getByte(addr + 5) & 0xffL) << 40
+                | (UNSAFE.getByte(addr + 6) & 0xffL) << 48
+                | ((long) UNSAFE.getByte(addr + 7))  << 56;
     }
 
     @Override

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotate non exposed classes (only for internal use).
- *
+ * <p>
  * @author <a href="mailto:contact@ardikars.com">Ardika Rommy Sanjaya</a>
  * @since 1.2.7
  */
