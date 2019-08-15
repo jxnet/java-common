@@ -59,8 +59,11 @@ final class PooledMemoryAllocator implements MemoryAllocator {
 
     @Override
     public Memory allocate(int capacity, int maxCapacity, int readerIndex, int writerIndex, boolean checking) {
-        if (capacity > maxCapacity) {
+        if (capacity > maxMemoryCapacity) {
             throw new IllegalArgumentException(String.format("capacity: %d <= %d", capacity, maxMemoryCapacity));
+        }
+        if (maxCapacity > maxMemoryCapacity) {
+            throw new IllegalArgumentException(String.format("maxCapacity: %d <= %d", capacity, maxMemoryCapacity));
         }
         Memory memory = Memories.poll(maxMemoryCapacity);
         if (memory != null) {
