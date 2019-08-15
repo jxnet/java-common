@@ -5,7 +5,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: circleci/openjdk:latest
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
@@ -15,7 +15,7 @@ jobs:
           keys:
             - gradle
       - checkout
-      - run: ./mvnw clean package -Ppmd,checkstype,spotbugs,coverage
+      - run: ./mvnw clean package -Ppmd,checkstyle,spotbugs
 
 workflows:
   version: 2
